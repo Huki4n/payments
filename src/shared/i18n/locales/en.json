@@ -1,0 +1,26 @@
+{
+  "onboarding": {
+    "common": {
+      "next": "Next",
+      "skip": "Skip"
+    },
+    "welcome": {
+      "title": "Easiest way to start investing",
+      "primary": "Get Started",
+      "secondary": "Log In"
+    },
+    "trading": {
+      "title": "No manual trading required",
+      "description": "Just set your parameters and choose the best amount for your goal"
+    },
+    "savings": {
+      "title": "Automate your savings",
+      "description": "Save automatically, so you never have to think about it"
+    },
+    "protection": {
+      "title": "Account Protection",
+      "description": "Keep your funds and transaction information safe with our security standarts",
+      "primary": "Create Account"
+    }
+  }
+}
