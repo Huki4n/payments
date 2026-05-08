@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { OnboardingFrame } from "../../ui/onboarding-frame";
+import { PageFrame as OnboardingFrame } from "@/shared/ui";
 import slidersSvg from "../assets/sliders.svg";
 import bg from "../../protection/assets/bg.png";
 

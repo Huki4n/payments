@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { markOnboardingCompleted } from "@/entities/onboarding-status";
 
-import { OnboardingFrame } from "../../ui/onboarding-frame";
+import { PageFrame as OnboardingFrame } from "@/shared/ui";
 import hexagonSvg from "../assets/hexagon.svg";
 import bg from "../assets/bg.png";
 

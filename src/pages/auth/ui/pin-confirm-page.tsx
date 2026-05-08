@@ -49,7 +49,7 @@ export const PinConfirmPage = () => {
       });
       return;
     }
-    navigate("/");
+    navigate("/auth/congratulations");
   });
 
   return (

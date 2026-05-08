@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { cn } from "@/shared/ui/utils";
-import { Button } from "@/shared/ui";
+import { Button } from "./button";
+import { cn } from "./utils";
 
-interface OnboardingFrameProps {
+interface PageFrameProps {
   background?: string;
   title: string;
   illustration: ReactNode;
@@ -19,7 +19,7 @@ interface OnboardingFrameProps {
 
 const TOTAL_STEPS = 3;
 
-export const OnboardingFrame = ({
+export const PageFrame = ({
   background,
   title,
   illustration,
@@ -30,7 +30,7 @@ export const OnboardingFrame = ({
   onPrimary,
   secondaryLabel,
   secondaryTo,
-}: OnboardingFrameProps) => {
+}: PageFrameProps) => {
   const navigate = useNavigate();
 
   const handlePrimary = () => {
@@ -39,7 +39,7 @@ export const OnboardingFrame = ({
   };
 
   return (
-    <div className="relative flex min-h-svh flex-col overflow-hidden  text-white">
+    <div className="relative flex min-h-svh flex-col overflow-hidden text-white">
       {background && (
         <img
           src={background}
