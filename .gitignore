@@ -25,3 +25,12 @@ dist-ssr
 
 .cursor/
 .cursor
+
+# Yarn 4 (Berry)
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

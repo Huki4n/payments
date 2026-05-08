@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.14.1",
   "dependencies": {
     "@base-ui/react": "^1.4.1",
     "@fontsource-variable/geist": "^5.2.8",
@@ -31,6 +31,7 @@
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.74.0",
     "react-i18next": "^17.0.6",
+    "react-is": "^19.2.5",
     "react-redux": "^9.2.0",
     "react-resizable-panels": "^4.10.0",
     "react-router-dom": "^7.14.2",
