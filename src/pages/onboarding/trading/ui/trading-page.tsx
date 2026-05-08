@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 import { PageFrame as OnboardingFrame } from "@/shared/ui";
-import tradingIll from "../assets/trading_ill.png";
-import bg from "../../protection/assets/bg.png";
+import tradingIll from "../../assets/trading_ill.png";
+import bg from "../../assets/bg.png";
 
 export const TradingPage = () => {
   const { t } = useTranslation("onboarding");

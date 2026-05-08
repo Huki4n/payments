@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 import { PageFrame as OnboardingFrame } from "@/shared/ui";
-import slidersSvg from "../assets/sliders.svg";
-import bg from "../../protection/assets/bg.png";
+import slidersSvg from "../../assets/sliders.svg";
+import bg from "../../assets/bg.png";
 
 export const SavingsPage = () => {
   const { t } = useTranslation("onboarding");
