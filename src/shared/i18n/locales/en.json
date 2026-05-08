@@ -21,6 +21,44 @@
       "title": "Account Protection",
       "description": "Keep your funds and transaction information safe with our security standarts",
       "primary": "Create Account"
+    },
+    "auth": {
+      "title": "Getting Started",
+      "description": "Enter your E-Mail Adress to get started",
+      "emailPlaceholder": "email@gmail.com",
+      "submit": "Send Code",
+      "haveAccount": "Already have an Account?",
+      "signUp": "Sign Up",
+      "or": "or",
+      "continueWith": "continue with",
+      "googleAria": "Continue with Google",
+      "terms": {
+        "prefix": "By creating an account you agree to our",
+        "link": "Terms and Conditions"
+      },
+      "errors": {
+        "required": "Enter your E-Mail",
+        "invalidEmail": "Invalid E-Mail"
+      },
+      "pin": {
+        "title": "Create Your Pin",
+        "description": "Create a four-digit passcode to secure your account",
+        "submit": "Set Up Pin",
+        "back": "Back",
+        "errors": {
+          "incomplete": "Enter all 4 digits"
+        }
+      },
+      "pinConfirm": {
+        "title": "Repeat Your Pin",
+        "description": "Repeat your passcode to start account activation",
+        "submit": "Continue",
+        "back": "Back",
+        "errors": {
+          "incomplete": "Enter all 4 digits",
+          "mismatch": "PINs do not match"
+        }
+      }
     }
   }
 }
