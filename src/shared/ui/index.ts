@@ -351,3 +351,4 @@ export {
 } from "./tooltip";
 export { useIsMobile } from "../hooks/use-mobile";
 export { cn } from "./utils";
+export * from "./icons";
