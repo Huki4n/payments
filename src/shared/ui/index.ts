@@ -352,3 +352,4 @@ export {
 export { useIsMobile } from "../hooks/use-mobile";
 export { cn } from "./utils";
 export * from "./icons";
+export { PageFrame } from "./page-frame";

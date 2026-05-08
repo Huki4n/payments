@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { OnboardingFrame } from "../../ui/onboarding-frame";
+import { PageFrame as OnboardingFrame } from "@/shared/ui";
 import tradingIll from "../assets/trading_ill.png";
 import bg from "../../protection/assets/bg.png";
 
