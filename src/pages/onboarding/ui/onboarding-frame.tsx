@@ -88,7 +88,7 @@ export const OnboardingFrame = ({
           type="button"
           onClick={handlePrimary}
           size="lg"
-          className="flex items-center max-w-xs w-full justify-center rounded-md bg-brand-blue font-display text-lg font-bold text-white transition-colors hover:bg-brand-blue/90 active:translate-y-px sm:h-[63px] sm:text-2xl"
+          className="flex items-center max-w-xs w-full justify-center rounded-control bg-brand-blue font-display text-lg font-bold text-white transition-colors hover:bg-brand-blue/90 active:translate-y-px sm:h-16 sm:text-2xl"
         >
           {primaryLabel}
         </Button>
