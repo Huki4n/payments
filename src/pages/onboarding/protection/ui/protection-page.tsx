@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { markOnboardingCompleted } from "@/entities/onboarding-status";
 
 import { PageFrame as OnboardingFrame } from "@/shared/ui";
-import hexagonSvg from "../assets/hexagon.svg";
-import bg from "../assets/bg.png";
+import hexagonSvg from "../../assets/hexagon.svg";
+import bg from "../../assets/bg.png";
 
 export const ProtectionPage = () => {
   const { t } = useTranslation("onboarding");

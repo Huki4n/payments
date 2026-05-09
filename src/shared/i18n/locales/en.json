@@ -60,5 +60,23 @@
         }
       }
     }
+  },
+  "home": {
+    "nav": {
+      "home": "Home",
+      "transactions": "Transactions",
+      "savings": "Savings",
+      "analytics": "Analytics"
+    },
+    "settingsAria": "Settings",
+    "profileAria": "Profile",
+    "welcome": "Welcome, {{name}}",
+    "balanceLabel": "Your current account Balance",
+    "addData": {
+      "title": "Select your way to add data",
+      "manual": "Fill Out Manually",
+      "upload": "Upload Bank Statements",
+      "or": "or"
+    }
   }
 }
