@@ -21,7 +21,7 @@ void i18n
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: [...SUPPORTED_LANGUAGES],
     nonExplicitSupportedLngs: true,
-    ns: ["onboarding"],
+    ns: ["onboarding", "home"],
     defaultNS: DEFAULT_NS,
     interpolation: {
       escapeValue: false,
