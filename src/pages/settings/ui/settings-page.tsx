@@ -1,3 +1,10 @@
+import { AppLayout } from "@/app/layouts";
+import { HomeNavigation } from "@/widgets/home-navigation";
+
 export const SettingsPage = () => {
-  return <div>SettingsPage</div>;
+  return (
+    <AppLayout header={<HomeNavigation />}>
+      <div>SettingsPage</div>
+    </AppLayout>
+  );
 };

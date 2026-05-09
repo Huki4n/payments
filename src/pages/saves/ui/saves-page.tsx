@@ -1,3 +1,18 @@
+import { AppLayout } from "@/app/layouts";
+import { AccountBalance } from "@/widgets/account-balance";
+import { HomeNavigation } from "@/widgets/home-navigation/ui/home-navigation";
+
 export const SavesPage = () => {
-  return <div>SavesPage</div>;
+  return (
+    <AppLayout
+      header={
+        <>
+          <HomeNavigation />
+          <AccountBalance />
+        </>
+      }
+    >
+      <div>SavesPage</div>
+    </AppLayout>
+  );
 };
