@@ -61,6 +61,23 @@
       }
     }
   },
+  "settings": {
+    "fields": {
+      "name": "Name",
+      "surname": "Surname",
+      "country": "Country",
+      "phoneNumber": "Phone Number",
+      "email": "E-Mail",
+      "currency": "Currency",
+      "pinCode": "PIN-Code",
+      "language": "Language"
+    },
+    "actions": {
+      "edit": "Edit Account Information",
+      "save": "Save",
+      "resetPin": "Reset your PIN"
+    }
+  },
   "home": {
     "nav": {
       "home": "Home",

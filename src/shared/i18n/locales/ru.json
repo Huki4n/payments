@@ -61,6 +61,23 @@
       }
     }
   },
+  "settings": {
+    "fields": {
+      "name": "Имя",
+      "surname": "Фамилия",
+      "country": "Страна",
+      "phoneNumber": "Номер телефона",
+      "email": "E-Mail",
+      "currency": "Валюта",
+      "pinCode": "PIN-код",
+      "language": "Язык"
+    },
+    "actions": {
+      "edit": "Редактировать профиль",
+      "save": "Сохранить",
+      "resetPin": "Сбросить PIN"
+    }
+  },
   "home": {
     "nav": {
       "home": "Главная",
