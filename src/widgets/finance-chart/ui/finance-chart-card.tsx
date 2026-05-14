@@ -16,11 +16,12 @@ import {
   dashboardChartYAxisTick,
 } from "@/shared/lib/dashboard-chart-axes";
 import { INITIAL_CHART_DIMENSION } from "@/shared/ui/chart-constants";
-import { yearlyFinanceData } from "@/widgets/dashboard-cards/model/dashboard-mock";
 
-export const YearlyFinanceCard = () => {
+import { financeChartData } from "../model/finance-chart-mock";
+
+export const FinanceChartCard = () => {
   const { t } = useTranslation("home");
-  const gradientId = `dashboard-yearly-fill-${useId().replace(/:/g, "")}`;
+  const gradientId = `dashboard-finance-chart-fill-${useId().replace(/:/g, "")}`;
 
   return (
     <section className="overflow-hidden rounded-4xl bg-dashboard-card  py-5 shadow-sm  sm:py-6">
@@ -40,7 +41,7 @@ export const YearlyFinanceCard = () => {
           initialDimension={INITIAL_CHART_DIMENSION}
         >
           <AreaChart
-            data={[...yearlyFinanceData]}
+            data={[...financeChartData]}
             margin={{ top: 8, right: 12, left: 12, bottom: 8 }}
           >
             <defs>

@@ -5,12 +5,13 @@ import { INITIAL_CHART_DIMENSION } from "@/shared/ui/chart-constants";
 import { DashboardSpendCategoryIcon } from "@/shared/ui/icons/category-icons";
 import { ScrollArea } from "@/shared/ui/scroll-area";
 import { cn } from "@/shared/ui/utils";
-import { monthlySpendsPie } from "@/widgets/dashboard-cards/model/dashboard-mock";
 
-export const MonthlySpendsCard = () => {
+import { spendsChartPie } from "../model/spends-chart-mock";
+
+export const SpendsChartCard = () => {
   const { t } = useTranslation("home");
 
-  const data = monthlySpendsPie.map((row) => ({
+  const data = spendsChartPie.map((row) => ({
     ...row,
     name: t(`dashboard.categories.${row.nameKey}`),
   }));
@@ -66,7 +67,7 @@ export const MonthlySpendsCard = () => {
           className="h-72 min-h-0 w-full flex-1 md:h-80 pr-2"
         >
           <ul className="flex flex-col gap-2 pr-2">
-            {monthlySpendsPie.map((row) => {
+            {spendsChartPie.map((row) => {
               return (
                 <li
                   key={row.nameKey}
@@ -88,7 +89,7 @@ export const MonthlySpendsCard = () => {
                   >
                     {t(`dashboard.categories.${row.nameKey}`)}
                   </span>
-                  <span className="shrink-0 rounded-lg bg-dashboard-expense-pill px-2.5 py-1.5 font-display text-xs font-bold text-brand-purple sm:text-sm min-w-26 text-center">
+                  <span className="min-w-26 shrink-0 rounded-lg bg-dashboard-expense-pill px-2.5 py-1.5 text-center font-display text-xs font-bold text-brand-purple sm:text-sm">
                     -{row.value.toFixed(2).replace(".", ",")} $
                   </span>
                 </li>

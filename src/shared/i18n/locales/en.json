@@ -92,6 +92,17 @@
     "profileAria": "Profile",
     "welcome": "Welcome, {{name}}",
     "balanceLabel": "Your current account Balance",
+    "transactionsPage": {
+      "searchByName": "Search by Name",
+      "searchByAmount": "Search by Amount",
+      "category": "Category",
+      "categoryAll": "All categories",
+      "totalMonthEarnings": "Total Month Earnings",
+      "totalMonthSpends": "Total Month Spends"
+    },
+    "savingsPage": {
+      "addNewSaving": "Add new saving"
+    },
     "dashboard": {
       "yearlyFinance": "Your yearly Finance",
       "yearlyRange": "01.01.2025 - now",
@@ -108,6 +119,9 @@
       "configureSavings": "Configure your savings",
       "savingsWorldTrip": "World trip",
       "savingsEmergency": "Emergency fund",
+      "savingsCarPurchase": "New car",
+      "savingsHomeFund": "Home fund",
+      "savingsGadgetFund": "Gadget savings",
       "merchants": {
         "alphaBankRecruiting": "Alpha bank recruiting",
         "yandexFood": "Yandex Food Delivery",

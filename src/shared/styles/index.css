@@ -117,6 +117,8 @@
     var(--brand-purple) 50%,
     transparent
   );
+  /* Savings chart — плашка под Recharts */
+  --dashboard-savings-chart-surface: #ffffff;
   --dashboard-tooltip-border: color-mix(
     in srgb,
     var(--brand-purple) 8%,
@@ -298,6 +300,7 @@ body {
     var(--foreground) 38%,
     transparent
   );
+  --dashboard-savings-chart-surface: oklch(0.28 0.045 270);
   --dashboard-tooltip-border: color-mix(
     in srgb,
     var(--border) 80%,

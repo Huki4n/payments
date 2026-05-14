@@ -92,6 +92,17 @@
     "profileAria": "Профиль",
     "welcome": "Добро пожаловать, {{name}}",
     "balanceLabel": "Текущий баланс счёта",
+    "transactionsPage": {
+      "searchByName": "Поиск по названию",
+      "searchByAmount": "Поиск по сумме",
+      "category": "Категория",
+      "categoryAll": "Все категории",
+      "totalMonthEarnings": "Итого доходов за месяц",
+      "totalMonthSpends": "Итого расходов за месяц"
+    },
+    "savingsPage": {
+      "addNewSaving": "Новое накопление"
+    },
     "dashboard": {
       "yearlyFinance": "Ваша годовая финансовая динамика",
       "yearlyRange": "01.01.2025 — сейчас",
@@ -108,6 +119,9 @@
       "configureSavings": "Настроить накопления",
       "savingsWorldTrip": "Кругосветка",
       "savingsEmergency": "Резервный фонд",
+      "savingsCarPurchase": "Новый автомобиль",
+      "savingsHomeFund": "Жильё",
+      "savingsGadgetFund": "Накопление на гаджет",
       "merchants": {
         "alphaBankRecruiting": "Alpha bank recruiting",
         "yandexFood": "Yandex Food Delivery",
