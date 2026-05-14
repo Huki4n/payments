@@ -18,7 +18,7 @@ export const AccountBalance = ({
       <h1 className="font-display text-xl font-bold leading-tight sm:text-2xl md:text-3xl">
         {t("welcome", { name: userName })}
       </h1>
-      <p className="mt-6 font-display text-3xl font-bold leading-none tabular-nums sm:text-4xl md:text-5xl">
+      <p className="mt-6 font-display text-3xl font-bold leading-none   sm:text-4xl md:text-5xl">
         <span>{integerPart}</span>
         <span className="text-white/50">{fractionPart}</span>
       </p>

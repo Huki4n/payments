@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import {
   ArrowLeftRight,
   BarChart3,
+  Home,
   PiggyBank,
   Settings,
   UserRound,
@@ -40,7 +41,10 @@ export const HomeNavigation = () => {
               cn(navLinkClass, isActive ? navItemActive : navItemInactive)
             }
           >
-            {t("nav.home")}
+            <span className="inline-flex items-center gap-1.5">
+              <Home className="hidden size-5 sm:inline md:size-6" />
+              {t("nav.home")}
+            </span>
           </NavLink>
           <NavLink
             to="/transactions"
