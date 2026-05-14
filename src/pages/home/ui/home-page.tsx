@@ -1,11 +1,9 @@
 import { AppLayout } from "@/app/layouts";
 import { AccountBalance } from "@/widgets/account-balance";
-import {
-  DashboardTransactionsCard,
-  MonthlySpendsCard,
-  SavingsSwiper,
-  YearlyFinanceCard,
-} from "@/widgets/dashboard-cards";
+import { SavingsSwiper } from "@/widgets/dashboard-savings";
+import { DashboardTransactionsCard } from "@/widgets/dashboard-transactions";
+import { FinanceChartCard } from "@/widgets/finance-chart";
+import { SpendsChartCard } from "@/widgets/spends-chart";
 import { HomeNavigation } from "@/widgets/home-navigation";
 
 export const HomePage = () => {
@@ -20,9 +18,9 @@ export const HomePage = () => {
     >
       <div className="-mx-3 -mt-4 rounded-t-4xl px-3 pb-12 pt-6 sm:-mx-4 sm:px-4 md:pt-8">
         <div className="mx-auto flex max-w-5xl flex-col gap-6 md:gap-8">
-          <YearlyFinanceCard />
+          <FinanceChartCard />
           <DashboardTransactionsCard />
-          <MonthlySpendsCard />
+          <SpendsChartCard />
           <SavingsSwiper />
         </div>
       </div>

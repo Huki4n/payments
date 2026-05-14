@@ -17,7 +17,8 @@ import {
   dashboardChartYAxisTick,
 } from "@/shared/lib/dashboard-chart-axes";
 import { INITIAL_CHART_DIMENSION } from "@/shared/ui/chart-constants";
-import { savingsSlidesMock } from "@/widgets/dashboard-cards/model/dashboard-mock";
+
+import { savingsSlidesMock } from "../model/savings-mock";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -79,7 +80,7 @@ export const SavingsSwiper = () => {
                           <span className="min-w-0 font-display text-lg font-bold leading-none text-brand-purple sm:text-md md:text-lg">
                             {t("dashboard.savingGoal")}
                           </span>
-                          <span className="inline-flex min-w-35 items-center justify-center min-h-10 px-4 py-2 sm:px-6 font-display text-lg font-bold shrink-0 leading-none sm:text-xl md:text-2xl">
+                          <span className="inline-flex min-w-35 shrink-0 items-center justify-center min-h-10 px-4 py-2 font-display text-lg font-bold leading-none sm:px-6 sm:text-xl md:text-2xl">
                             {slide.goal}$
                           </span>
                         </div>
@@ -87,7 +88,7 @@ export const SavingsSwiper = () => {
                           <span className="min-w-0 font-display text-lg font-bold leading-none text-brand-purple sm:text-md md:text-lg">
                             {t("dashboard.savingTotal")}
                           </span>
-                          <span className="inline-flex min-w-35 items-center justify-center min-h-10 px-4 py-2 sm:px-6 font-display text-lg font-bold shrink-0 leading-none text-brand-purple sm:text-xl md:text-2xl rounded-2xl bg-dashboard-income-pill">
+                          <span className="inline-flex min-w-35 shrink-0 items-center justify-center min-h-10 rounded-2xl bg-dashboard-income-pill px-4 py-2 font-display text-lg font-bold leading-none text-brand-purple sm:px-6 sm:text-xl md:text-2xl">
                             {slide.total}$
                           </span>
                         </div>
@@ -106,7 +107,7 @@ export const SavingsSwiper = () => {
                               <span className="font-display text-xs text-brand-purple sm:text-sm">
                                 {r.date}
                               </span>
-                              <span className="rounded-lg bg-dashboard-income-pill px-2 py-1 font-display text-xs font-bold text-brand-purple sm:text-sm min-w-26 text-center">
+                              <span className="min-w-26 rounded-lg bg-dashboard-income-pill px-2 py-1 text-center font-display text-xs font-bold text-brand-purple sm:text-sm">
                                 {r.amount}
                               </span>
                             </li>
