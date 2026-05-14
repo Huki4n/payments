@@ -4,12 +4,12 @@ import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 import type { TooltipValueType } from "recharts"
 
+import { INITIAL_CHART_DIMENSION } from "@/shared/ui/chart-constants"
 import { cn } from "@/shared/ui/utils"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
 
-const INITIAL_DIMENSION = { width: 320, height: 200 } as const
 type TooltipNameType = number | string
 
 export type ChartConfig = Record<
@@ -44,7 +44,7 @@ function ChartContainer({
   className,
   children,
   config,
-  initialDimension = INITIAL_DIMENSION,
+  initialDimension = INITIAL_CHART_DIMENSION,
   ...props
 }: React.ComponentProps<"div"> & {
   config: ChartConfig

@@ -69,6 +69,9 @@
       "phoneNumber": "Номер телефона",
       "email": "E-Mail",
       "currency": "Валюта",
+      "darkTheme": "Тема",
+      "themeLight": "Светлая",
+      "themeDark": "Тёмная",
       "pinCode": "PIN-код",
       "language": "Язык"
     },
@@ -89,11 +92,78 @@
     "profileAria": "Профиль",
     "welcome": "Добро пожаловать, {{name}}",
     "balanceLabel": "Текущий баланс счёта",
+    "dashboard": {
+      "yearlyFinance": "Ваша годовая финансовая динамика",
+      "yearlyRange": "01.01.2025 — сейчас",
+      "exploreYearly": "Подробнее о годовой статистике",
+      "transactionsTitle": "Транзакции",
+      "recentEarnings": "Недавние поступления",
+      "recentSpends": "Недавние расходы",
+      "monthlySpendsWheel": "Колесо месячных расходов",
+      "spendAmount": "Сумма",
+      "savingGoal": "Цель накопления:",
+      "savingTotal": "Накоплено:",
+      "savingsReplenishments": "Пополнения сбережений",
+      "savingProgress": "Прогресс накопления:",
+      "configureSavings": "Настроить накопления",
+      "savingsWorldTrip": "Кругосветка",
+      "savingsEmergency": "Резервный фонд",
+      "merchants": {
+        "alphaBankRecruiting": "Alpha bank recruiting",
+        "yandexFood": "Yandex Food Delivery",
+        "vitaPharmacy": "Vita Pharmacy",
+        "steamGaming": "Steam Gaming",
+        "magnetSupermarket": "Магнит",
+        "shawarmaLeonstreet": "Shawarma Leonstreet"
+      },
+      "categories": {
+        "catFoodDeliveries": "Доставка еды",
+        "catCafesRestaurants": "Кафе и рестораны",
+        "catPharmacies": "Аптеки и клиники",
+        "catShopping": "Покупки",
+        "catOther": "Другое",
+        "catGames": "Игры"
+      }
+    },
     "addData": {
       "title": "Выберите способ добавления данных",
       "manual": "Заполнить вручную",
       "upload": "Загрузить банковские выписки",
-      "or": "или"
+      "or": "или",
+      "processing": {
+        "loadingTitle": "Сохраняем и анализируем ваши данные…",
+        "loadingSubtitle": "Это займёт всего несколько секунд.",
+        "uploadLoadingTitle": "Данные успешно сохранены!",
+        "uploadLoadingSubtitle": "Мы уже анализируем их — это может занять несколько минут.",
+        "completeTitle": "Ваша аналитика готова!",
+        "completeButton": "Обновить главную"
+      },
+      "uploadForm": {
+        "title": "Загрузите банковские выписки",
+        "description": "Выберите файлы или перетащите их в область загрузки, проверьте список и нажмите «Сохранить и продолжить».",
+        "chooseFile": "Выберите файл",
+        "dragHere": "Перетащите сюда",
+        "yourUploads": "Ваши файлы",
+        "empty": "Пока нет файлов — выберите или перетащите их слева.",
+        "dropzoneAria": "Область загрузки: выберите файл или перетащите файлы сюда"
+      },
+      "manualForm": {
+        "title": "Заполните данные",
+        "description": "Добавьте одну или несколько строк: название, категорию расходов и сумму. «Добавить строку» — ещё строка, затем «Сохранить и продолжить».",
+        "name": "Название",
+        "category": "Категория",
+        "amount": "Сумма",
+        "addNew": "Добавить строку",
+        "saveProceed": "Сохранить и продолжить",
+        "categories": {
+          "groceries": "Продукты",
+          "transport": "Транспорт",
+          "bills": "Счета",
+          "entertainment": "Развлечения",
+          "health": "Здоровье",
+          "other": "Другое"
+        }
+      }
     }
   }
 }
