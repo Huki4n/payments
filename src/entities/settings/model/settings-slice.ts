@@ -2,6 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import {
   readAppSettings,
+  type AppSettingsColorScheme,
   type AppSettingsCurrency,
   type AppSettingsLanguage,
 } from "@/shared/lib/app-settings-storage";
@@ -9,6 +10,7 @@ import {
 export interface SettingsState {
   currency: AppSettingsCurrency;
   language: AppSettingsLanguage;
+  colorScheme: AppSettingsColorScheme;
   name: string;
   surname: string;
   country: string;
@@ -27,6 +29,9 @@ export const settingsSlice = createSlice({
     },
     setLanguage(state, action: PayloadAction<AppSettingsLanguage>) {
       state.language = action.payload;
+    },
+    setColorScheme(state, action: PayloadAction<AppSettingsColorScheme>) {
+      state.colorScheme = action.payload;
     },
     setName(state, action: PayloadAction<string>) {
       state.name = action.payload;
@@ -49,6 +54,7 @@ export const settingsSlice = createSlice({
 export const {
   setCurrency,
   setLanguage,
+  setColorScheme,
   setName,
   setSurname,
   setCountry,

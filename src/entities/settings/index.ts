@@ -3,6 +3,7 @@ export {
   settingsSlice,
   setCurrency,
   setLanguage,
+  setColorScheme,
   setName,
   setSurname,
   setCountry,

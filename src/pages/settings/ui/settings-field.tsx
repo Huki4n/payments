@@ -7,6 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Switch,
 } from "@/shared/ui";
 import { cn } from "@/shared/ui/utils";
 
@@ -110,6 +111,38 @@ export const SettingsSelectField = ({
             ))}
           </SelectContent>
         </Select>
+      </div>
+    </div>
+  );
+};
+
+interface SettingsThemeToggleProps {
+  label: string;
+  modeLabel: string;
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+}
+
+export const SettingsThemeToggle = ({
+  label,
+  modeLabel,
+  checked,
+  onCheckedChange,
+}: SettingsThemeToggleProps) => {
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="font-display text-sm font-medium text-brand-purple sm:text-base">
+        {label}
+      </span>
+      <div className={cn(fieldShellClass, "justify-between gap-4")}>
+        <span className="min-w-0 flex-1 font-display text-sm text-brand-purple/80 sm:text-base">
+          {modeLabel}
+        </span>
+        <Switch
+          checked={checked}
+          onCheckedChange={onCheckedChange}
+          aria-label={label}
+        />
       </div>
     </div>
   );
