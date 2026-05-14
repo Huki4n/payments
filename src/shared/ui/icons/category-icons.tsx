@@ -2,7 +2,7 @@ import type { SVGProps } from "react";
 
 import { cn } from "@/shared/ui/utils";
 
-/** Lucide-aligned keys used in dashboard mocks (`monthlySpendsPie`, spends list). */
+/** Lucide-aligned keys used in spends-chart / transactions mocks. */
 export type DashboardSpendCategoryIcon =
   | "utensils"
   | "coffee"
