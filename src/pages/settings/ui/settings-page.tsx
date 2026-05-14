@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import {
   persistSettingsRequested,
   selectSettings,
+  setColorScheme,
   setCountry,
   setCurrency,
   setEmail,
@@ -22,7 +23,11 @@ import type {
 import { Button } from "@/shared/ui";
 import { HomeNavigation } from "@/widgets/home-navigation";
 
-import { SettingsSelectField, SettingsTextField } from "./settings-field";
+import {
+  SettingsSelectField,
+  SettingsTextField,
+  SettingsThemeToggle,
+} from "./settings-field";
 
 const CURRENCY_OPTIONS = [
   { value: "usd", label: "USD $" },
@@ -39,12 +44,18 @@ export const SettingsPage = () => {
   const { t } = useTranslation("settings");
   const dispatch = useAppDispatch();
   const settings = useAppSelector(selectSettings);
-  const { currency, language, name, surname, country, phone, email } =
-    settings;
+  const {
+    currency,
+    language,
+    colorScheme,
+    name,
+    surname,
+    country,
+    phone,
+    email,
+  } = settings;
 
-  const [savedJson, setSavedJson] = useState(() =>
-    JSON.stringify(settings),
-  );
+  const [savedJson, setSavedJson] = useState(() => JSON.stringify(settings));
   const isDirty = JSON.stringify(settings) !== savedJson;
 
   const handleSave = () => {
@@ -115,6 +126,18 @@ export const SettingsPage = () => {
             }
             options={LANGUAGE_OPTIONS}
           />
+          <SettingsThemeToggle
+            label={t("fields.darkTheme")}
+            modeLabel={
+              colorScheme === "dark"
+                ? t("fields.themeDark")
+                : t("fields.themeLight")
+            }
+            checked={colorScheme === "dark"}
+            onCheckedChange={(on) =>
+              dispatch(setColorScheme(on ? "dark" : "light"))
+            }
+          />
         </div>
 
         <div className="mt-5 flex justify-end sm:mt-6">
@@ -122,7 +145,7 @@ export const SettingsPage = () => {
             type="button"
             disabled={!isDirty}
             onClick={handleSave}
-            className="rounded-xl bg-brand-purple px-6 py-5 font-display text-sm font-bold text-white transition-all duration-200 hover:bg-brand-purple/90 hover:shadow-md active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 sm:px-8 sm:text-base"
+            className="rounded-xl bg-brand-purple-bg px-6 py-5 font-display text-sm font-bold text-white transition-all duration-200 hover:bg-brand-purple-bg/90 hover:shadow-md active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 sm:px-8 sm:text-base"
           >
             {t("actions.save")}
           </Button>

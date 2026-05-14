@@ -124,7 +124,7 @@ export const CongratulationsPage = () => {
         <Button
           type="button"
           onClick={() => navigate("/")}
-          className="h-14 w-72 max-w-full rounded-[11px] bg-brand-purple font-display text-xl font-bold text-white hover:bg-brand-purple/90 sm:h-16"
+          className="h-14 w-72 max-w-full rounded-[11px] bg-brand-purple-bg font-display text-xl font-bold text-white hover:bg-brand-purple-bg/90 sm:h-16"
         >
           Proceed
         </Button>

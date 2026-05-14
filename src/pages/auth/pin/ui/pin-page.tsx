@@ -98,7 +98,7 @@ export const PinPage = () => {
             <Button
               form={FORM_ID}
               type="submit"
-              className="h-16 w-72 max-w-full rounded-control bg-brand-purple font-display text-xl font-bold text-white hover:bg-brand-purple/90"
+              className="h-16 w-72 max-w-full rounded-control bg-brand-purple-bg font-display text-xl font-bold text-white hover:bg-brand-purple-bg/90"
             >
               {t("auth.pin.submit")}
             </Button>

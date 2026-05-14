@@ -94,11 +94,11 @@ export const PinConfirmPage = () => {
                   >
                     <InputOTPGroup className="gap-4">
                       {Array.from({ length: PIN_LENGTH }).map((_, index) => (
-                      <InputOTPSlot
-                        key={index}
-                        index={index}
-                        className={PIN_SLOT_CLASSNAME}
-                      />
+                        <InputOTPSlot
+                          key={index}
+                          index={index}
+                          className={PIN_SLOT_CLASSNAME}
+                        />
                       ))}
                     </InputOTPGroup>
                   </InputOTP>
@@ -116,7 +116,7 @@ export const PinConfirmPage = () => {
             <Button
               form={FORM_ID}
               type="submit"
-              className="h-16 w-72 max-w-full rounded-control bg-brand-purple font-display text-xl font-bold text-white hover:bg-brand-purple/90"
+              className="h-16 w-72 max-w-full rounded-control bg-brand-purple-bg font-display text-xl font-bold text-white hover:bg-brand-purple-bg/90"
             >
               {t("auth.pinConfirm.submit")}
             </Button>

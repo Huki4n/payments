@@ -7,6 +7,10 @@ export type AppSettingsCurrency = (typeof APP_SETTINGS_CURRENCIES)[number];
 export const APP_SETTINGS_LANGUAGES = ["en", "ru"] as const;
 export type AppSettingsLanguage = (typeof APP_SETTINGS_LANGUAGES)[number];
 
+export const APP_SETTINGS_COLOR_SCHEMES = ["light", "dark"] as const;
+export type AppSettingsColorScheme =
+  (typeof APP_SETTINGS_COLOR_SCHEMES)[number];
+
 const profileDefaults = {
   name: "Rodion",
   surname: "Rodion",
@@ -18,6 +22,7 @@ const profileDefaults = {
 export interface AppSettingsPersisted {
   currency: AppSettingsCurrency;
   language: AppSettingsLanguage;
+  colorScheme: AppSettingsColorScheme;
   name: string;
   surname: string;
   country: string;
@@ -29,6 +34,7 @@ const defaults: AppSettingsPersisted = {
   ...profileDefaults,
   currency: "usd",
   language: "ru",
+  colorScheme: "light",
 };
 
 function parseString(value: unknown, fallback: string): string {
@@ -55,6 +61,16 @@ function parseLanguage(value: unknown): AppSettingsLanguage {
   return defaults.language;
 }
 
+function parseColorScheme(value: unknown): AppSettingsColorScheme {
+  if (
+    typeof value === "string" &&
+    (APP_SETTINGS_COLOR_SCHEMES as readonly string[]).includes(value)
+  ) {
+    return value as AppSettingsColorScheme;
+  }
+  return defaults.colorScheme;
+}
+
 export function readAppSettings(): AppSettingsPersisted {
   try {
     const raw = localStorage.getItem(APP_SETTINGS_KEY);
@@ -63,6 +79,7 @@ export function readAppSettings(): AppSettingsPersisted {
       return {
         currency: parseCurrency(parsed.currency),
         language: parseLanguage(parsed.language),
+        colorScheme: parseColorScheme(parsed.colorScheme),
         name: parseString(parsed.name, profileDefaults.name),
         surname: parseString(parsed.surname, profileDefaults.surname),
         country: parseString(parsed.country, profileDefaults.country),

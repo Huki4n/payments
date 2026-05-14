@@ -56,13 +56,14 @@ export {
   CarouselNext,
 } from "./carousel";
 export type { ChartConfig } from "./chart";
+export { INITIAL_CHART_DIMENSION } from "./chart-constants";
 export {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "./chart";
 export { Checkbox } from "./checkbox";
 export {
