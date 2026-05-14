@@ -103,6 +103,39 @@
     "savingsPage": {
       "addNewSaving": "Add new saving"
     },
+    "analyticsPage": {
+      "selectPeriod": "Select your Period",
+      "periodRangePlaceholder": "01.01.2025 - now",
+      "preset": {
+        "week": "Last Week",
+        "month": "Last Month",
+        "3m": "Last 3 Month",
+        "6m": "Last 6 Month",
+        "year": "Last Year",
+        "all": "All"
+      },
+      "incomeExpenseTitle": "Your Income and Sale for selected Period",
+      "incomeSpendScaleTitle": "Your Income and Spend Scale for selected Period",
+      "categorySpendsWheelTitle": "Your category Spends wheel",
+      "mostLowestCategoriesTitle": "Most/Lowest Spent Categories",
+      "topCategoryCaption": "{{category}} is your top spending category. In the selected period you've spent {{amount}} on this category.",
+      "lowestCategoryCaption": "{{category}} is your lowest spending category. In the selected period you've spent {{amount}} on this category.",
+      "legendIncome": "Income",
+      "legendExpense": "Expenses",
+      "mostProfitableDay": "Most Profitable day",
+      "mostProfitableHint": "You've Earned {{amount}} that day",
+      "highestSpendingDay": "Highest Spending day",
+      "highestSpendingHint": "You've spend {{amount}} that day",
+      "mostSpentCategory": "Most spent",
+      "leastSpentCategory": "Lowest spent",
+      "avgCompareTitle": "Your Average Daily Spending is Lower Than Your Average Daily Income ! Nice!",
+      "avgCompareStatsLead": "Your average spending number is:",
+      "avgCompareStatsMiddle": "per day in this period, while your average income number is:",
+      "keepGoing": "Keep Going!",
+      "netProfit": "Your Net Profit is {{percent}}%",
+      "periodSavedTitle": "In selected period you saved:",
+      "totalSavedChartTitle": "Total Saved"
+    },
     "dashboard": {
       "yearlyFinance": "Your yearly Finance",
       "yearlyRange": "01.01.2025 - now",
