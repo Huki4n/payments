@@ -563,6 +563,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/montserrat-alternates@npm:^5.2.8":
+  version: 5.2.8
+  resolution: "@fontsource/montserrat-alternates@npm:5.2.8"
+  checksum: 10c0/6bc8cda54c3e96c0ab8127d72a1a7bc8d2d40b2070c0b0f3656390bda7a4e5c296407b8ebbed998e744a9d25e2b2d52d9a1778a63e4ad4c28c0d5afd3db5b558
+  languageName: node
+  linkType: hard
+
 "@hono/node-server@npm:^1.19.9":
   version: 1.19.14
   resolution: "@hono/node-server@npm:1.19.14"
@@ -5601,6 +5608,7 @@ __metadata:
     "@eslint/js": "npm:^10.0.1"
     "@fontsource-variable/geist": "npm:^5.2.8"
     "@fontsource-variable/montserrat": "npm:^5.2.8"
+    "@fontsource/montserrat-alternates": "npm:^5.2.8"
     "@reduxjs/toolkit": "npm:^2.11.2"
     "@rolldown/plugin-babel": "npm:^0.2.3"
     "@tailwindcss/vite": "npm:^4.1.18"
@@ -5637,6 +5645,7 @@ __metadata:
     recharts: "npm:3.8.0"
     shadcn: "npm:^4.5.0"
     sonner: "npm:^2.0.7"
+    swiper: "npm:^12.1.4"
     tailwind-merge: "npm:^3.5.0"
     tailwindcss: "npm:^4.1.18"
     tw-animate-css: "npm:^1.4.0"
@@ -6557,6 +6566,13 @@ __metadata:
   version: 4.0.0
   resolution: "strip-final-newline@npm:4.0.0"
   checksum: 10c0/b0cf2b62d597a1b0e3ebc42b88767f0a0d45601f89fd379a928a1812c8779440c81abba708082c946445af1d6b62d5f16e2a7cf4f30d9d6587b89425fae801ff
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^12.1.4":
+  version: 12.1.4
+  resolution: "swiper@npm:12.1.4"
+  checksum: 10c0/bbde6c489cae0853f9d7774d69bcb70d5dab1b94f3c1929a81c0d1f1cb9b302bb32101f38ed0b45e77a7158411887bf1ec162afc5335c73d9beb3c4c0ee101a0
   languageName: node
   linkType: hard
 
