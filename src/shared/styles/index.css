@@ -175,6 +175,7 @@ body {
   --font-heading: "Montserrat Variable", sans-serif;
   --font-sans: "Geist Variable", sans-serif;
   --font-display: "Montserrat Variable", sans-serif;
+  --font-display-alternates: "Montserrat Alternates", system-ui, sans-serif;
   --color-brand-blue: var(--brand-blue);
   --color-brand-blue-dark: var(--brand-blue-dark);
   --color-brand-purple: var(--brand-purple);
