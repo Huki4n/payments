@@ -92,6 +92,14 @@
     "profileAria": "Профиль",
     "welcome": "Добро пожаловать, {{name}}",
     "balanceLabel": "Текущий баланс счёта",
+    "transactionsPage": {
+      "searchByName": "Поиск по названию",
+      "searchByAmount": "Поиск по сумме",
+      "category": "Категория",
+      "categoryAll": "Все категории",
+      "totalMonthEarnings": "Итого доходов за месяц",
+      "totalMonthSpends": "Итого расходов за месяц"
+    },
     "dashboard": {
       "yearlyFinance": "Ваша годовая финансовая динамика",
       "yearlyRange": "01.01.2025 — сейчас",

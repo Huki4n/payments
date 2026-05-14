@@ -92,6 +92,14 @@
     "profileAria": "Profile",
     "welcome": "Welcome, {{name}}",
     "balanceLabel": "Your current account Balance",
+    "transactionsPage": {
+      "searchByName": "Search by Name",
+      "searchByAmount": "Search by Amount",
+      "category": "Category",
+      "categoryAll": "All categories",
+      "totalMonthEarnings": "Total Month Earnings",
+      "totalMonthSpends": "Total Month Spends"
+    },
     "dashboard": {
       "yearlyFinance": "Your yearly Finance",
       "yearlyRange": "01.01.2025 - now",
