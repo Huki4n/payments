@@ -103,6 +103,39 @@
     "savingsPage": {
       "addNewSaving": "Новое накопление"
     },
+    "analyticsPage": {
+      "selectPeriod": "Выберите период",
+      "periodRangePlaceholder": "01.01.2025 — сейчас",
+      "preset": {
+        "week": "Неделя",
+        "month": "Месяц",
+        "3m": "3 месяца",
+        "6m": "6 месяцев",
+        "year": "Год",
+        "all": "Всё"
+      },
+      "incomeExpenseTitle": "Доход и расход за выбранный период",
+      "incomeSpendScaleTitle": "Шкала доходов и расходов за выбранный период",
+      "categorySpendsWheelTitle": "Расходы по категориям",
+      "mostLowestCategoriesTitle": "Больше всего и меньше всего потрачено",
+      "topCategoryCaption": "{{category}} — категория с наибольшими тратами. За выбранный период вы потратили {{amount}} в этой категории.",
+      "lowestCategoryCaption": "{{category}} — категория с наименьшими тратами. За выбранный период вы потратили {{amount}} в этой категории.",
+      "legendIncome": "Доход",
+      "legendExpense": "Расходы",
+      "mostProfitableDay": "Самый прибыльный день",
+      "mostProfitableHint": "В этот день вы заработали {{amount}}",
+      "highestSpendingDay": "День максимальных трат",
+      "highestSpendingHint": "В этот день вы потратили {{amount}}",
+      "mostSpentCategory": "Больше всего",
+      "leastSpentCategory": "Меньше всего",
+      "avgCompareTitle": "Средний дневной расход ниже среднего дневного дохода! Отлично!",
+      "avgCompareStatsLead": "Средняя сумма расходов:",
+      "avgCompareStatsMiddle": "в день за этот период, средний доход:",
+      "keepGoing": "Так держать!",
+      "netProfit": "Ваша чистая прибыль — {{percent}}%",
+      "periodSavedTitle": "За выбранный период вы отложили:",
+      "totalSavedChartTitle": "Всего накоплено"
+    },
     "dashboard": {
       "yearlyFinance": "Ваша годовая финансовая динамика",
       "yearlyRange": "01.01.2025 — сейчас",
