@@ -49,7 +49,7 @@ export const AnalyticsPeriodSavingsCard = () => {
           </h2>
 
           <div className="mt-2 w-fit max-w-full rounded-md bg-dashboard-income-pill px-2 py-1 sm:px-2.5 sm:py-1.5 md:rounded-lg md:px-2.5 md:py-2">
-            <p className="font-display text-2xl font-bold leading-none tracking-tight text-brand-purple sm:text-3xl md:text-4xl">
+            <p className="font-display text-4xl font-bold leading-none tracking-tight text-brand-purple sm:text-5xl md:text-6xl">
               {analyticsTotalSavedAmount}
             </p>
           </div>
