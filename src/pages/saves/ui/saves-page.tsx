@@ -2,12 +2,14 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { AppLayout } from "@/app/layouts";
+import { useSavingsSlides } from "@/entities/goal";
 import { AccountBalance } from "@/widgets/account-balance";
 import { SavingsSwiper } from "@/widgets/dashboard-savings";
 import { HomeNavigation } from "@/widgets/home-navigation";
 
 export const SavesPage = () => {
   const { t } = useTranslation("home");
+  const { slides, isLoading, isError } = useSavingsSlides();
 
   return (
     <AppLayout
@@ -20,7 +22,19 @@ export const SavesPage = () => {
     >
       <div className="rounded-t-4xl px-3 pb-12 sm:px-4">
         <div className="mx-auto flex max-w-5xl flex-col gap-2">
-          <SavingsSwiper showConfigureSavingsLink={false} />
+          {isError ? (
+            <p className="rounded-4xl bg-dashboard-card px-6 py-10 text-center font-display text-lg text-destructive">
+              {t("savingsPage.loadError")}
+            </p>
+          ) : (
+            <SavingsSwiper
+              showConfigureSavingsLink={false}
+              slides={slides}
+              isLoading={isLoading}
+              loadingMessage={t("savingsPage.loading")}
+              emptyMessage={t("savingsPage.empty")}
+            />
+          )}
           <div className="flex justify-end">
             <Link
               to="/profile"

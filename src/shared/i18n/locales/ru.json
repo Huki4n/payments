@@ -107,7 +107,10 @@
       "totalMonthSpends": "Итого расходов за месяц"
     },
     "savingsPage": {
-      "addNewSaving": "Новое накопление"
+      "addNewSaving": "Новое накопление",
+      "loading": "Загрузка целей…",
+      "empty": "Пока нет накоплений",
+      "loadError": "Не удалось загрузить цели"
     },
     "analyticsPage": {
       "selectPeriod": "Выберите период",

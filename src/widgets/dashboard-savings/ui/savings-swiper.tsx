@@ -1,6 +1,7 @@
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import type { SavingsSlide } from "@/entities/goal";
 import { savingsSlidesMock } from "../model/savings-mock";
 
 import { SavingGoalDetailCard } from "./saving-goal-detail-card";
@@ -10,11 +11,41 @@ import "swiper/css/pagination";
 
 interface SavingsSwiperProps {
   showConfigureSavingsLink?: boolean;
+  slides?: SavingsSlide[];
+  isLoading?: boolean;
+  loadingMessage?: string;
+  emptyMessage?: string;
 }
 
 export const SavingsSwiper = ({
   showConfigureSavingsLink = true,
+  slides,
+  isLoading = false,
+  loadingMessage = "Loading…",
+  emptyMessage = "No savings goals yet",
 }: SavingsSwiperProps) => {
+  const items = slides ?? savingsSlidesMock;
+
+  if (isLoading) {
+    return (
+      <section className="flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10">
+        <p className="font-display text-lg text-brand-purple/70">
+          {loadingMessage}
+        </p>
+      </section>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <section className="flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10">
+        <p className="text-center font-display text-lg text-brand-purple/70">
+          {emptyMessage}
+        </p>
+      </section>
+    );
+  }
+
   return (
     <>
       <style>
@@ -46,7 +77,7 @@ export const SavingsSwiper = ({
         <Swiper
           modules={[Pagination]}
           centeredSlides
-          loop
+          loop={items.length > 1}
           loopAdditionalSlides={0}
           spaceBetween={16}
           slidesPerView={1.09}
@@ -57,7 +88,7 @@ export const SavingsSwiper = ({
             768: { slidesPerView: 1.09, spaceBetween: 20 },
           }}
         >
-          {savingsSlidesMock.map((slide) => (
+          {items.map((slide) => (
             <SwiperSlide key={slide.id}>
               <SavingGoalDetailCard
                 slide={slide}

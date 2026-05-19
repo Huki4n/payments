@@ -107,7 +107,10 @@
       "totalMonthSpends": "Total Month Spends"
     },
     "savingsPage": {
-      "addNewSaving": "Add new saving"
+      "addNewSaving": "Add new saving",
+      "loading": "Loading goals…",
+      "empty": "No savings goals yet",
+      "loadError": "Failed to load goals"
     },
     "analyticsPage": {
       "selectPeriod": "Select your Period",

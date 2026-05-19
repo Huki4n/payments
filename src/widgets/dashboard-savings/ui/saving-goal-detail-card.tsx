@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import type { SavingsSlide } from "../model/savings-mock";
+import type { SavingsSlide } from "@/entities/goal";
 
 import { SavingGoalHeader } from "./saving-goal-header";
 import { SavingGoalStats } from "./saving-goal-stats";
@@ -19,12 +19,15 @@ export const SavingGoalDetailCard = ({
 }: SavingGoalDetailCardProps) => {
   const { t } = useTranslation("home");
   const progressPercent = Math.min(100, (slide.total / slide.goal) * 100);
+  const title =
+    slide.title ??
+    (slide.titleKey ? t(`dashboard.${slide.titleKey}`) : "");
 
   return (
     <div className="savings-slide-card flex min-h-0 flex-1 flex-col overflow-hidden rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:px-6 sm:py-6">
       <div className="grid min-h-0 flex-1 gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-stretch lg:gap-8">
         <div className="flex min-h-0 flex-col gap-6 text-left">
-          <SavingGoalHeader title={t(`dashboard.${slide.titleKey}`)} />
+          <SavingGoalHeader title={title} />
           <SavingGoalStats goal={slide.goal} total={slide.total} />
           <SavingReplenishmentsList
             slideId={slide.id}
