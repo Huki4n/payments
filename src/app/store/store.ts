@@ -1,13 +1,16 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import { addDataApi } from "@/features/add-data-action/api/add-data-api";
 import { settingsReducer } from "@/entities/settings";
+import { baseApi } from "@/shared/api";
+
+import "@/entities/session/api/session-api";
+import "@/features/add-data-action/api/add-data-api";
 
 import { settingsListenerMiddleware } from "./middlewares/settings-listener";
 
 const rootReducer = combineReducers({
   settings: settingsReducer,
-  [addDataApi.reducerPath]: addDataApi.reducer,
+  [baseApi.reducerPath]: baseApi.reducer,
 });
 
 export const store = configureStore({
@@ -15,7 +18,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .prepend(settingsListenerMiddleware.middleware)
-      .concat(addDataApi.middleware),
+      .concat(baseApi.middleware),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -1,37 +1,33 @@
-import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "@/shared/api";
 
 import type { ManualRow } from "../model/types";
-
-const STUB_DELAY_MS = 2000;
-
-function delay(ms: number) {
-  return new Promise<void>((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
 
 export type SubmitBankStatementsArg = {
   files: Array<{ name: string; size: number }>;
 };
 
-export const addDataApi = createApi({
-  reducerPath: "addDataApi",
-  baseQuery: fakeBaseQuery(),
+export const transactionsApiInjection = baseApi.injectEndpoints({
   endpoints: (build) => ({
     submitManualRows: build.mutation<{ ok: true }, { rows: ManualRow[] }>({
-      async queryFn({ rows: _rows }) {
-        await delay(STUB_DELAY_MS);
-        return { data: { ok: true } };
-      },
+      query: ({ rows }) => ({
+        url: "/imports/manual-rows",
+        method: "POST",
+        body: { rows },
+      }),
+      invalidatesTags: ["Import"],
     }),
-    submitBankStatements: build.mutation<{ ok: true }, SubmitBankStatementsArg>({
-      async queryFn({ files: _files }) {
-        await delay(STUB_DELAY_MS);
-        return { data: { ok: true } };
+    submitBankStatements: build.mutation<{ ok: true }, SubmitBankStatementsArg>(
+      {
+        query: (payload) => ({
+          url: "/imports/bank-statements",
+          method: "POST",
+          body: payload,
+        }),
+        invalidatesTags: ["Import"],
       },
-    }),
+    ),
   }),
 });
 
 export const { useSubmitManualRowsMutation, useSubmitBankStatementsMutation } =
-  addDataApi;
+  transactionsApiInjection;
