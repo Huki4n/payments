@@ -24,9 +24,9 @@
     },
     "auth": {
       "title": "Getting Started",
-      "description": "Enter your E-Mail Adress to get started",
-      "emailPlaceholder": "email@gmail.com",
-      "submit": "Send Code",
+      "description": "Enter your phone number to get started",
+      "phonePlaceholder": "79001234567",
+      "submit": "Continue",
       "haveAccount": "Already have an Account?",
       "signUp": "Sign Up",
       "or": "or",
@@ -37,14 +37,20 @@
         "link": "Terms and Conditions"
       },
       "errors": {
-        "required": "Enter your E-Mail",
-        "invalidEmail": "Invalid E-Mail"
+        "required": "Enter your phone number",
+        "invalidPhone": "Format: 7XXXXXXXXXX",
+        "requestFailed": "Request failed. Please try again."
       },
       "pin": {
         "title": "Create Your Pin",
         "description": "Create a four-digit passcode to secure your account",
         "submit": "Set Up Pin",
         "back": "Back",
+        "login": {
+          "title": "Sign In",
+          "description": "Enter your PIN to sign in",
+          "submit": "Sign In"
+        },
         "errors": {
           "incomplete": "Enter all 4 digits"
         }
