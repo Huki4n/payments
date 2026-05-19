@@ -110,7 +110,54 @@
       "addNewSaving": "Новое накопление",
       "loading": "Загрузка целей…",
       "empty": "Пока нет накоплений",
-      "loadError": "Не удалось загрузить цели"
+      "loadError": "Не удалось загрузить цели",
+      "createGoal": {
+        "title": "Новая цель",
+        "description": "Укажите параметры накопления",
+        "titleLabel": "Название",
+        "titlePlaceholder": "Путешествие",
+        "amountLabel": "Целевая сумма",
+        "currencyLabel": "Валюта",
+        "deadlineLabel": "Срок",
+        "submit": "Создать",
+        "cancel": "Отмена",
+        "errors": {
+          "required": "Заполните поле",
+          "invalidAmount": "Сумма должна быть больше 0",
+          "titleTooLong": "Не более 255 символов",
+          "submit": "Не удалось создать цель"
+        }
+      },
+      "editGoal": {
+        "menuAria": "Редактировать накопление",
+        "title": "Редактирование",
+        "description": "Измените цель, пополните или снимите средства",
+        "goalSection": "Цель",
+        "depositSection": "Пополнение",
+        "withdrawSection": "Снятие",
+        "historySection": "История операций",
+        "titleLabel": "Название",
+        "amountLabel": "Сумма",
+        "currencyLabel": "Валюта",
+        "deadlineLabel": "Срок",
+        "save": "Сохранить",
+        "deposit": "Пополнить",
+        "withdraw": "Снять",
+        "delete": "Удалить цель",
+        "close": "Закрыть",
+        "deleteConfirm": "Удалить это накопление?",
+        "historyLoading": "Загрузка истории…",
+        "historyEmpty": "Операций пока нет",
+        "errors": {
+          "required": "Заполните поле",
+          "invalidAmount": "Сумма должна быть больше 0",
+          "titleTooLong": "Не более 255 символов",
+          "save": "Не удалось сохранить",
+          "contribution": "Не удалось пополнить",
+          "withdrawal": "Не удалось снять",
+          "delete": "Не удалось удалить"
+        }
+      }
     },
     "analyticsPage": {
       "selectPeriod": "Выберите период",

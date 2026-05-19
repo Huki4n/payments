@@ -11,6 +11,8 @@ import "swiper/css/pagination";
 
 interface SavingsSwiperProps {
   showConfigureSavingsLink?: boolean;
+  showEditMenu?: boolean;
+  onEditGoal?: (goalId: number) => void;
   slides?: SavingsSlide[];
   isLoading?: boolean;
   loadingMessage?: string;
@@ -19,6 +21,8 @@ interface SavingsSwiperProps {
 
 export const SavingsSwiper = ({
   showConfigureSavingsLink = true,
+  showEditMenu = false,
+  onEditGoal,
   slides,
   isLoading = false,
   loadingMessage = "Loading…",
@@ -93,6 +97,8 @@ export const SavingsSwiper = ({
               <SavingGoalDetailCard
                 slide={slide}
                 showConfigureSavingsLink={showConfigureSavingsLink}
+                showEditMenu={showEditMenu}
+                onEditGoal={onEditGoal}
               />
             </SwiperSlide>
           ))}

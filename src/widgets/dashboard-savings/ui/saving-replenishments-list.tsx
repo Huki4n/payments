@@ -26,6 +26,7 @@ export const SavingReplenishmentsList = ({
             key={`${slideId}-${r.date}-${idx}`}
             date={r.date}
             amount={r.amount}
+            isWithdrawal={r.isWithdrawal}
           />
         ))}
       </ul>

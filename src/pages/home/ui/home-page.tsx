@@ -5,8 +5,20 @@ import { DashboardTransactionsCard } from "@/widgets/dashboard-transactions";
 import { FinanceChartCard } from "@/widgets/finance-chart";
 import { SpendsChartCard } from "@/widgets/spends-chart";
 import { HomeNavigation } from "@/widgets/home-navigation";
+import { useState } from "react";
+import { useGetSavingsSlidesQuery } from "@/entities/goal";
+import { useTranslation } from "react-i18next";
+import { EditGoalDialog } from "@/features/edit-goal";
 
 export const HomePage = () => {
+  const { t } = useTranslation("home");
+  const [editGoalId, setEditGoalId] = useState<number | null>(null);
+  const { data: slides = [], isLoading, isError } = useGetSavingsSlidesQuery();
+
+  const editGoalHandler = (open: boolean) => {
+    if (!open) setEditGoalId(null);
+  };
+
   return (
     <AppLayout
       header={
@@ -21,9 +33,30 @@ export const HomePage = () => {
           <FinanceChartCard />
           <DashboardTransactionsCard />
           <SpendsChartCard />
-          <SavingsSwiper />
+
+          {isError ? (
+            <p className="rounded-4xl bg-dashboard-card px-6 py-10 text-center font-display text-lg text-destructive">
+              {t("savingsPage.loadError")}
+            </p>
+          ) : (
+            <SavingsSwiper
+              showConfigureSavingsLink={false}
+              showEditMenu
+              onEditGoal={setEditGoalId}
+              slides={slides}
+              isLoading={isLoading}
+              loadingMessage={t("savingsPage.loading")}
+              emptyMessage={t("savingsPage.empty")}
+            />
+          )}
         </div>
       </div>
+
+      <EditGoalDialog
+        goalId={editGoalId}
+        open={!!editGoalId}
+        onOpenChange={editGoalHandler}
+      />
     </AppLayout>
   );
 };
