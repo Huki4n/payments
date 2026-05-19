@@ -3,6 +3,8 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/montserrat";
+@import "@fontsource/montserrat-alternates/400.css";
+@import "@fontsource/montserrat-alternates/700.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -71,7 +73,68 @@
 
   --brand-blue: #0147ff;
   --brand-blue-dark: #012072;
+  --brand-purple-bg: #12033a;
   --brand-purple: #12033a;
+
+  --data-action-bg: #ffffff;
+  --data-action-fg: var(--brand-purple);
+  --add-data-panel: oklch(0.9612 0.0182 269.09);
+
+  /* Scrollbar: thin track + pill thumb (brand purple) */
+  --scrollbar-size: 5px;
+  --scrollbar-track: #ffffff;
+  --scrollbar-thumb: #5b33cf;
+  --scrollbar-thumb-hover: #7f65cc;
+  --radix-scroll-area-thumb-width: 5px;
+
+  /* Dashboard surfaces & chart accents (Figma) */
+  --dashboard-shell: #e8ecf4;
+  --dashboard-card: #edf2ff;
+  --dashboard-income-pill: #d0feed;
+  --dashboard-expense-pill: #fee0ec;
+  --dashboard-positive-money: #059669;
+  --dashboard-chart-fuchsia: #ba33cf;
+  --dashboard-chart-sky: #3caceb;
+  --dashboard-chart-teal: #33cfbf;
+  --dashboard-chart-violet: var(--scrollbar-thumb);
+  --dashboard-chart-grid: color-mix(
+    in srgb,
+    var(--brand-purple) 12%,
+    transparent
+  );
+  --dashboard-chart-grid-soft: color-mix(
+    in srgb,
+    var(--brand-purple) 10%,
+    transparent
+  );
+  --dashboard-chart-tick: color-mix(
+    in srgb,
+    var(--brand-purple) 85%,
+    transparent
+  );
+  --dashboard-chart-tick-muted: color-mix(
+    in srgb,
+    var(--brand-purple) 50%,
+    transparent
+  );
+  /* Savings chart — плашка под Recharts */
+  --dashboard-savings-chart-surface: #ffffff;
+  --dashboard-tooltip-border: color-mix(
+    in srgb,
+    var(--brand-purple) 8%,
+    transparent
+  );
+  --dashboard-swiper-bullet-inactive: color-mix(
+    in srgb,
+    var(--scrollbar-thumb) 35%,
+    transparent
+  );
+  --dashboard-progress-start: var(--dashboard-chart-violet);
+  --dashboard-progress-end: var(--dashboard-chart-fuchsia);
+  /* icons on pie / category color tiles */
+  --dashboard-on-chart-swatch: #ffffff;
+  /* Recharts: нижняя ось bold, левая 400 */
+  --font-chart-alternates: "Montserrat Alternates", system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -112,9 +175,14 @@ body {
   --font-heading: "Montserrat Variable", sans-serif;
   --font-sans: "Geist Variable", sans-serif;
   --font-display: "Montserrat Variable", sans-serif;
+  --font-display-alternates: "Montserrat Alternates", system-ui, sans-serif;
   --color-brand-blue: var(--brand-blue);
   --color-brand-blue-dark: var(--brand-blue-dark);
   --color-brand-purple: var(--brand-purple);
+  --color-brand-purple-bg: var(--brand-purple-bg);
+  --color-data-action-bg: var(--data-action-bg);
+  --color-data-action-fg: var(--data-action-fg);
+  --color-add-data-panel: var(--add-data-panel, oklch(0.9612 0.0182 269.09));
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -154,10 +222,24 @@ body {
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --radius-control: 0.6875rem;
+
+  --color-scrollbar-thumb: var(--scrollbar-thumb);
+  --color-scrollbar-thumb-hover: var(--scrollbar-thumb-hover);
+
+  --color-dashboard-shell: var(--dashboard-shell);
+  --color-dashboard-card: var(--dashboard-card);
+  --color-dashboard-income-pill: var(--dashboard-income-pill);
+  --color-dashboard-expense-pill: var(--dashboard-expense-pill);
+  --color-dashboard-positive-money: var(--dashboard-positive-money);
+  --color-dashboard-chart-fuchsia: var(--dashboard-chart-fuchsia);
+  --color-dashboard-chart-sky: var(--dashboard-chart-sky);
+  --color-dashboard-chart-teal: var(--dashboard-chart-teal);
+  --color-dashboard-chart-violet: var(--dashboard-chart-violet);
+  --color-dashboard-on-chart-swatch: var(--dashboard-on-chart-swatch);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.3167 0.1597 263.01);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -188,11 +270,50 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --brand-purple: oklch(1 0 0);
+
+  --data-action-bg: oklch(0.269 0 0);
+  --data-action-fg: oklch(0.985 0 0);
+  --add-data-panel: rgba(237, 242, 255, 0.2);
+
+  --dashboard-shell: oklch(0.22 0.03 270);
+  --dashboard-card: oklch(0.26 0.045 270);
+  --dashboard-income-pill: oklch(0.32 0.06 165);
+  --dashboard-expense-pill: oklch(0.3 0.06 350);
+  --dashboard-positive-money: oklch(0.72 0.15 155);
+  --dashboard-chart-grid: color-mix(
+    in srgb,
+    var(--foreground) 14%,
+    transparent
+  );
+  --dashboard-chart-grid-soft: color-mix(
+    in srgb,
+    var(--foreground) 12%,
+    transparent
+  );
+  --dashboard-chart-tick: color-mix(
+    in srgb,
+    var(--foreground) 100%,
+    transparent
+  );
+  --dashboard-chart-tick-muted: color-mix(
+    in srgb,
+    var(--foreground) 38%,
+    transparent
+  );
+  --dashboard-savings-chart-surface: oklch(0.28 0.045 270);
+  --dashboard-tooltip-border: color-mix(
+    in srgb,
+    var(--border) 80%,
+    transparent
+  );
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
   body {
     @apply bg-background text-foreground;
@@ -200,4 +321,35 @@ body {
   html {
     @apply font-sans;
   }
+  button {
+    @apply cursor-pointer;
+  }
+}
+
+@layer utilities {
+  .dark .bg-add-data-panel {
+    -webkit-backdrop-filter: blur(75px);
+    backdrop-filter: blur(75px);
+  }
+}
+
+/* WebKit scrollbar — pill thumb + transparent gutter (Figma 8:311) */
+*::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  background-color: var(--scrollbar-thumb);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
 }

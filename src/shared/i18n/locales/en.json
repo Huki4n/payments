@@ -24,9 +24,9 @@
     },
     "auth": {
       "title": "Getting Started",
-      "description": "Enter your E-Mail Adress to get started",
-      "emailPlaceholder": "email@gmail.com",
-      "submit": "Send Code",
+      "description": "Enter your phone number to get started",
+      "phonePlaceholder": "79001234567",
+      "submit": "Continue",
       "haveAccount": "Already have an Account?",
       "signUp": "Sign Up",
       "or": "or",
@@ -37,14 +37,20 @@
         "link": "Terms and Conditions"
       },
       "errors": {
-        "required": "Enter your E-Mail",
-        "invalidEmail": "Invalid E-Mail"
+        "required": "Enter your phone number",
+        "invalidPhone": "Format: 7XXXXXXXXXX",
+        "requestFailed": "Request failed. Please try again."
       },
       "pin": {
         "title": "Create Your Pin",
         "description": "Create a four-digit passcode to secure your account",
         "submit": "Set Up Pin",
         "back": "Back",
+        "login": {
+          "title": "Sign In",
+          "description": "Enter your PIN to sign in",
+          "submit": "Sign In"
+        },
         "errors": {
           "incomplete": "Enter all 4 digits"
         }
@@ -57,6 +63,208 @@
         "errors": {
           "incomplete": "Enter all 4 digits",
           "mismatch": "PINs do not match"
+        }
+      }
+    }
+  },
+  "settings": {
+    "fields": {
+      "name": "Name",
+      "surname": "Surname",
+      "country": "Country",
+      "phoneNumber": "Phone Number",
+      "email": "E-Mail",
+      "currency": "Currency",
+      "darkTheme": "Theme",
+      "themeLight": "Light",
+      "themeDark": "Dark",
+      "pinCode": "PIN-Code",
+      "language": "Language"
+    },
+    "actions": {
+      "edit": "Edit Account Information",
+      "save": "Save",
+      "resetPin": "Reset your PIN"
+    }
+  },
+  "home": {
+    "nav": {
+      "home": "Home",
+      "transactions": "Transactions",
+      "savings": "Savings",
+      "analytics": "Analytics"
+    },
+    "settingsAria": "Settings",
+    "profileAria": "Profile",
+    "welcome": "Welcome, {{name}}",
+    "balanceLabel": "Your current account Balance",
+    "transactionsPage": {
+      "searchByName": "Search by Name",
+      "searchByAmount": "Search by Amount",
+      "category": "Category",
+      "categoryAll": "All categories",
+      "totalMonthEarnings": "Total Month Earnings",
+      "totalMonthSpends": "Total Month Spends"
+    },
+    "savingsPage": {
+      "addNewSaving": "Add new saving",
+      "loading": "Loading goals…",
+      "empty": "No savings goals yet",
+      "loadError": "Failed to load goals",
+      "createGoal": {
+        "title": "New goal",
+        "description": "Set your savings target",
+        "titleLabel": "Title",
+        "titlePlaceholder": "World trip",
+        "amountLabel": "Target amount",
+        "currencyLabel": "Currency",
+        "deadlineLabel": "Deadline",
+        "submit": "Create",
+        "cancel": "Cancel",
+        "errors": {
+          "required": "This field is required",
+          "invalidAmount": "Amount must be greater than 0",
+          "titleTooLong": "Maximum 255 characters",
+          "submit": "Failed to create goal"
+        }
+      },
+      "editGoal": {
+        "menuAria": "Edit saving",
+        "title": "Edit saving",
+        "description": "Update the goal, deposit or withdraw funds",
+        "goalSection": "Goal",
+        "depositSection": "Deposit",
+        "withdrawSection": "Withdraw",
+        "historySection": "Transaction history",
+        "titleLabel": "Title",
+        "amountLabel": "Amount",
+        "currencyLabel": "Currency",
+        "deadlineLabel": "Deadline",
+        "save": "Save",
+        "deposit": "Deposit",
+        "withdraw": "Withdraw",
+        "delete": "Delete goal",
+        "close": "Close",
+        "deleteConfirm": "Delete this saving?",
+        "historyLoading": "Loading history…",
+        "historyEmpty": "No transactions yet",
+        "errors": {
+          "required": "This field is required",
+          "invalidAmount": "Amount must be greater than 0",
+          "titleTooLong": "Maximum 255 characters",
+          "save": "Failed to save",
+          "contribution": "Failed to deposit",
+          "withdrawal": "Failed to withdraw",
+          "delete": "Failed to delete"
+        }
+      }
+    },
+    "analyticsPage": {
+      "selectPeriod": "Select your Period",
+      "periodRangePlaceholder": "01.01.2025 - now",
+      "preset": {
+        "week": "Last Week",
+        "month": "Last Month",
+        "3m": "Last 3 Month",
+        "6m": "Last 6 Month",
+        "year": "Last Year",
+        "all": "All"
+      },
+      "incomeExpenseTitle": "Your Income and Sale for selected Period",
+      "incomeSpendScaleTitle": "Your Income and Spend Scale for selected Period",
+      "categorySpendsWheelTitle": "Your category Spends wheel",
+      "mostLowestCategoriesTitle": "Most/Lowest Spent Categories",
+      "topCategoryCaption": "{{category}} is your top spending category. In the selected period you've spent {{amount}} on this category.",
+      "lowestCategoryCaption": "{{category}} is your lowest spending category. In the selected period you've spent {{amount}} on this category.",
+      "legendIncome": "Income",
+      "legendExpense": "Expenses",
+      "mostProfitableDay": "Most Profitable day",
+      "mostProfitableHint": "You've Earned {{amount}} that day",
+      "highestSpendingDay": "Highest Spending day",
+      "highestSpendingHint": "You've spend {{amount}} that day",
+      "mostSpentCategory": "Most spent",
+      "leastSpentCategory": "Lowest spent",
+      "avgCompareTitle": "Your Average Daily Spending is Lower Than Your Average Daily Income ! Nice!",
+      "avgCompareStatsLead": "Your average spending number is:",
+      "avgCompareStatsMiddle": "per day in this period, while your average income number is:",
+      "keepGoing": "Keep Going!",
+      "netProfit": "Your Net Profit is {{percent}}%",
+      "periodSavedTitle": "In selected period you saved:",
+      "totalSavedChartTitle": "Total Saved"
+    },
+    "dashboard": {
+      "yearlyFinance": "Your yearly Finance",
+      "yearlyRange": "01.01.2025 - now",
+      "exploreYearly": "Explore deeper yearly statistics",
+      "transactionsTitle": "Transactions",
+      "recentEarnings": "Your recent Earnings",
+      "recentSpends": "Your recent Spends",
+      "monthlySpendsWheel": "Your monthly Spends wheel",
+      "spendAmount": "Amount",
+      "savingGoal": "Your saving goal:",
+      "savingTotal": "Your saving total:",
+      "savingsReplenishments": "Your Savings replenishments",
+      "savingProgress": "Your saving progress:",
+      "configureSavings": "Configure your savings",
+      "savingsWorldTrip": "World trip",
+      "savingsEmergency": "Emergency fund",
+      "savingsCarPurchase": "New car",
+      "savingsHomeFund": "Home fund",
+      "savingsGadgetFund": "Gadget savings",
+      "merchants": {
+        "alphaBankRecruiting": "Alpha bank recruiting",
+        "yandexFood": "Yandex Food Delivery",
+        "vitaPharmacy": "Vita Pharmacy",
+        "steamGaming": "Steam Gaming",
+        "magnetSupermarket": "Magnet Supermarket",
+        "shawarmaLeonstreet": "Shawarma Leonstreet"
+      },
+      "categories": {
+        "catFoodDeliveries": "Food deliveries",
+        "catCafesRestaurants": "Cafes & Restaurants",
+        "catPharmacies": "Pharmacies & hospitals",
+        "catShopping": "Shopping",
+        "catOther": "Other",
+        "catGames": "Games"
+      }
+    },
+    "addData": {
+      "title": "Select your way to add data",
+      "manual": "Fill Out Manually",
+      "upload": "Upload Bank Statements",
+      "or": "or",
+      "processing": {
+        "loadingTitle": "Saving and analyzing your data…",
+        "loadingSubtitle": "This will only take a moment.",
+        "uploadLoadingTitle": "Your Data Saved Successfully!",
+        "uploadLoadingSubtitle": "We are analyzing it now, it can take a few minutes.",
+        "completeTitle": "Your Analytics Are Ready !",
+        "completeButton": "Refresh Homepage"
+      },
+      "uploadForm": {
+        "title": "Upload Your Bank Statements",
+        "description": "Choose files or drag them into the upload area, review your uploads, then save and proceed.",
+        "chooseFile": "Choose a file",
+        "dragHere": "Drag it here",
+        "yourUploads": "Your Uploads",
+        "empty": "No files yet — choose or drag files on the left.",
+        "dropzoneAria": "Upload area: choose a file or drag files here"
+      },
+      "manualForm": {
+        "title": "Fill Out Your Data",
+        "description": "Add one or more rows with a name, spending category, and amount. Use Add New for more rows, then Save and Proceed when done.",
+        "name": "Name",
+        "category": "Category",
+        "amount": "Amount",
+        "addNew": "Add New",
+        "saveProceed": "Save & Proceed",
+        "categories": {
+          "groceries": "Groceries",
+          "transport": "Transport",
+          "bills": "Bills",
+          "entertainment": "Entertainment",
+          "health": "Health",
+          "other": "Other"
         }
       }
     }

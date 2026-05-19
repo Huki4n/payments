@@ -2,7 +2,12 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
-import { EMAIL_PATTERN } from "@/pages/auth/config";
+import {
+  getApiErrorMessage,
+  normalizePhone,
+  useLazyCheckUserExistsQuery,
+} from "@/entities/session";
+import { PHONE_PATTERN } from "@/pages/auth/config";
 import {
   Button,
   Form,
@@ -16,21 +21,41 @@ import {
 } from "@/shared/ui";
 
 interface AuthFormValues {
-  email: string;
+  phone: string;
 }
 
 export const AuthPage = () => {
   const { t } = useTranslation("onboarding");
   const navigate = useNavigate();
+  const [checkUser, { isFetching }] = useLazyCheckUserExistsQuery();
 
   const form = useForm<AuthFormValues>({
-    defaultValues: { email: "" },
+    defaultValues: { phone: "" },
     mode: "onSubmit",
   });
 
-  const onSubmit = form.handleSubmit(() => {
-    navigate("/auth/pin");
+  const onSubmit = form.handleSubmit(async ({ phone: rawPhone }) => {
+    const phone = normalizePhone(rawPhone);
+
+    if (!PHONE_PATTERN.test(phone)) {
+      form.setError("phone", {
+        type: "pattern",
+        message: t("auth.errors.invalidPhone"),
+      });
+      return;
+    }
+
+    try {
+      const { exists } = await checkUser({ phone }).unwrap();
+      navigate("/auth/pin", { state: { phone, isExistingUser: exists } });
+    } catch (error) {
+      form.setError("root", {
+        message: getApiErrorMessage(error, t("auth.errors.requestFailed")),
+      });
+    }
   });
+
+  const rootError = form.formState.errors.root?.message;
 
   return (
     <div className="relative flex min-h-svh flex-col bg-white text-brand-purple">
@@ -40,18 +65,15 @@ export const AuthPage = () => {
             <h1 className="text-center font-display text-4xl font-bold leading-none sm:text-5xl lg:text-6xl">
               {t("auth.title")}
             </h1>
-
             <Progress
               value={9}
               className="h-4 w-72 max-w-full bg-brand-blue/30 *:data-[slot=progress-indicator]:bg-brand-blue"
             />
           </div>
-
           <div className="flex w-full flex-col items-center gap-8">
             <p className="min-h-14 text-center font-display text-xl leading-snug">
               {t("auth.description")}
             </p>
-
             <Form {...form}>
               <form
                 noValidate
@@ -60,12 +82,12 @@ export const AuthPage = () => {
               >
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="phone"
                   rules={{
                     required: t("auth.errors.required"),
                     pattern: {
-                      value: EMAIL_PATTERN,
-                      message: t("auth.errors.invalidEmail"),
+                      value: PHONE_PATTERN,
+                      message: t("auth.errors.invalidPhone"),
                     },
                   }}
                   render={({ field }) => (
@@ -73,10 +95,10 @@ export const AuthPage = () => {
                       <FormControl>
                         <Input
                           {...field}
-                          type="email"
-                          autoComplete="email"
-                          inputMode="email"
-                          placeholder={t("auth.emailPlaceholder")}
+                          type="tel"
+                          autoComplete="tel"
+                          inputMode="numeric"
+                          placeholder={t("auth.phonePlaceholder")}
                           className="h-22 w-full rounded-control border border-muted-foreground/70 bg-transparent px-6 text-center font-display text-xl font-medium placeholder:text-black/60"
                         />
                       </FormControl>
@@ -84,17 +106,19 @@ export const AuthPage = () => {
                     </FormItem>
                   )}
                 />
-
+                {rootError ? (
+                  <p className="text-center text-sm text-destructive">{rootError}</p>
+                ) : null}
                 <Button
                   type="submit"
-                  className="h-16 w-72 max-w-full rounded-control bg-brand-purple font-display text-xl font-bold text-white hover:bg-brand-purple/90"
+                  disabled={isFetching}
+                  className="h-16 w-72 max-w-full rounded-control bg-brand-purple-bg font-display text-xl font-bold text-white hover:bg-brand-purple-bg/90"
                 >
                   {t("auth.submit")}
                 </Button>
               </form>
             </Form>
           </div>
-
           <div className="mt-auto flex flex-col items-center gap-4">
             <p className="text-center font-display text-xl">
               <span>{t("auth.haveAccount")} </span>
@@ -105,15 +129,11 @@ export const AuthPage = () => {
                 {t("auth.signUp")}
               </Link>
             </p>
-
             <span className="font-display text-xl text-brand-purple/60">
               {t("auth.or")}
             </span>
-
             <div className="flex flex-col items-center gap-1">
-              <span className="font-display text-xl">
-                {t("auth.continueWith")}
-              </span>
+              <span className="font-display text-xl">{t("auth.continueWith")}</span>
               <Button
                 type="button"
                 variant="ghost"
@@ -127,7 +147,6 @@ export const AuthPage = () => {
           </div>
         </div>
       </main>
-
       <footer className="px-6 pb-10">
         <p className="text-center font-display text-base sm:text-xl">
           <span>{t("auth.terms.prefix")} </span>
