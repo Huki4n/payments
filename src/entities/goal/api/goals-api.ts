@@ -2,14 +2,26 @@ import { baseApi } from "@/shared/api";
 
 import { mapGoalToSavingsSlide } from "../lib/map-goal-to-savings-slide";
 import type {
+  AddContributionRequest,
+  Contribution,
   ContributionsPage,
+  CreateGoalRequest,
   GoalDetails,
   GoalListItem,
-} from "../model/types";
-import type { SavingsSlide } from "../model/savings-slide";
+  SavingsSlide,
+  UpdateGoalRequest,
+} from "../model";
 
 export const goalsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
+    createGoal: build.mutation<GoalDetails, CreateGoalRequest>({
+      query: (body) => ({
+        url: "/goals",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [{ type: "Goal", id: "LIST" }],
+    }),
     getGoals: build.query<GoalListItem[], void>({
       query: () => "/goals",
       providesTags: (result) =>
@@ -34,6 +46,43 @@ export const goalsApi = baseApi.injectEndpoints({
       }),
       providesTags: (_result, _error, { goalId }) => [
         { type: "Goal", id: goalId },
+        { type: "Goal", id: `${goalId}-contributions` },
+      ],
+    }),
+    updateGoal: build.mutation<
+      GoalDetails,
+      { goalId: number; body: UpdateGoalRequest }
+    >({
+      query: ({ goalId, body }) => ({
+        url: `/goals/${goalId}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: (_result, _error, { goalId }) => [
+        { type: "Goal", id: goalId },
+        { type: "Goal", id: "LIST" },
+        { type: "Goal", id: `${goalId}-contributions` },
+      ],
+    }),
+    deleteGoal: build.mutation<void, number>({
+      query: (goalId) => ({
+        url: `/goals/${goalId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: "Goal", id: "LIST" }],
+    }),
+    addContribution: build.mutation<
+      Contribution,
+      { goalId: number; body: AddContributionRequest }
+    >({
+      query: ({ goalId, body }) => ({
+        url: `/goals/${goalId}/contributions`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: (_result, _error, { goalId }) => [
+        { type: "Goal", id: goalId },
+        { type: "Goal", id: "LIST" },
         { type: "Goal", id: `${goalId}-contributions` },
       ],
     }),
@@ -79,6 +128,10 @@ export const goalsApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useCreateGoalMutation,
+  useUpdateGoalMutation,
+  useDeleteGoalMutation,
+  useAddContributionMutation,
   useGetGoalsQuery,
   useGetGoalByIdQuery,
   useGetGoalContributionsQuery,

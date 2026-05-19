@@ -1,25 +1,29 @@
+export { getDefaultGoalDeadline, getMinGoalDeadline } from "./lib/goal-deadline";
+
 export type {
+  AddContributionRequest,
   Contribution,
   ContributionsPage,
   ContributionType,
+  CreateGoalRequest,
   GoalDetails,
   GoalListItem,
   GoalProgressInfo,
   GoalStatus,
-} from "./model/types";
-
-export type {
-  SavingsSlide,
-  SavingsReplenishment,
   SavingsProgressPoint,
-} from "./model/savings-slide";
+  SavingsReplenishment,
+  SavingsSlide,
+  UpdateGoalRequest,
+} from "./model";
 
 export {
   goalsApi,
+  useCreateGoalMutation,
+  useUpdateGoalMutation,
+  useDeleteGoalMutation,
+  useAddContributionMutation,
   useGetGoalsQuery,
   useGetGoalByIdQuery,
   useGetGoalContributionsQuery,
   useGetSavingsSlidesQuery,
 } from "./api/goals-api";
-
-export { useSavingsSlides } from "./lib/use-savings-slides";

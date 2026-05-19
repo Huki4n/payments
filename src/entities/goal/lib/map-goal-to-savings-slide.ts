@@ -1,8 +1,15 @@
-import { format } from "date-fns";
+import {
+  eachMonthOfInterval,
+  endOfMonth,
+  format,
+  startOfMonth,
+  startOfYear,
+} from "date-fns";
 
 import type { SavingsSlide } from "../model/savings-slide";
 
-import type { Contribution, GoalDetails } from "../model/types";
+import type { Contribution } from "../model/contributions-types";
+import type { GoalDetails } from "../model/goals-types";
 import { formatContributionAmount } from "./format-goal-money";
 
 function buildProgressChart(
@@ -13,26 +20,54 @@ function buildProgressChart(
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
   );
 
-  if (sorted.length === 0) {
-    return [
-      { month: "Start", value: 0 },
-      { month: "Now", value: currentAmount },
-    ];
-  }
+  const now = new Date();
+  const rangeEnd = startOfMonth(now);
+  const rangeStart = startOfMonth(
+    sorted.length > 0
+      ? startOfYear(new Date(sorted[0].createdAt))
+      : startOfYear(now),
+  );
 
-  const byMonth = new Map<string, number>();
+  const months = eachMonthOfInterval({ start: rangeStart, end: rangeEnd });
+
   let cumulative = 0;
+  let contributionIndex = 0;
 
-  for (const item of sorted) {
-    cumulative += item.amount;
-    const key = format(new Date(item.createdAt), "MMM");
-    byMonth.set(key, cumulative);
+  const points = months.map((monthDate, index) => {
+    const monthEnd = endOfMonth(monthDate);
+
+    while (contributionIndex < sorted.length) {
+      const createdAt = new Date(sorted[contributionIndex].createdAt);
+      if (createdAt <= monthEnd) {
+        cumulative = Math.max(
+          0,
+          cumulative + sorted[contributionIndex].amount,
+        );
+        contributionIndex += 1;
+      } else {
+        break;
+      }
+    }
+
+    const isLast = index === months.length - 1;
+
+    return {
+      month: format(monthDate, "MMM"),
+      value: isLast ? currentAmount : cumulative,
+    };
+  });
+
+  if (points.length >= 2) {
+    return points;
   }
 
-  return Array.from(byMonth.entries()).map(([month, value]) => ({
-    month,
-    value,
-  }));
+  return [
+    { month: format(rangeStart, "MMM"), value: 0 },
+    {
+      month: format(rangeEnd, "MMM"),
+      value: currentAmount,
+    },
+  ];
 }
 
 export function mapGoalToSavingsSlide(
@@ -49,6 +84,7 @@ export function mapGoalToSavingsSlide(
     replenishments: contributions.map((item) => ({
       date: format(new Date(item.createdAt), "dd.MM.yyyy"),
       amount: formatContributionAmount(item.amount, goal.currency),
+      isWithdrawal: item.amount < 0,
     })),
     progressChart: buildProgressChart(contributions, currentAmount),
   };

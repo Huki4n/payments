@@ -8,6 +8,7 @@ export type SavingsTitleKey =
 export type SavingsReplenishment = {
   date: string;
   amount: string;
+  isWithdrawal?: boolean;
 };
 
 export type SavingsProgressPoint = {
