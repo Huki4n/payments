@@ -1,4 +1,6 @@
-export const savingsSlidesMock = [
+import type { SavingsSlide } from "@/entities/goal";
+
+export const savingsSlidesMock: SavingsSlide[] = [
   {
     id: "world-trip",
     titleKey: "savingsWorldTrip" as const,
@@ -91,6 +93,4 @@ export const savingsSlidesMock = [
       { month: "Jun", value: 2100 },
     ],
   },
-] as const;
-
-export type SavingsSlide = (typeof savingsSlidesMock)[number];
+];

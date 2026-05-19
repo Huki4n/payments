@@ -107,7 +107,57 @@
       "totalMonthSpends": "Total Month Spends"
     },
     "savingsPage": {
-      "addNewSaving": "Add new saving"
+      "addNewSaving": "Add new saving",
+      "loading": "Loading goals…",
+      "empty": "No savings goals yet",
+      "loadError": "Failed to load goals",
+      "createGoal": {
+        "title": "New goal",
+        "description": "Set your savings target",
+        "titleLabel": "Title",
+        "titlePlaceholder": "World trip",
+        "amountLabel": "Target amount",
+        "currencyLabel": "Currency",
+        "deadlineLabel": "Deadline",
+        "submit": "Create",
+        "cancel": "Cancel",
+        "errors": {
+          "required": "This field is required",
+          "invalidAmount": "Amount must be greater than 0",
+          "titleTooLong": "Maximum 255 characters",
+          "submit": "Failed to create goal"
+        }
+      },
+      "editGoal": {
+        "menuAria": "Edit saving",
+        "title": "Edit saving",
+        "description": "Update the goal, deposit or withdraw funds",
+        "goalSection": "Goal",
+        "depositSection": "Deposit",
+        "withdrawSection": "Withdraw",
+        "historySection": "Transaction history",
+        "titleLabel": "Title",
+        "amountLabel": "Amount",
+        "currencyLabel": "Currency",
+        "deadlineLabel": "Deadline",
+        "save": "Save",
+        "deposit": "Deposit",
+        "withdraw": "Withdraw",
+        "delete": "Delete goal",
+        "close": "Close",
+        "deleteConfirm": "Delete this saving?",
+        "historyLoading": "Loading history…",
+        "historyEmpty": "No transactions yet",
+        "errors": {
+          "required": "This field is required",
+          "invalidAmount": "Amount must be greater than 0",
+          "titleTooLong": "Maximum 255 characters",
+          "save": "Failed to save",
+          "contribution": "Failed to deposit",
+          "withdrawal": "Failed to withdraw",
+          "delete": "Failed to delete"
+        }
+      }
     },
     "analyticsPage": {
       "selectPeriod": "Select your Period",

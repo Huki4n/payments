@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import type { SavingsSlide } from "../model/savings-mock";
+import type { SavingsSlide } from "@/entities/goal";
 
 import { SavingReplenishmentRow } from "./saving-replenishment-row";
 
@@ -26,6 +26,7 @@ export const SavingReplenishmentsList = ({
             key={`${slideId}-${r.date}-${idx}`}
             date={r.date}
             amount={r.amount}
+            isWithdrawal={r.isWithdrawal}
           />
         ))}
       </ul>

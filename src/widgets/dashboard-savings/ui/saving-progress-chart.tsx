@@ -14,7 +14,7 @@ import {
 } from "@/shared/lib/dashboard-chart-axes";
 import { INITIAL_CHART_DIMENSION } from "@/shared/ui/chart-constants";
 
-import type { SavingsSlide } from "../model/savings-mock";
+import type { SavingsSlide } from "@/entities/goal";
 
 const TICK_COUNT = 5;
 

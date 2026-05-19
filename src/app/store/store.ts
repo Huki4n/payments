@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { settingsReducer } from "@/entities/settings";
 import { baseApi } from "@/shared/api";
 
+import "@/entities/goal/api/goals-api";
 import "@/entities/session/api/session-api";
 import "@/features/add-data-action/api/add-data-api";
 
