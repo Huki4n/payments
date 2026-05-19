@@ -15,15 +15,16 @@ import { SavesPage } from "@/pages/saves/ui/saves-page";
 import { SettingsPage } from "@/pages/settings/ui/settings-page";
 import { TransactionsPage } from "@/pages/transactions/ui/transactions-page";
 
-import { RequireOnboarding } from "./require-onboarding";
+import { ProtectedRoute } from "./protected-route";
+import { RequireAuth } from "./require-auth";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <RequireOnboarding>
+      <ProtectedRoute>
         <HomePage />
-      </RequireOnboarding>
+      </ProtectedRoute>
     ),
   },
   { path: "/auth", element: <AuthPage /> },
@@ -41,42 +42,49 @@ export const router = createBrowserRouter([
   {
     path: "/transactions",
     element: (
-      <RequireOnboarding>
+      <ProtectedRoute>
         <TransactionsPage />
-      </RequireOnboarding>
+      </ProtectedRoute>
     ),
   },
   {
     path: "/analytics",
     element: (
-      <RequireOnboarding>
+      <ProtectedRoute>
         <AnalyticsPage />
-      </RequireOnboarding>
+      </ProtectedRoute>
     ),
   },
   {
     path: "/saves",
     element: (
-      <RequireOnboarding>
+      <ProtectedRoute>
         <SavesPage />
-      </RequireOnboarding>
+      </ProtectedRoute>
     ),
   },
   {
     path: "/profile",
     element: (
-      <RequireOnboarding>
+      <ProtectedRoute>
         <ProfilePage />
-      </RequireOnboarding>
+      </ProtectedRoute>
     ),
   },
   {
     path: "/settings",
     element: (
-      <RequireOnboarding>
+      <ProtectedRoute>
         <SettingsPage />
-      </RequireOnboarding>
+      </ProtectedRoute>
     ),
   },
-  { path: "*", element: <Navigate to="/" replace /> },
+  {
+    path: "*",
+    element: (
+      <RequireAuth>
+        <Navigate to="/" replace />
+      </RequireAuth>
+    ),
+  },
 ]);

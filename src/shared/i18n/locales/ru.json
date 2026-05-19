@@ -24,9 +24,9 @@
     },
     "auth": {
       "title": "Начнём",
-      "description": "Введите ваш E-Mail, чтобы начать",
-      "emailPlaceholder": "email@gmail.com",
-      "submit": "Отправить код",
+      "description": "Введите номер телефона, чтобы начать",
+      "phonePlaceholder": "79001234567",
+      "submit": "Продолжить",
       "haveAccount": "Уже есть аккаунт?",
       "signUp": "Зарегистрироваться",
       "or": "или",
@@ -37,14 +37,20 @@
         "link": "Условиями использования"
       },
       "errors": {
-        "required": "Введите E-Mail",
-        "invalidEmail": "Некорректный E-Mail"
+        "required": "Введите номер телефона",
+        "invalidPhone": "Формат: 7XXXXXXXXXX",
+        "requestFailed": "Не удалось выполнить запрос. Попробуйте снова."
       },
       "pin": {
         "title": "Создайте PIN",
         "description": "Создайте 4-значный код, чтобы защитить аккаунт",
         "submit": "Установить PIN",
         "back": "Назад",
+        "login": {
+          "title": "Вход",
+          "description": "Введите PIN-код для входа в аккаунт",
+          "submit": "Войти"
+        },
         "errors": {
           "incomplete": "Введите все 4 цифры"
         }
