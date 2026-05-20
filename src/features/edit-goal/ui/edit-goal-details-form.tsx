@@ -1,25 +1,22 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
-import {
-  getMinGoalDeadline,
-  useUpdateGoalMutation,
-  type GoalDetails,
-} from "@/entities/goal";
-import { getApiErrorMessage } from "@/entities/session";
-import { GOAL_CURRENCIES, type GoalCurrency } from "@/shared/config/currencies";
-import { Button, Input, Label, NativeSelect } from "@/shared/ui";
+import { getMinGoalDeadline, useUpdateGoalMutation, type GoalDetails } from '@/entities/goal'
+import { getApiErrorMessage } from '@/entities/session'
+import { GOAL_CURRENCIES, type GoalCurrency } from '@/shared/config/currencies'
+import { Button, Input, Label, NativeSelect } from '@/shared/ui'
 
-import type { EditGoalFormValues } from "../model/edit-goal-form-values";
-import { parseGoalAmount } from "../lib/parse-goal-amount";
+import type { EditGoalFormValues } from '../model/edit-goal-form-values'
+
+import { parseGoalAmount } from '../lib/parse-goal-amount'
 
 export interface EditGoalDetailsFormProps {
-  goalId: number | null;
-  goal: GoalDetails | undefined;
-  open: boolean;
-  disabled?: boolean;
-  onRootError?: (message: string | null) => void;
+  goalId: number | null
+  goal: GoalDetails | undefined
+  open: boolean
+  disabled?: boolean
+  onRootError?: (message: string | null) => void
 }
 
 export const EditGoalDetailsForm = ({
@@ -29,32 +26,32 @@ export const EditGoalDetailsForm = ({
   disabled = false,
   onRootError,
 }: EditGoalDetailsFormProps) => {
-  const { t } = useTranslation("home");
-  const [updateGoal, { isLoading: isUpdating }] = useUpdateGoalMutation();
+  const { t } = useTranslation('home')
+  const [updateGoal, { isLoading: isUpdating }] = useUpdateGoalMutation()
 
   const form = useForm<EditGoalFormValues>({
     defaultValues: {
-      title: "",
-      targetAmount: "",
-      currency: "USD",
-      deadline: "",
+      title: '',
+      targetAmount: '',
+      currency: 'USD',
+      deadline: '',
     },
-    mode: "onSubmit",
-  });
+    mode: 'onSubmit',
+  })
 
   useEffect(() => {
-    if (!goal || !open) return;
+    if (!goal || !open) return
     form.reset({
       title: goal.title,
       targetAmount: String(goal.targetAmount),
       currency: goal.currency as GoalCurrency,
       deadline: goal.deadline,
-    });
-  }, [goal, open, form]);
+    })
+  }, [goal, open, form])
 
   useEffect(() => {
-    onRootError?.(form.formState.errors.root?.message ?? null);
-  }, [form.formState.errors.root?.message, onRootError]);
+    onRootError?.(form.formState.errors.root?.message ?? null)
+  }, [form.formState.errors.root?.message, onRootError])
 
   const placeholders = goal
     ? {
@@ -62,19 +59,21 @@ export const EditGoalDetailsForm = ({
         targetAmount: String(goal.targetAmount),
         deadline: goal.deadline,
       }
-    : null;
+    : null
 
-  const isBusy = disabled || isUpdating;
+  const isBusy = disabled || isUpdating
 
-  const onSubmit = form.handleSubmit(async (values) => {
-    if (goalId == null) return;
+  const onSubmit = form.handleSubmit(async values => {
+    if (goalId == null) return
 
-    const targetAmount = parseGoalAmount(values.targetAmount);
+    const targetAmount = parseGoalAmount(values.targetAmount)
+
     if (targetAmount == null) {
-      form.setError("targetAmount", {
-        message: t("savingsPage.editGoal.errors.invalidAmount"),
-      });
-      return;
+      form.setError('targetAmount', {
+        message: t('savingsPage.editGoal.errors.invalidAmount'),
+      })
+
+      return
     }
 
     try {
@@ -86,86 +85,74 @@ export const EditGoalDetailsForm = ({
           currency: values.currency,
           deadline: values.deadline,
         },
-      }).unwrap();
-      form.clearErrors("root");
-      onRootError?.(null);
+      }).unwrap()
+      form.clearErrors('root')
+      onRootError?.(null)
     } catch (error) {
-      const message = getApiErrorMessage(
-        error,
-        t("savingsPage.editGoal.errors.save"),
-      );
-      form.setError("root", { message });
-      onRootError?.(message);
+      const message = getApiErrorMessage(error, t('savingsPage.editGoal.errors.save'))
+
+      form.setError('root', { message })
+      onRootError?.(message)
     }
-  });
+  })
 
   return (
-    <form noValidate onSubmit={onSubmit} className="flex flex-col gap-4">
-      <h3 className="font-display text-lg font-bold text-brand-purple">
-        {t("savingsPage.editGoal.goalSection")}
+    <form noValidate onSubmit={onSubmit} className={'flex flex-col gap-4'}>
+      <h3 className={'font-display text-lg font-bold text-brand-purple'}>
+        {t('savingsPage.editGoal.goalSection')}
       </h3>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="edit-goal-title">
-          {t("savingsPage.editGoal.titleLabel")}
-        </Label>
+      <div className={'flex flex-col gap-2'}>
+        <Label htmlFor={'edit-goal-title'}>{t('savingsPage.editGoal.titleLabel')}</Label>
         <Input
-          id="edit-goal-title"
+          id={'edit-goal-title'}
           disabled={isBusy}
           placeholder={placeholders?.title}
-          {...form.register("title", {
-            required: t("savingsPage.editGoal.errors.required"),
+          {...form.register('title', {
+            required: t('savingsPage.editGoal.errors.required'),
             maxLength: {
               value: 255,
-              message: t("savingsPage.editGoal.errors.titleTooLong"),
+              message: t('savingsPage.editGoal.errors.titleTooLong'),
             },
           })}
-          className="font-display"
+          className={'font-display'}
         />
         {form.formState.errors.title?.message ? (
-          <p className="text-sm text-destructive">
-            {form.formState.errors.title.message}
-          </p>
+          <p className={'text-sm text-destructive'}>{form.formState.errors.title.message}</p>
         ) : null}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="edit-goal-amount">
-            {t("savingsPage.editGoal.amountLabel")}
-          </Label>
+      <div className={'grid grid-cols-1 gap-4 sm:grid-cols-2'}>
+        <div className={'flex flex-col gap-2'}>
+          <Label htmlFor={'edit-goal-amount'}>{t('savingsPage.editGoal.amountLabel')}</Label>
           <Input
-            id="edit-goal-amount"
-            type="number"
+            id={'edit-goal-amount'}
+            type={'number'}
             min={0.01}
             step={0.01}
-            inputMode="decimal"
+            inputMode={'decimal'}
             disabled={isBusy}
             placeholder={placeholders?.targetAmount}
-            {...form.register("targetAmount", {
-              required: t("savingsPage.editGoal.errors.required"),
+            {...form.register('targetAmount', {
+              required: t('savingsPage.editGoal.errors.required'),
             })}
-            className="font-display"
+            className={'font-display'}
           />
           {form.formState.errors.targetAmount?.message ? (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.targetAmount.message}
-            </p>
+            <p className={'text-sm text-destructive'}>{form.formState.errors.targetAmount.message}</p>
           ) : null}
         </div>
 
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="edit-goal-currency">
-            {t("savingsPage.editGoal.currencyLabel")}
-          </Label>
+        <div className={'flex flex-col gap-2'}>
+          <Label htmlFor={'edit-goal-currency'}>{t('savingsPage.editGoal.currencyLabel')}</Label>
           <NativeSelect
-            id="edit-goal-currency"
+            id={'edit-goal-currency'}
             disabled={isBusy}
-            {...form.register("currency")}
-            className="w-full"
-            selectClassName="font-display w-full"
+            {...form.register('currency')}
+            className={'w-full'}
+            selectClassName={'font-display w-full'}
           >
-            {GOAL_CURRENCIES.map((code) => (
+            {GOAL_CURRENCIES.map(code => (
               <option key={code} value={code}>
                 {code}
               </option>
@@ -174,35 +161,31 @@ export const EditGoalDetailsForm = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="edit-goal-deadline">
-          {t("savingsPage.editGoal.deadlineLabel")}
-        </Label>
+      <div className={'flex flex-col gap-2'}>
+        <Label htmlFor={'edit-goal-deadline'}>{t('savingsPage.editGoal.deadlineLabel')}</Label>
         <Input
-          id="edit-goal-deadline"
-          type="date"
+          id={'edit-goal-deadline'}
+          type={'date'}
           min={getMinGoalDeadline()}
           disabled={isBusy}
           placeholder={placeholders?.deadline}
-          {...form.register("deadline", {
-            required: t("savingsPage.editGoal.errors.required"),
+          {...form.register('deadline', {
+            required: t('savingsPage.editGoal.errors.required'),
           })}
-          className="font-display"
+          className={'font-display'}
         />
         {form.formState.errors.deadline?.message ? (
-          <p className="text-sm text-destructive">
-            {form.formState.errors.deadline.message}
-          </p>
+          <p className={'text-sm text-destructive'}>{form.formState.errors.deadline.message}</p>
         ) : null}
       </div>
 
       <Button
-        type="submit"
+        type={'submit'}
         disabled={isBusy}
-        className="h-10 bg-brand-purple-bg font-display font-bold text-white hover:bg-brand-purple-bg/90"
+        className={'h-10 bg-brand-purple-bg font-display font-bold text-white hover:bg-brand-purple-bg/90'}
       >
-        {t("savingsPage.editGoal.save")}
+        {t('savingsPage.editGoal.save')}
       </Button>
     </form>
-  );
-};
+  )
+}

@@ -1,1 +1,1 @@
-export { SavingsPage } from "./ui/savings-page";
+export { SavingsPage } from './ui/savings-page'

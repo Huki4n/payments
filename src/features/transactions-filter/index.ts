@@ -1,4 +1,4 @@
 export {
   TransactionsFilterBar,
   type TransactionsFilterBarProps,
-} from "./ui/transactions-filter-bar";
+} from './ui/transactions-filter-bar'

@@ -2,4 +2,4 @@ export {
   getOnboardingCompleted,
   markOnboardingCompleted,
   resetOnboardingCompleted,
-} from "./model/storage";
+} from './model/storage'

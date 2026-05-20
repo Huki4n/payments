@@ -5,17 +5,13 @@ export type {
   GoalDetails,
   CreateGoalRequest,
   UpdateGoalRequest,
-} from "./goals-types";
+} from './goals-types'
 
 export type {
   ContributionType,
   Contribution,
   AddContributionRequest,
   ContributionsPage,
-} from "./contributions-types";
+} from './contributions-types'
 
-export type {
-  SavingsSlide,
-  SavingsReplenishment,
-  SavingsProgressPoint,
-} from "./savings-slide";
+export type { SavingsSlide, SavingsReplenishment, SavingsProgressPoint } from './savings-slide'

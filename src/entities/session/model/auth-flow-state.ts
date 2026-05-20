@@ -1,4 +1,4 @@
 export type AuthFlowState = {
-  phone: string;
-  isExistingUser: boolean;
-};
+  phone: string
+  isExistingUser: boolean
+}

@@ -1,1 +1,1 @@
-export { TradingPage } from "./ui/trading-page";
+export { TradingPage } from './ui/trading-page'
