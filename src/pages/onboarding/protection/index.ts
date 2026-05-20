@@ -1,1 +1,1 @@
-export { ProtectionPage } from "./ui/protection-page";
+export { ProtectionPage } from './ui/protection-page'

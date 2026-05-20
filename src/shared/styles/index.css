@@ -1,10 +1,10 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
-@import "@fontsource-variable/montserrat";
-@import "@fontsource/montserrat-alternates/400.css";
-@import "@fontsource/montserrat-alternates/700.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/montserrat';
+@import '@fontsource/montserrat-alternates/400.css';
+@import '@fontsource/montserrat-alternates/700.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -18,11 +18,10 @@
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
   --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
-  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 16px/130% var(--sans);
@@ -97,44 +96,20 @@
   --dashboard-chart-sky: #3caceb;
   --dashboard-chart-teal: #33cfbf;
   --dashboard-chart-violet: var(--scrollbar-thumb);
-  --dashboard-chart-grid: color-mix(
-    in srgb,
-    var(--brand-purple) 12%,
-    transparent
-  );
-  --dashboard-chart-grid-soft: color-mix(
-    in srgb,
-    var(--brand-purple) 10%,
-    transparent
-  );
-  --dashboard-chart-tick: color-mix(
-    in srgb,
-    var(--brand-purple) 85%,
-    transparent
-  );
-  --dashboard-chart-tick-muted: color-mix(
-    in srgb,
-    var(--brand-purple) 50%,
-    transparent
-  );
+  --dashboard-chart-grid: color-mix(in srgb, var(--brand-purple) 12%, transparent);
+  --dashboard-chart-grid-soft: color-mix(in srgb, var(--brand-purple) 10%, transparent);
+  --dashboard-chart-tick: color-mix(in srgb, var(--brand-purple) 85%, transparent);
+  --dashboard-chart-tick-muted: color-mix(in srgb, var(--brand-purple) 50%, transparent);
   /* Savings chart — плашка под Recharts */
   --dashboard-savings-chart-surface: #ffffff;
-  --dashboard-tooltip-border: color-mix(
-    in srgb,
-    var(--brand-purple) 8%,
-    transparent
-  );
-  --dashboard-swiper-bullet-inactive: color-mix(
-    in srgb,
-    var(--scrollbar-thumb) 35%,
-    transparent
-  );
+  --dashboard-tooltip-border: color-mix(in srgb, var(--brand-purple) 8%, transparent);
+  --dashboard-swiper-bullet-inactive: color-mix(in srgb, var(--scrollbar-thumb) 35%, transparent);
   --dashboard-progress-start: var(--dashboard-chart-violet);
   --dashboard-progress-end: var(--dashboard-chart-fuchsia);
   /* icons on pie / category color tiles */
   --dashboard-on-chart-swatch: #ffffff;
   /* Recharts: нижняя ось bold, левая 400 */
-  --font-chart-alternates: "Montserrat Alternates", system-ui, sans-serif;
+  --font-chart-alternates: 'Montserrat Alternates', system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -148,8 +123,7 @@
     --accent-bg: rgba(192, 132, 252, 0.15);
     --accent-border: rgba(192, 132, 252, 0.5);
     --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
 
   #social .button-icon {
@@ -172,10 +146,10 @@ body {
 }
 
 @theme inline {
-  --font-heading: "Montserrat Variable", sans-serif;
-  --font-sans: "Geist Variable", sans-serif;
-  --font-display: "Montserrat Variable", sans-serif;
-  --font-display-alternates: "Montserrat Alternates", system-ui, sans-serif;
+  --font-heading: 'Montserrat Variable', sans-serif;
+  --font-sans: 'Geist Variable', sans-serif;
+  --font-display: 'Montserrat Variable', sans-serif;
+  --font-display-alternates: 'Montserrat Alternates', system-ui, sans-serif;
   --color-brand-blue: var(--brand-blue);
   --color-brand-blue-dark: var(--brand-blue-dark);
   --color-brand-purple: var(--brand-purple);
@@ -281,32 +255,12 @@ body {
   --dashboard-income-pill: oklch(0.32 0.06 165);
   --dashboard-expense-pill: oklch(0.3 0.06 350);
   --dashboard-positive-money: oklch(0.72 0.15 155);
-  --dashboard-chart-grid: color-mix(
-    in srgb,
-    var(--foreground) 14%,
-    transparent
-  );
-  --dashboard-chart-grid-soft: color-mix(
-    in srgb,
-    var(--foreground) 12%,
-    transparent
-  );
-  --dashboard-chart-tick: color-mix(
-    in srgb,
-    var(--foreground) 100%,
-    transparent
-  );
-  --dashboard-chart-tick-muted: color-mix(
-    in srgb,
-    var(--foreground) 38%,
-    transparent
-  );
+  --dashboard-chart-grid: color-mix(in srgb, var(--foreground) 14%, transparent);
+  --dashboard-chart-grid-soft: color-mix(in srgb, var(--foreground) 12%, transparent);
+  --dashboard-chart-tick: color-mix(in srgb, var(--foreground) 100%, transparent);
+  --dashboard-chart-tick-muted: color-mix(in srgb, var(--foreground) 38%, transparent);
   --dashboard-savings-chart-surface: oklch(0.28 0.045 270);
-  --dashboard-tooltip-border: color-mix(
-    in srgb,
-    var(--border) 80%,
-    transparent
-  );
+  --dashboard-tooltip-border: color-mix(in srgb, var(--border) 80%, transparent);
 }
 
 @layer base {

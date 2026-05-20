@@ -1,12 +1,12 @@
-import "i18next";
+import 'i18next';
 
-import en from "./locales/en.json";
+import en from './locales/en.json';
 
 type AppResources = typeof en;
 
-declare module "i18next" {
+declare module 'i18next' {
   interface CustomTypeOptions {
-    defaultNS: "onboarding";
+    defaultNS: 'onboarding';
     resources: AppResources;
   }
 }

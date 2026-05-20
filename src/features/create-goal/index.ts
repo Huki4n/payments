@@ -1,4 +1,1 @@
-export {
-  CreateGoalDialog,
-  type CreateGoalDialogProps,
-} from "./ui/create-goal-dialog";
+export { CreateGoalDialog, type CreateGoalDialogProps } from './ui/create-goal-dialog'

@@ -4,12 +4,12 @@ export type {
   LoginRequest,
   RegisterRequest,
   UserExistsResponse,
-} from "./model/types";
-export type { AuthFlowState } from "./model/auth-flow-state";
+} from './model/types'
+export type { AuthFlowState } from './model/auth-flow-state'
 
-export { pinToPassword } from "./lib/pin-to-password";
-export { normalizePhone } from "./lib/normalize-phone";
-export { getApiErrorMessage } from "./lib/get-api-error-message";
+export { pinToPassword } from './lib/pin-to-password'
+export { normalizePhone } from './lib/normalize-phone'
+export { getApiErrorMessage } from './lib/get-api-error-message'
 
 export {
   sessionApi,
@@ -17,4 +17,4 @@ export {
   useRegisterMutation,
   useLoginMutation,
   useLogoutMutation,
-} from "./api/session-api";
+} from './api/session-api'

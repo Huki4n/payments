@@ -1,1 +1,1 @@
-export { PinConfirmPage } from "./ui/pin-confirm-page";
+export { PinConfirmPage } from './ui/pin-confirm-page'
