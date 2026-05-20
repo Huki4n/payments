@@ -1,75 +1,170 @@
-# React + TypeScript + Vite
+# Payments
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение для управления личными финансами: транзакции, аналитика, накопления, цели и настройки профиля.
 
-Currently, two official plugins are available:
+## Стек
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Категория         | Технологии                                                        |
+| ----------------- | ----------------------------------------------------------------- |
+| UI                | React 19, TypeScript, Tailwind CSS 4, shadcn/ui, Radix UI, Lucide |
+| Сборка            | Vite 8, Rolldown, React Compiler                                  |
+| Маршрутизация     | React Router 7                                                    |
+| Состояние и API   | Redux Toolkit, RTK Query                                          |
+| Формы             | React Hook Form                                                   |
+| Графики           | Recharts                                                          |
+| i18n              | i18next, react-i18next                                            |
+| Качество кода     | ESLint 10, Prettier, Husky, Commitlint                            |
+| CI                | GitHub Actions                                                    |
+| Пакетный менеджер | Yarn 4 (Berry)                                                    |
 
-## React Compiler
+## Архитектура
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Проект построен по методологии [Feature-Sliced Design (FSD)](https://feature-sliced.design/).
 
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── app/         # Точка входа, роутер, Redux store, layouts
+├── pages/       # Страницы (композиция widgets/features)
+├── widgets/     # Крупные UI-блоки (дашборды, навигация, графики)
+├── features/    # Пользовательские сценарии (создание цели, фильтры и т.д.)
+├── entities/    # Бизнес-сущности (goal, session, settings)
+└── shared/      # UI-kit, API, конфиги, утилиты, i18n
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Правила импортов
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Слой может импортировать только из слоёв ниже:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+app → pages → widgets → features → entities → shared
+```
+
+### Сегменты внутри слайса
+
+| Сегмент   | Назначение                            |
+| --------- | ------------------------------------- |
+| `ui/`     | React-компоненты                      |
+| `model/`  | Store, типы, селекторы, бизнес-логика |
+| `api/`    | RTK Query endpoints                   |
+| `lib/`    | Вспомогательные функции               |
+| `config/` | Константы и конфигурация              |
+
+### Слои проекта
+
+**Entities**
+
+- `goal` — цели накопления
+- `session` — авторизация, токены
+- `settings` — настройки приложения
+- `onboarding-status` — статус прохождения онбординга
+
+**Features**
+
+- `add-data-action` — загрузка выписок / ручной ввод данных
+- `create-goal` — создание цели
+- `edit-goal` — редактирование и пополнение/снятие с цели
+- `transactions-filter` — фильтрация транзакций
+
+**Widgets**
+
+- `account-balance`, `finance-chart`, `spends-chart`, `yearly-finance`, `monthly-spends`
+- `dashboard-savings`, `dashboard-transactions`, `analytics-dashboard`
+- `home-navigation`
+
+**Pages**
+
+- `/` — главная
+- `/transactions`, `/analytics`, `/saves`, `/profile`, `/settings`
+- `/auth`, `/auth/pin`, `/auth/pin/confirm`, `/auth/congratulations`
+- `/onboarding/*` — welcome, trading, savings, protection
+
+## Ключевые решения
+
+### Маршрутизация и доступ
+
+- `ProtectedRoute` — требует авторизацию и завершённый онбординг
+- `RequireAuth` / `RequireOnboarding` — промежуточные guard-компоненты
+- Роутер: `src/app/router/index.tsx`
+
+### Состояние и API
+
+- Единый `baseApi` (RTK Query) с автоматической подстановкой `Authorization` и refresh-токеном
+- Endpoints инжектируются из `entities/*/api` и `features/*/api`
+- Локальное состояние настроек — Redux slice `settings` + listener middleware для персистентности
+
+### UI
+
+- Компоненты shadcn/ui в `src/shared/ui/`
+- Алиас `@/` → `src/`
+- Тема (light/dark) и язык сохраняются в localStorage
+
+### i18n
+
+- Языки: `ru` (по умолчанию), `en`
+- Файлы переводов: `src/shared/i18n/locales/`
+
+## Быстрый старт
+
+### Требования
+
+- Node.js 22+
+- Corepack (входит в Node.js)
+
+```bash
+corepack enable
+yarn install
+cp .env.example .env   # при необходимости настроить API
+yarn dev
+```
+
+Приложение: [http://localhost:5173](http://localhost:5173)
+
+### Переменные окружения
+
+| Переменная          | Описание        | По умолчанию |
+| ------------------- | --------------- | ------------ |
+| `VITE_API_BASE_URL` | Базовый URL API | `/api/v1`    |
+
+## Скрипты
+
+| Команда             | Описание                      |
+| ------------------- | ----------------------------- |
+| `yarn dev`          | Dev-сервер с HMR              |
+| `yarn build`        | Typecheck + production-сборка |
+| `yarn preview`      | Просмотр production-сборки    |
+| `yarn lint`         | ESLint с автофиксом           |
+| `yarn lint:check`   | ESLint без автофикса          |
+| `yarn format`       | Prettier — форматирование     |
+| `yarn format:check` | Prettier — проверка           |
+
+## Git hooks (Husky)
+
+| Hook         | Действие                          |
+| ------------ | --------------------------------- |
+| `pre-commit` | `yarn lint:check`                 |
+| `commit-msg` | Commitlint (Conventional Commits) |
+| `pre-push`   | `yarn build`                      |
+
+### Формат коммитов
+
+```
+<type>: <subject>
+```
+
+Допустимые типы: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
+
+Пример: `feat: add savings goal filter`
+
+## CI
+
+GitHub Actions (`.github/workflows/ci.yml`) на push/PR в `main`/`master`:
+
+1. `yarn install --immutable`
+2. `yarn lint:check`
+3. `yarn build`
+
+## Качество кода
+
+- **ESLint** — flat config (`eslint.config.mjs`), `defineConfig` из ESLint core
+- **Prettier** — `.prettierrc` (single quotes, без semicolons, printWidth 100)
+- Для `src/shared/ui/` отключено правило `react-refresh/only-export-components` (экспорт хуков и variants — норма для UI-kit)
