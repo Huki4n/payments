@@ -1,29 +1,29 @@
 export type SavingsTitleKey =
-  | "savingsWorldTrip"
-  | "savingsEmergency"
-  | "savingsCarPurchase"
-  | "savingsHomeFund"
-  | "savingsGadgetFund";
+  | 'savingsWorldTrip'
+  | 'savingsEmergency'
+  | 'savingsCarPurchase'
+  | 'savingsHomeFund'
+  | 'savingsGadgetFund'
 
 export type SavingsReplenishment = {
-  date: string;
-  amount: string;
-  isWithdrawal?: boolean;
-};
+  date: string
+  amount: string
+  isWithdrawal?: boolean
+}
 
 export type SavingsProgressPoint = {
-  month: string;
-  value: number;
-};
+  month: string
+  value: number
+}
 
 export type SavingsSlide = {
-  id: string;
+  id: string
   /** Заголовок с API */
-  title?: string;
+  title?: string
   /** Ключ i18n для моков на главной */
-  titleKey?: SavingsTitleKey;
-  goal: number;
-  total: number;
-  replenishments: SavingsReplenishment[];
-  progressChart: SavingsProgressPoint[];
-};
+  titleKey?: SavingsTitleKey
+  goal: number
+  total: number
+  replenishments: SavingsReplenishment[]
+  progressChart: SavingsProgressPoint[]
+}

@@ -1,22 +1,22 @@
-import { Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
-import type { SavingsSlide } from "@/entities/goal";
-import { savingsSlidesMock } from "../model/savings-mock";
+import type { SavingsSlide } from '@/entities/goal'
 
-import { SavingGoalDetailCard } from "./saving-goal-detail-card";
+import { savingsSlidesMock } from '../model/savings-mock'
+import { SavingGoalDetailCard } from './saving-goal-detail-card'
 
-import "swiper/css";
-import "swiper/css/pagination";
+import 'swiper/css'
+import 'swiper/css/pagination'
 
 interface SavingsSwiperProps {
-  showConfigureSavingsLink?: boolean;
-  showEditMenu?: boolean;
-  onEditGoal?: (goalId: number) => void;
-  slides?: SavingsSlide[];
-  isLoading?: boolean;
-  loadingMessage?: string;
-  emptyMessage?: string;
+  showConfigureSavingsLink?: boolean
+  showEditMenu?: boolean
+  onEditGoal?: (goalId: number) => void
+  slides?: SavingsSlide[]
+  isLoading?: boolean
+  loadingMessage?: string
+  emptyMessage?: string
 }
 
 export const SavingsSwiper = ({
@@ -25,29 +25,25 @@ export const SavingsSwiper = ({
   onEditGoal,
   slides,
   isLoading = false,
-  loadingMessage = "Loading…",
-  emptyMessage = "No savings goals yet",
+  loadingMessage = 'Loading…',
+  emptyMessage = 'No savings goals yet',
 }: SavingsSwiperProps) => {
-  const items = slides ?? savingsSlidesMock;
+  const items = slides ?? savingsSlidesMock
 
   if (isLoading) {
     return (
-      <section className="flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10">
-        <p className="font-display text-lg text-brand-purple/70">
-          {loadingMessage}
-        </p>
+      <section className={'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'}>
+        <p className={'font-display text-lg text-brand-purple/70'}>{loadingMessage}</p>
       </section>
-    );
+    )
   }
 
   if (items.length === 0) {
     return (
-      <section className="flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10">
-        <p className="text-center font-display text-lg text-brand-purple/70">
-          {emptyMessage}
-        </p>
+      <section className={'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'}>
+        <p className={'text-center font-display text-lg text-brand-purple/70'}>{emptyMessage}</p>
       </section>
-    );
+    )
   }
 
   return (
@@ -77,7 +73,7 @@ export const SavingsSwiper = ({
           }
         `}
       </style>
-      <section className="dashboard-savings-swiper w-full min-w-0">
+      <section className={'dashboard-savings-swiper w-full min-w-0'}>
         <Swiper
           modules={[Pagination]}
           centeredSlides
@@ -86,13 +82,13 @@ export const SavingsSwiper = ({
           spaceBetween={16}
           slidesPerView={1.09}
           pagination={{ clickable: true }}
-          className="pb-8! w-full min-w-0"
+          className={'pb-8! w-full min-w-0'}
           breakpoints={{
             480: { slidesPerView: 1.09, spaceBetween: 16 },
             768: { slidesPerView: 1.09, spaceBetween: 20 },
           }}
         >
-          {items.map((slide) => (
+          {items.map(slide => (
             <SwiperSlide key={slide.id}>
               <SavingGoalDetailCard
                 slide={slide}
@@ -105,5 +101,5 @@ export const SavingsSwiper = ({
         </Swiper>
       </section>
     </>
-  );
-};
+  )
+}

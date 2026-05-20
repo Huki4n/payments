@@ -1,4 +1,4 @@
-export { getDefaultGoalDeadline, getMinGoalDeadline } from "./lib/goal-deadline";
+export { getDefaultGoalDeadline, getMinGoalDeadline } from './lib/goal-deadline'
 
 export type {
   AddContributionRequest,
@@ -14,7 +14,7 @@ export type {
   SavingsReplenishment,
   SavingsSlide,
   UpdateGoalRequest,
-} from "./model";
+} from './model'
 
 export {
   goalsApi,
@@ -26,4 +26,4 @@ export {
   useGetGoalByIdQuery,
   useGetGoalContributionsQuery,
   useGetSavingsSlidesQuery,
-} from "./api/goals-api";
+} from './api/goals-api'

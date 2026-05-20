@@ -6,8 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint . --fix",
+    "lint:check": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "preview": "vite preview",
+    "prepare": "husky"
   },
   "packageManager": "yarn@4.14.1",
   "dependencies": {
@@ -21,11 +25,15 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
+    "eslint-plugin-perfectionist": "^5.9.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "i18next": "^26.0.8",
     "i18next-browser-languagedetector": "^8.2.1",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.11.0",
     "next-themes": "^0.4.6",
+    "prettier": "^3.8.3",
     "radix-ui": "^1.4.3",
     "react": "^19.2.5",
     "react-day-picker": "^9.14.0",
@@ -46,6 +54,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.1",
     "@eslint/js": "^10.0.1",
     "@rolldown/plugin-babel": "^0.2.3",
     "@tailwindcss/vite": "^4.1.18",
@@ -59,6 +69,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
+    "husky": "^9.1.7",
     "tailwindcss": "^4.1.18",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
