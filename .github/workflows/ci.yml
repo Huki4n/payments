@@ -16,26 +16,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
+        uses: actions/checkout@v5
 
       - name: Enable Corepack
         run: |
           corepack enable
           corepack prepare yarn@4.14.1 --activate
 
-      - name: Cache Yarn
-        uses: actions/cache@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
         with:
-          path: |
-            .yarn/cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          node-version: 22
 
       - name: Install dependencies
         run: yarn install --immutable
