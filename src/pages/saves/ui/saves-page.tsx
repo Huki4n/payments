@@ -32,7 +32,11 @@ export const SavesPage = () => {
       <div className={'rounded-t-4xl px-3 pb-12 sm:px-4'}>
         <div className={'mx-auto flex max-w-5xl flex-col gap-2'}>
           {isError ? (
-            <p className={'rounded-4xl bg-dashboard-card px-6 py-10 text-center font-display text-lg text-destructive'}>
+            <p
+              className={
+                'rounded-4xl bg-dashboard-card px-6 py-10 text-center font-display text-lg text-destructive'
+              }
+            >
               {t('savingsPage.loadError')}
             </p>
           ) : (
@@ -50,7 +54,9 @@ export const SavesPage = () => {
             <Button
               type={'button'}
               onClick={() => setCreateGoalOpen(true)}
-              className={'h-10 rounded-xl bg-brand-purple-bg px-5 font-display text-xs font-bold text-white hover:bg-brand-purple-bg/90 sm:text-sm'}
+              className={
+                'h-10 rounded-xl bg-brand-purple-bg px-5 font-display text-xs font-bold text-white hover:bg-brand-purple-bg/90 sm:text-sm'
+              }
             >
               {t('savingsPage.addNewSaving')}
             </Button>

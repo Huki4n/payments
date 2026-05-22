@@ -25,13 +25,25 @@ export const AnalyticsIncomeExpenseChart = () => {
   const leastMeta = spendsChartPie.find(r => r.nameKey === analyticsCategoryExtremes.leastKey)
 
   return (
-    <section className={'overflow-hidden rounded-[17px] bg-dashboard-card px-3 py-4 shadow-sm sm:rounded-[20px] sm:px-5 sm:py-5 md:px-6 md:py-6'}>
-      <h2 className={'mb-3 font-display text-sm font-bold text-brand-purple sm:mb-4 sm:text-base md:text-lg'}>
+    <section
+      className={
+        'overflow-hidden rounded-[17px] bg-dashboard-card px-3 py-4 shadow-sm sm:rounded-[20px] sm:px-5 sm:py-5 md:px-6 md:py-6'
+      }
+    >
+      <h2
+        className={
+          'mb-3 font-display text-sm font-bold text-brand-purple sm:mb-4 sm:text-base md:text-lg'
+        }
+      >
         {t('analyticsPage.categorySpendsWheelTitle')}
       </h2>
 
       <div className={'flex flex-col items-stretch gap-4 lg:flex-row lg:gap-5 xl:gap-6'}>
-        <div className={'mx-auto my-auto h-90 w-full max-w-90 min-h-0 min-w-0 shrink-0 sm:h-90 sm:max-w-90 md:h-90 md:max-w-90'}>
+        <div
+          className={
+            'mx-auto my-auto h-90 w-full max-w-90 min-h-0 min-w-0 shrink-0 sm:h-90 sm:max-w-90 md:h-90 md:max-w-90'
+          }
+        >
           <ResponsiveContainer
             width={'100%'}
             height={'100%'}
@@ -72,11 +84,17 @@ export const AnalyticsIncomeExpenseChart = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className={'flex shrink-0 flex-row flex-wrap justify-center gap-2 lg:flex-col lg:justify-center lg:gap-2.5'}>
+        <div
+          className={
+            'flex shrink-0 flex-row flex-wrap justify-center gap-2 lg:flex-col lg:justify-center lg:gap-2.5'
+          }
+        >
           {spendsChartPie.map(row => (
             <span
               key={row.nameKey}
-              className={'flex h-13 w-14 shrink-0 items-center justify-center rounded-xl sm:h-14 sm:w-14'}
+              className={
+                'flex h-13 w-14 shrink-0 items-center justify-center rounded-xl sm:h-14 sm:w-14'
+              }
               style={{ backgroundColor: row.color }}
               title={t(`dashboard.categories.${row.nameKey}`)}
             >
@@ -88,8 +106,16 @@ export const AnalyticsIncomeExpenseChart = () => {
           ))}
         </div>
 
-        <div className={'flex min-h-0 min-w-0 flex-1 justify-around flex-col gap-4 rounded-2xl bg-card px-3 py-4 shadow-sm sm:gap-5 sm:px-4 sm:py-5 md:rounded-3xl lg:self-stretch font-display-alternates'}>
-          <h3 className={'w-full text-center font-display-alternates text-base font-bold leading-none text-foreground sm:text-lg'}>
+        <div
+          className={
+            'flex min-h-0 min-w-0 flex-1 justify-around flex-col gap-4 rounded-2xl bg-card px-3 py-4 shadow-sm sm:gap-5 sm:px-4 sm:py-5 md:rounded-3xl lg:self-stretch font-display-alternates'
+          }
+        >
+          <h3
+            className={
+              'w-full text-center font-display-alternates text-base font-bold leading-none text-foreground sm:text-lg'
+            }
+          >
             {t('analyticsPage.mostLowestCategoriesTitle')}
           </h3>
 
@@ -104,11 +130,15 @@ export const AnalyticsIncomeExpenseChart = () => {
                 ) : null}
                 <Progress
                   value={analyticsCategoryExtremes.mostPercent}
-                  className={'h-6 w-full rounded-full border border-brand-purple/30 bg-white **:data-[slot=progress-indicator]:bg-dashboard-chart-teal dark:bg-card'}
+                  className={
+                    'h-6 w-full rounded-full border border-brand-purple/30 bg-white **:data-[slot=progress-indicator]:bg-dashboard-chart-teal dark:bg-card'
+                  }
                 />
               </div>
 
-              <p className={'text-left text-md font-normal leading-snug text-foreground sm:text-lg'}>
+              <p
+                className={'text-left text-md font-normal leading-snug text-foreground sm:text-lg'}
+              >
                 {mostMeta
                   ? t('analyticsPage.topCategoryCaption', {
                       category: t(`dashboard.categories.${mostMeta.nameKey}`),
@@ -130,10 +160,14 @@ export const AnalyticsIncomeExpenseChart = () => {
                 ) : null}
                 <Progress
                   value={analyticsCategoryExtremes.leastPercent}
-                  className={'h-6 w-full rounded-full border border-brand-purple/30 bg-white **:data-[slot=progress-indicator]:bg-brand-blue dark:bg-card'}
+                  className={
+                    'h-6 w-full rounded-full border border-brand-purple/30 bg-white **:data-[slot=progress-indicator]:bg-brand-blue dark:bg-card'
+                  }
                 />
               </div>
-              <p className={'text-left text-md font-normal leading-snug text-foreground sm:text-lg'}>
+              <p
+                className={'text-left text-md font-normal leading-snug text-foreground sm:text-lg'}
+              >
                 {leastMeta
                   ? t('analyticsPage.lowestCategoryCaption', {
                       category: t(`dashboard.categories.${leastMeta.nameKey}`),

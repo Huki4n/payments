@@ -36,7 +36,11 @@ export const HomePage = () => {
           <SpendsChartCard />
 
           {isError ? (
-            <p className={'rounded-4xl bg-dashboard-card px-6 py-10 text-center font-display text-lg text-destructive'}>
+            <p
+              className={
+                'rounded-4xl bg-dashboard-card px-6 py-10 text-center font-display text-lg text-destructive'
+              }
+            >
               {t('savingsPage.loadError')}
             </p>
           ) : (

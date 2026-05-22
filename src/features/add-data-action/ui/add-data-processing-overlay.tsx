@@ -40,10 +40,18 @@ export const AddDataLoadingOverlay = ({
         aria-hidden
       />
       <div className={'flex max-w-3xl flex-col gap-4 sm:gap-5'}>
-        <p className={'font-display text-2xl font-bold leading-none text-brand-purple sm:text-3xl md:text-4xl'}>
+        <p
+          className={
+            'font-display text-2xl font-bold leading-none text-brand-purple sm:text-3xl md:text-4xl'
+          }
+        >
           {t(titleKey)}
         </p>
-        <p className={'font-display text-lg font-bold leading-snug text-brand-purple sm:text-xl md:text-2xl'}>
+        <p
+          className={
+            'font-display text-lg font-bold leading-snug text-brand-purple sm:text-xl md:text-2xl'
+          }
+        >
           {t(subtitleKey)}
         </p>
       </div>
@@ -69,13 +77,23 @@ export const AddDataCompletePanel = ({ className, onDone }: AddDataCompletePanel
         className
       )}
     >
-      <div className={'flex min-h-96 flex-1 flex-col items-center justify-center gap-8 px-6 py-10 text-center sm:gap-10 sm:px-10 sm:py-14'}>
-        <p className={'max-w-3xl font-display text-2xl font-bold leading-none text-brand-purple sm:text-3xl md:text-4xl'}>
+      <div
+        className={
+          'flex min-h-96 flex-1 flex-col items-center justify-center gap-8 px-6 py-10 text-center sm:gap-10 sm:px-10 sm:py-14'
+        }
+      >
+        <p
+          className={
+            'max-w-3xl font-display text-2xl font-bold leading-none text-brand-purple sm:text-3xl md:text-4xl'
+          }
+        >
           {t('addData.processing.completeTitle')}
         </p>
         <Button
           type={'button'}
-          className={'rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:text-base md:py-3.5'}
+          className={
+            'rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:text-base md:py-3.5'
+          }
           onClick={onDone}
         >
           {t('addData.processing.completeButton')}

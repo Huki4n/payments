@@ -26,12 +26,20 @@ export const ProfilePage = () => {
         </>
       }
     >
-      <div className={'mx-auto max-w-3xl rounded-2xl bg-add-data-panel px-4 py-5 shadow-lg sm:rounded-3xl sm:px-6 sm:py-6 md:max-w-4xl md:px-8 md:py-8'}>
+      <div
+        className={
+          'mx-auto max-w-3xl rounded-2xl bg-add-data-panel px-4 py-5 shadow-lg sm:rounded-3xl sm:px-6 sm:py-6 md:max-w-4xl md:px-8 md:py-8'
+        }
+      >
         <div className={'grid items-center gap-4 md:grid-cols-[0.9fr_1fr] md:gap-6 lg:gap-8'}>
           <HomeCardsIllustration className={'h-auto w-full max-w-full'} />
 
           <div className={'flex h-full flex-col gap-4 md:gap-5'}>
-            <h2 className={'font-display text-lg font-bold leading-tight text-text-brand-purple sm:text-xl md:text-2xl'}>
+            <h2
+              className={
+                'font-display text-lg font-bold leading-tight text-text-brand-purple sm:text-xl md:text-2xl'
+              }
+            >
               {t('addData.title')}
             </h2>
 

@@ -23,8 +23,14 @@ export const FinanceChartCard = () => {
 
   return (
     <section className={'overflow-hidden rounded-4xl bg-dashboard-card  py-5 shadow-sm  sm:py-6'}>
-      <div className={'flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between px-4 sm:px-6'}>
-        <h2 className={'text-left font-display text-base font-bold text-brand-purple sm:text-lg md:text-xl'}>
+      <div
+        className={'flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between px-4 sm:px-6'}
+      >
+        <h2
+          className={
+            'text-left font-display text-base font-bold text-brand-purple sm:text-lg md:text-xl'
+          }
+        >
           {t('dashboard.yearlyFinance')}
         </h2>
         <p className={'font-display text-xs text-brand-purple/70 sm:text-sm md:text-base'}>
@@ -33,7 +39,11 @@ export const FinanceChartCard = () => {
       </div>
 
       <div className={'mt-4 h-56 min-h-0 w-full min-w-0 sm:h-64 md:h-72'}>
-        <ResponsiveContainer width={'100%'} height={'100%'} initialDimension={INITIAL_CHART_DIMENSION}>
+        <ResponsiveContainer
+          width={'100%'}
+          height={'100%'}
+          initialDimension={INITIAL_CHART_DIMENSION}
+        >
           <AreaChart
             data={[...financeChartData]}
             margin={{ top: 8, right: 12, left: 12, bottom: 8 }}
@@ -98,7 +108,9 @@ export const FinanceChartCard = () => {
       <div className={'mt-5 flex justify-center'}>
         <Link
           to={'/analytics'}
-          className={'inline-flex min-h-11 w-full max-w-md items-center justify-center rounded-xl bg-brand-purple-bg px-6 font-display text-sm font-bold text-white transition-colors hover:bg-brand-purple-bg/90 sm:text-base'}
+          className={
+            'inline-flex min-h-11 w-full max-w-md items-center justify-center rounded-xl bg-brand-purple-bg px-6 font-display text-sm font-bold text-white transition-colors hover:bg-brand-purple-bg/90 sm:text-base'
+          }
         >
           {t('dashboard.exploreYearly')}
         </Link>

@@ -29,12 +29,20 @@ export const DashboardTransactionsCard = ({
   return (
     <section className={cn(className)}>
       {showSectionTitle ? (
-        <h2 className={'mb-4 text-center font-display text-base font-bold text-brand-purple sm:text-lg md:text-xl'}>
+        <h2
+          className={
+            'mb-4 text-center font-display text-base font-bold text-brand-purple sm:text-lg md:text-xl'
+          }
+        >
           {t('dashboard.transactionsTitle')}
         </h2>
       ) : null}
 
-      <div className={'grid gap-4 rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:grid-cols-2 sm:gap-5 sm:px-6 sm:py-6 pr-3 sm:pr-4'}>
+      <div
+        className={
+          'grid gap-4 rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:grid-cols-2 sm:gap-5 sm:px-6 sm:py-6 pr-3 sm:pr-4'
+        }
+      >
         <RecentEarningsColumn title={t('dashboard.recentEarnings')} rows={earningsRows} />
         <RecentSpendsColumn title={t('dashboard.recentSpends')} rows={spendsRows} />
       </div>

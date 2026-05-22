@@ -39,20 +39,40 @@ export const AnalyticsPeriodSavingsCard = () => {
   const data = [...analyticsTotalSavedSeries]
 
   return (
-    <section className={'overflow-hidden rounded-2xl bg-dashboard-card px-3 py-4 shadow-sm sm:px-5 sm:py-5 md:px-6 md:py-6'}>
+    <section
+      className={
+        'overflow-hidden rounded-2xl bg-dashboard-card px-3 py-4 shadow-sm sm:px-5 sm:py-5 md:px-6 md:py-6'
+      }
+    >
       <div className={'flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-6 xl:gap-8'}>
         <div className={'flex w-full min-w-0 flex-col lg:max-w-md lg:flex-1 xl:max-w-lg '}>
-          <h2 className={'font-display-alternates text-xl font-bold leading-[1.05] text-brand-purple sm:text-2xl md:text-3xl'}>
+          <h2
+            className={
+              'font-display-alternates text-xl font-bold leading-[1.05] text-brand-purple sm:text-2xl md:text-3xl'
+            }
+          >
             {t('analyticsPage.periodSavedTitle')}
           </h2>
 
-          <div className={'mt-2 w-fit max-w-full rounded-md bg-dashboard-income-pill px-2 py-1 sm:px-2.5 sm:py-1.5 md:rounded-lg md:px-2.5 md:py-2'}>
-            <p className={'font-display text-4xl font-bold leading-none tracking-tight text-brand-purple sm:text-5xl md:text-6xl'}>
+          <div
+            className={
+              'mt-2 w-fit max-w-full rounded-md bg-dashboard-income-pill px-2 py-1 sm:px-2.5 sm:py-1.5 md:rounded-lg md:px-2.5 md:py-2'
+            }
+          >
+            <p
+              className={
+                'font-display text-4xl font-bold leading-none tracking-tight text-brand-purple sm:text-5xl md:text-6xl'
+              }
+            >
               {analyticsTotalSavedAmount}
             </p>
           </div>
 
-          <p className={'mt-4 font-display-alternates text-sm font-normal text-brand-purple md:text-base'}>
+          <p
+            className={
+              'mt-4 font-display-alternates text-sm font-normal text-brand-purple md:text-base'
+            }
+          >
             {t('dashboard.savingsReplenishments')}
           </p>
 
@@ -60,12 +80,22 @@ export const AnalyticsPeriodSavingsCard = () => {
             {analyticsSavingsList.map((r, idx) => (
               <li
                 key={`${r.date}-${idx}`}
-                className={'flex min-h-11 items-center justify-between gap-2 rounded-[10px] bg-card px-2.5 py-2 sm:min-h-12 sm:px-3'}
+                className={
+                  'flex min-h-11 items-center justify-between gap-2 rounded-[10px] bg-card px-2.5 py-2 sm:min-h-12 sm:px-3'
+                }
               >
-                <span className={'font-display-alternates text-xs font-normal text-brand-purple sm:text-sm md:text-base'}>
+                <span
+                  className={
+                    'font-display-alternates text-xs font-normal text-brand-purple sm:text-sm md:text-base'
+                  }
+                >
                   {r.date}
                 </span>
-                <span className={'min-w-0 shrink-0 rounded-md bg-dashboard-income-pill px-2 py-1 text-center font-display-alternates text-xs font-bold text-brand-purple sm:min-w-32 sm:px-2.5 sm:py-1.5 sm:text-sm md:text-base'}>
+                <span
+                  className={
+                    'min-w-0 shrink-0 rounded-md bg-dashboard-income-pill px-2 py-1 text-center font-display-alternates text-xs font-bold text-brand-purple sm:min-w-32 sm:px-2.5 sm:py-1.5 sm:text-sm md:text-base'
+                  }
+                >
                   {r.amount}
                 </span>
               </li>
@@ -73,8 +103,16 @@ export const AnalyticsPeriodSavingsCard = () => {
           </ul>
         </div>
 
-        <div className={'flex min-h-0 min-w-0 flex-1 flex-col rounded-[10px] bg-card py-2.5 sm:py-3 md:min-h-48 '}>
-          <h3 className={'mb-1.5 font-display-alternates text-base font-bold text-brand-purple sm:text-lg md:text-xl lg:mb-2 px-2.5 sm:px-3'}>
+        <div
+          className={
+            'flex min-h-0 min-w-0 flex-1 flex-col rounded-[10px] bg-card py-2.5 sm:py-3 md:min-h-48 '
+          }
+        >
+          <h3
+            className={
+              'mb-1.5 font-display-alternates text-base font-bold text-brand-purple sm:text-lg md:text-xl lg:mb-2 px-2.5 sm:px-3'
+            }
+          >
             {t('analyticsPage.totalSavedChartTitle')}
           </h3>
 
@@ -92,7 +130,11 @@ export const AnalyticsPeriodSavingsCard = () => {
                       stopColor={'var(--dashboard-chart-violet)'}
                       stopOpacity={0.55}
                     />
-                    <stop offset={'100%'} stopColor={'var(--dashboard-chart-violet)'} stopOpacity={0} />
+                    <stop
+                      offset={'100%'}
+                      stopColor={'var(--dashboard-chart-violet)'}
+                      stopOpacity={0}
+                    />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
@@ -124,7 +166,11 @@ export const AnalyticsPeriodSavingsCard = () => {
                           borderColor: 'var(--dashboard-tooltip-border)',
                         }}
                       >
-                        <p className={'font-display-alternates text-xs font-semibold text-brand-purple sm:text-sm'}>
+                        <p
+                          className={
+                            'font-display-alternates text-xs font-semibold text-brand-purple sm:text-sm'
+                          }
+                        >
                           {payload[0]?.value}$
                         </p>
                       </div>

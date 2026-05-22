@@ -42,8 +42,16 @@ export const SavingProgressChart = ({ slideId, progressChart }: SavingProgressCh
   const yAxis = getSavingsYAxisConfig(data.map(d => d.value))
 
   return (
-    <div className={'pt-3 h-full min-h-0 w-full min-w-0 overflow-hidden rounded-[19px] bg-(--dashboard-savings-chart-surface) shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--brand-purple)_6%,transparent)] dark:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--foreground)_10%,transparent)]'}>
-      <ResponsiveContainer width={'100%'} height={'100%'} initialDimension={INITIAL_CHART_DIMENSION}>
+    <div
+      className={
+        'pt-3 h-full min-h-0 w-full min-w-0 overflow-hidden rounded-[19px] bg-(--dashboard-savings-chart-surface) shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--brand-purple)_6%,transparent)] dark:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--foreground)_10%,transparent)]'
+      }
+    >
+      <ResponsiveContainer
+        width={'100%'}
+        height={'100%'}
+        initialDimension={INITIAL_CHART_DIMENSION}
+      >
         <AreaChart data={data} margin={{ top: 4, right: 0, left: 8, bottom: 8 }}>
           <defs>
             <linearGradient id={`savingFill-${slideId}`} x1={'0'} y1={'0'} x2={'0'} y2={'1'}>

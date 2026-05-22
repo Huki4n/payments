@@ -6,7 +6,9 @@ import { Slot } from 'radix-ui'
 import { cn } from '@/shared/ui/utils'
 
 function Breadcrumb({ className, ...props }: React.ComponentProps<'nav'>) {
-  return <nav aria-label={'breadcrumb'} data-slot={'breadcrumb'} className={cn(className)} {...props} />
+  return (
+    <nav aria-label={'breadcrumb'} data-slot={'breadcrumb'} className={cn(className)} {...props} />
+  )
 }
 
 function BreadcrumbList({ className, ...props }: React.ComponentProps<'ol'>) {

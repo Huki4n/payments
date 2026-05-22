@@ -12,7 +12,11 @@ export const SavingReplenishmentRow = ({
   isWithdrawal = false,
 }: SavingReplenishmentRowProps) => {
   return (
-    <li className={'flex items-center justify-between gap-2 rounded-xl bg-card/95 px-3 py-2 shadow-sm'}>
+    <li
+      className={
+        'flex items-center justify-between gap-2 rounded-xl bg-card/95 px-3 py-2 shadow-sm'
+      }
+    >
       <span className={'font-display text-xs text-brand-purple sm:text-sm'}>{date}</span>
       <span
         className={cn(

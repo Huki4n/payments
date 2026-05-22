@@ -22,7 +22,11 @@ export const AccountBalance = ({
         <span>{integerPart}</span>
         <span className={'text-white/50'}>{fractionPart}</span>
       </p>
-      <p className={'mx-auto mt-2 max-w-md font-display text-xs font-normal leading-snug text-white/90 sm:text-sm md:text-base'}>
+      <p
+        className={
+          'mx-auto mt-2 max-w-md font-display text-xs font-normal leading-snug text-white/90 sm:text-sm md:text-base'
+        }
+      >
         {t('balanceLabel')}
       </p>
     </section>

@@ -27,13 +27,25 @@ export const AnalyticsIncomeSpendScaleChart = () => {
   const yAxis = getIncomeSpendYAxisConfig(data)
 
   return (
-    <section className={'overflow-hidden rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:px-6 sm:py-6'}>
-      <h2 className={'mb-4 text-center font-display-alternates text-lg font-bold text-foreground sm:mb-5 sm:text-xl md:text-2xl'}>
+    <section
+      className={
+        'overflow-hidden rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:px-6 sm:py-6'
+      }
+    >
+      <h2
+        className={
+          'mb-4 text-center font-display-alternates text-lg font-bold text-foreground sm:mb-5 sm:text-xl md:text-2xl'
+        }
+      >
         {t('analyticsPage.incomeSpendScaleTitle')}
       </h2>
 
       <div className={'h-52 w-full min-w-0 sm:h-64 md:h-72'}>
-        <ResponsiveContainer width={'100%'} height={'100%'} initialDimension={INITIAL_CHART_DIMENSION}>
+        <ResponsiveContainer
+          width={'100%'}
+          height={'100%'}
+          initialDimension={INITIAL_CHART_DIMENSION}
+        >
           <AreaChart data={data} margin={{ top: 8, right: 12, left: 4, bottom: 8 }}>
             <defs>
               <linearGradient id={`income-scale-${gid}`} x1={'0'} y1={'0'} x2={'0'} y2={'1'}>
