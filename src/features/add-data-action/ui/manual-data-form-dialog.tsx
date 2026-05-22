@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { toast } from '@/shared/lib/toast'
 import {
   Button,
   Dialog,
@@ -8,25 +9,14 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  Input,
   ScrollArea,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Separator,
 } from '@/shared/ui'
-import { cn } from '@/shared/ui/utils'
 
 import { useSubmitManualRowsMutation } from '../api/add-data-api'
-import { MANUAL_FORM_CATEGORY_KEYS } from '../config/manual-form'
-import { sanitizeAmountInput } from '../lib/sanitize-amount-input'
 import { createEmptyRow, createInitialRows, type ManualRow } from '../model'
-import {
-  manualFormInputInRowClass,
-  manualFormRowFieldClass,
-} from '../model/manual-data-form-styles'
 import { AddDataCompletePanel, AddDataLoadingOverlay } from './add-data-processing-overlay'
+import { ManualDataFormRow } from './manual-data-form-row'
 
 interface ManualDataFormBodyProps {
   onSaveProceed: (rows: ManualRow[]) => void | Promise<void>
@@ -51,55 +41,16 @@ const ManualDataFormBody = ({ onSaveProceed }: ManualDataFormBodyProps) => {
         overflowFadeFrom={'from-popover'}
         className={'h-[min(45vh,350px)] max-w-240 w-full min-h-0 mx-4 sm:mx-8 px-2'}
       >
-        <div className={'flex flex-col gap-3 pr-2'}>
-          {rows.map(row => (
-            <div
-              key={row.id}
-              className={'grid grid-cols-1 gap-2.5 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)_minmax(0,1fr)] md:gap-3'}
-            >
-              <div className={cn(manualFormRowFieldClass, 'flex items-center')}>
-                <Input
-                  value={row.name}
-                  onChange={e => updateRow(row.id, { name: e.target.value })}
-                  placeholder={t('addData.manualForm.name')}
-                  className={manualFormInputInRowClass}
-                />
-              </div>
-              <div className={cn(manualFormRowFieldClass, 'py-2')}>
-                <Select
-                  value={row.category}
-                  onValueChange={v => updateRow(row.id, { category: v })}
-                >
-                  <SelectTrigger
-                    className={cn(
-                      'h-auto min-h-0 w-full max-w-none border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 data-[size=default]:h-auto md:text-base [&_svg]:text-brand-purple'
-                    )}
-                  >
-                    <SelectValue placeholder={t('addData.manualForm.category')} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {MANUAL_FORM_CATEGORY_KEYS.map(key => (
-                      <SelectItem key={key} value={key}>
-                        {t(`addData.manualForm.categories.${key}`)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className={cn(manualFormRowFieldClass, 'flex items-center')}>
-                <Input
-                  value={row.amount}
-                  onChange={e =>
-                    updateRow(row.id, {
-                      amount: sanitizeAmountInput(e.target.value),
-                    })
-                  }
-                  placeholder={t('addData.manualForm.amount')}
-                  inputMode={'decimal'}
-                  className={manualFormInputInRowClass}
-                />
-              </div>
-            </div>
+        <div className={'flex flex-col gap-5 pr-2'}>
+          {rows.map((row, index) => (
+            <>
+              {index > 0 && <Separator className={'bg-brand-purple/80'} />}
+              <ManualDataFormRow
+                key={row.id}
+                row={row}
+                onChange={patch => updateRow(row.id, patch)}
+              />
+            </>
           ))}
         </div>
       </ScrollArea>
@@ -108,7 +59,9 @@ const ManualDataFormBody = ({ onSaveProceed }: ManualDataFormBodyProps) => {
         <div className={'flex justify-end'}>
           <Button
             type={'button'}
-            className={'rounded-xl bg-brand-blue px-6 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-blue/90 hover:shadow-md sm:rounded-[11px] sm:px-8 sm:text-base'}
+            className={
+              'rounded-xl bg-brand-blue px-6 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-blue/90 hover:shadow-md sm:rounded-[11px] sm:px-8 sm:text-base'
+            }
             onClick={addRow}
           >
             {t('addData.manualForm.addNew')}
@@ -117,7 +70,9 @@ const ManualDataFormBody = ({ onSaveProceed }: ManualDataFormBodyProps) => {
         <div className={'flex justify-center'}>
           <Button
             type={'button'}
-            className={'w-full max-w-md rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:rounded-[11px] sm:text-base md:py-3.5'}
+            className={
+              'w-full max-w-md rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:rounded-[11px] sm:text-base md:py-3.5'
+            }
             onClick={() => void onSaveProceed(rows)}
           >
             {t('addData.manualForm.saveProceed')}
@@ -158,7 +113,7 @@ export const ManualDataFormDialog = ({ open, onOpenChange }: ManualDataFormDialo
       await submitManual({ rows }).unwrap()
       setShowComplete(true)
     } catch {
-      /* backend stub */
+      toast.error(t('addData.errors.submitFailed'))
     }
   }
 
@@ -166,10 +121,16 @@ export const ManualDataFormDialog = ({ open, onOpenChange }: ManualDataFormDialo
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         showCloseButton
-        className={'flex max-h-[90dvh] w-full max-w-4xl flex-col gap-0 overflow-hidden rounded-3xl border-0 bg-add-data-panel p-0 shadow-xl sm:max-w-5xl'}
+        className={
+          'flex max-h-[90dvh] w-full max-w-4xl flex-col gap-0 overflow-hidden rounded-3xl border-0 bg-add-data-panel p-0 shadow-xl sm:max-w-5xl'
+        }
       >
         <DialogHeader className={'shrink-0 px-4 py-6 sm:px-8 sm:py-8'}>
-          <DialogTitle className={'text-center font-display text-2xl font-bold text-brand-purple sm:text-3xl md:text-4xl'}>
+          <DialogTitle
+            className={
+              'text-center font-display text-2xl font-bold text-brand-purple sm:text-3xl md:text-4xl'
+            }
+          >
             {t('addData.manualForm.title')}
           </DialogTitle>
           <DialogDescription className={'sr-only'}>
