@@ -34,5 +34,8 @@ jobs:
       - name: Lint
         run: yarn lint:check
 
+      - name: Test
+        run: yarn test:run
+
       - name: Build
         run: yarn build

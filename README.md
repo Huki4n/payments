@@ -127,15 +127,33 @@ yarn dev
 
 ## Скрипты
 
-| Команда             | Описание                      |
-| ------------------- | ----------------------------- |
-| `yarn dev`          | Dev-сервер с HMR              |
-| `yarn build`        | Typecheck + production-сборка |
-| `yarn preview`      | Просмотр production-сборки    |
-| `yarn lint`         | ESLint с автофиксом           |
-| `yarn lint:check`   | ESLint без автофикса          |
-| `yarn format`       | Prettier — форматирование     |
-| `yarn format:check` | Prettier — проверка           |
+| Команда              | Описание                      |
+| -------------------- | ----------------------------- |
+| `yarn dev`           | Dev-сервер с HMR              |
+| `yarn build`         | Typecheck + production-сборка |
+| `yarn preview`       | Просмотр production-сборки    |
+| `yarn lint`          | ESLint с автофиксом           |
+| `yarn lint:check`    | ESLint без автофикса          |
+| `yarn format`        | Prettier — форматирование     |
+| `yarn format:check`  | Prettier — проверка           |
+| `yarn test`          | Vitest в watch-режиме         |
+| `yarn test:run`      | Unit-тесты (CI)               |
+| `yarn test:coverage` | Покрытие тестами              |
+
+## Тестирование
+
+- **Vitest** + **Testing Library**
+- Setup и утилиты: `src/shared/test/`
+- Тесты: `__tests__/` рядом с тестируемым модулем
+
+Пример:
+
+```
+src/shared/lib/
+├── token-storage.ts
+└── __tests__/
+    └── token-storage.test.ts
+```
 
 ## Git hooks (Husky)
 
@@ -161,7 +179,8 @@ GitHub Actions (`.github/workflows/ci.yml`) на push/PR в `main`/`master`:
 
 1. `yarn install --immutable`
 2. `yarn lint:check`
-3. `yarn build`
+3. `yarn test:run`
+4. `yarn build`
 
 ## Качество кода
 
