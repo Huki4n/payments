@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { toast } from '@/shared/lib/toast'
 import {
   Button,
   Dialog,
@@ -105,7 +106,7 @@ export const UploadBankStatementsDialog = ({
       }).unwrap()
       onOpenChange(false)
     } catch {
-      /* backend stub */
+      toast.error(t('addData.errors.submitFailed'))
     }
   }
 
@@ -113,10 +114,16 @@ export const UploadBankStatementsDialog = ({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         showCloseButton
-        className={'flex max-h-[90dvh] w-full max-w-4xl flex-col gap-0 overflow-hidden rounded-3xl border-0 bg-add-data-panel p-0 shadow-xl sm:max-w-5xl'}
+        className={
+          'flex max-h-[90dvh] w-full max-w-4xl flex-col gap-0 overflow-hidden rounded-3xl border-0 bg-add-data-panel p-0 shadow-xl sm:max-w-5xl'
+        }
       >
         <DialogHeader className={'shrink-0 px-4 py-6 sm:px-8 sm:py-8'}>
-          <DialogTitle className={'text-center font-display text-2xl font-bold text-brand-purple sm:text-3xl md:text-4xl'}>
+          <DialogTitle
+            className={
+              'text-center font-display text-2xl font-bold text-brand-purple sm:text-3xl md:text-4xl'
+            }
+          >
             {t('addData.uploadForm.title')}
           </DialogTitle>
           <DialogDescription className={'sr-only'}>
@@ -130,7 +137,11 @@ export const UploadBankStatementsDialog = ({
           <AddDataLoadingOverlay variant={'upload'} className={'min-h-96'} />
         ) : (
           <>
-            <div className={'grid min-h-0 flex-1 grid-cols-1 gap-5 px-4 pb-4 md:grid-cols-2 md:gap-6 md:px-8 md:pb-6 lg:gap-8'}>
+            <div
+              className={
+                'grid min-h-0 flex-1 grid-cols-1 gap-5 px-4 pb-4 md:grid-cols-2 md:gap-6 md:px-8 md:pb-6 lg:gap-8'
+              }
+            >
               <div className={'flex min-h-0 flex-col gap-3'}>
                 <input
                   id={inputId}
@@ -153,7 +164,9 @@ export const UploadBankStatementsDialog = ({
                 >
                   <label
                     htmlFor={inputId}
-                    className={'cursor-pointer font-display text-lg font-normal text-brand-blue underline-offset-2 hover:underline sm:text-xl'}
+                    className={
+                      'cursor-pointer font-display text-lg font-normal text-brand-blue underline-offset-2 hover:underline sm:text-xl'
+                    }
                   >
                     {t('addData.uploadForm.chooseFile')}
                   </label>
@@ -177,16 +190,26 @@ export const UploadBankStatementsDialog = ({
                 >
                   <ul className={'flex flex-col gap-3 pb-2'}>
                     {entries.length === 0 ? (
-                      <li className={'rounded-2xl border border-dashed border-border bg-card/60 px-4 py-8 text-center font-display text-sm text-muted-foreground sm:text-base'}>
+                      <li
+                        className={
+                          'rounded-2xl border border-dashed border-border bg-card/60 px-4 py-8 text-center font-display text-sm text-muted-foreground sm:text-base'
+                        }
+                      >
                         {t('addData.uploadForm.empty')}
                       </li>
                     ) : (
                       entries.map(({ id, file }) => (
                         <li
                           key={id}
-                          className={'flex min-h-20 items-center rounded-2xl bg-card px-5 py-4 shadow-sm md:min-h-24 md:px-8'}
+                          className={
+                            'flex min-h-20 items-center rounded-2xl bg-card px-5 py-4 shadow-sm md:min-h-24 md:px-8'
+                          }
                         >
-                          <span className={'truncate font-display text-base font-normal text-brand-purple md:text-lg'}>
+                          <span
+                            className={
+                              'truncate font-display text-base font-normal text-brand-purple md:text-lg'
+                            }
+                          >
                             {file.name}
                           </span>
                         </li>
@@ -200,7 +223,9 @@ export const UploadBankStatementsDialog = ({
             <div className={'flex shrink-0 justify-center px-4 pb-6 pt-2 sm:px-8 sm:pb-8'}>
               <Button
                 type={'button'}
-                className={'w-full max-w-md rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:text-base md:py-3.5'}
+                className={
+                  'w-full max-w-md rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:text-base md:py-3.5'
+                }
                 onClick={() => void handleSaveProceed()}
               >
                 {t('addData.manualForm.saveProceed')}
