@@ -12,7 +12,18 @@ import { cn } from '@/shared/ui/utils'
 
 type PeriodPreset = 'all' | 'week' | 'month' | '3m' | '6m' | 'year' | 'custom'
 
-const PRESETS: { id: Exclude<PeriodPreset, 'custom'>; row: 1 | 2 }[] = [
+type PresetId = Exclude<PeriodPreset, 'custom'>
+
+const PRESET_RANGES: Record<PresetId, (now: Date) => DateRange | undefined> = {
+  all: () => undefined,
+  week: now => ({ from: subDays(now, 7), to: now }),
+  month: now => ({ from: subMonths(now, 1), to: now }),
+  '3m': now => ({ from: subMonths(now, 3), to: now }),
+  '6m': now => ({ from: subMonths(now, 6), to: now }),
+  year: now => ({ from: subYears(now, 1), to: now }),
+}
+
+const PRESETS: { id: PresetId; row: 1 | 2 }[] = [
   { id: 'week', row: 1 },
   { id: 'month', row: 1 },
   { id: '3m', row: 1 },
@@ -45,55 +56,34 @@ export const AnalyticsPeriodSelector = () => {
     [range, t]
   )
 
-  const applyPreset = (id: Exclude<PeriodPreset, 'custom'>) => {
+  const applyPreset = (id: PresetId) => {
     setPreset(id)
-    const now = new Date()
-
-    if (id === 'all') {
-      setRange(undefined)
-
-      return
-    }
-    if (id === 'week') {
-      setRange({ from: subDays(now, 7), to: now })
-
-      return
-    }
-    if (id === 'month') {
-      setRange({ from: subMonths(now, 1), to: now })
-
-      return
-    }
-    if (id === '3m') {
-      setRange({ from: subMonths(now, 3), to: now })
-
-      return
-    }
-    if (id === '6m') {
-      setRange({ from: subMonths(now, 6), to: now })
-
-      return
-    }
-    if (id === 'year') {
-      setRange({ from: subYears(now, 1), to: now })
-    }
+    setRange(PRESET_RANGES[id](new Date()))
   }
 
   const chipClass =
     'inline-flex shrink-0 items-center justify-center rounded-lg border border-[rgba(167,191,255,0.8)] px-3 font-display text-xs font-bold text-brand-purple transition-colors sm:px-4 sm:text-sm'
 
   return (
-    <section className={'flex gap-4 rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:px-6 sm:py-4'}>
-      <h2 className={'max-w-40 font-display text-lg font-bold text-brand-purple sm:text-xl md:text-2xl'}>
+    <section
+      className={'flex gap-4 rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:px-6 sm:py-4'}
+    >
+      <h2
+        className={
+          'max-w-40 font-display text-lg font-bold text-brand-purple sm:text-xl md:text-2xl'
+        }
+      >
         {t('analyticsPage.selectPeriod')}
       </h2>
 
-      <div className={'flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-6'}>
+      <div className={'flex flex-row gap-4 lg:items-start lg:justify-between lg:gap-6 flex-1'}>
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant={'outline'}
-              className={'h-full min-h-11 w-full max-w-md justify-center gap-4 rounded-2xl border-0 bg-white px-5 py-3 font-display text-sm font-medium text-brand-purple/80 shadow-sm hover:bg-white/95 sm:text-base lg:w-auto'}
+              className={
+                'h-full min-h-6 w-full max-w-75 justify-center gap-4 rounded-2xl border-0 bg-white px-5 py-3 font-display text-sm font-medium text-brand-purple/80 shadow-sm hover:bg-white/95 sm:text-base lg:w-auto'
+              }
             >
               <span>{rangeLabel}</span>
               <DashboardCalendarIcon className={'size-8 shrink-0 text-[#0147FFCC]'} />
@@ -114,24 +104,8 @@ export const AnalyticsPeriodSelector = () => {
         </Popover>
 
         <div className={'flex min-w-0 flex-1 flex-col gap-1'}>
-          <div className={'flex flex-wrap gap-2 sm:gap-2.5'}>
-            {PRESETS.filter(p => p.row === 1).map(({ id }) => (
-              <Button
-                key={id}
-                variant={'ghost'}
-                type={'button'}
-                onClick={() => applyPreset(id)}
-                className={cn(
-                  chipClass,
-                  preset === id && 'border-transparent bg-brand-blue text-white'
-                )}
-              >
-                {t(`analyticsPage.preset.${id}`)}
-              </Button>
-            ))}
-          </div>
-          <div className={'flex flex-wrap gap-2 sm:gap-2.5'}>
-            {PRESETS.filter(p => p.row === 2).map(({ id }) => (
+          <div className={'flex flex-wrap gap-1 sm:gap-1.5'}>
+            {PRESETS.map(({ id }) => (
               <Button
                 key={id}
                 variant={'ghost'}
