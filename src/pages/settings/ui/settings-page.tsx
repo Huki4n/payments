@@ -51,7 +51,11 @@ export const SettingsPage = () => {
 
   return (
     <AppLayout header={<HomeNavigation />}>
-      <div className={'mx-auto max-w-4xl rounded-2xl bg-[#edf2ff] px-4 py-5 shadow-lg sm:rounded-3xl sm:px-6 sm:py-6 md:max-w-5xl md:px-8 md:py-8'}>
+      <div
+        className={
+          'mx-auto max-w-4xl rounded-2xl bg-add-data-panel px-4 py-5 shadow-lg sm:rounded-3xl sm:px-6 sm:py-6 md:max-w-5xl md:px-8 md:py-8'
+        }
+      >
         <div className={'grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5'}>
           <SettingsTextField
             label={t('fields.name')}
@@ -121,7 +125,9 @@ export const SettingsPage = () => {
             type={'button'}
             disabled={!isDirty}
             onClick={handleSave}
-            className={'rounded-xl bg-brand-purple-bg px-6 py-5 font-display text-sm font-bold text-white transition-all duration-200 hover:bg-brand-purple-bg/90 hover:shadow-md active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 sm:px-8 sm:text-base'}
+            className={
+              'rounded-xl bg-brand-purple-bg px-6 py-5 font-display text-sm font-bold text-white transition-all duration-200 hover:bg-brand-purple-bg/90 hover:shadow-md active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 sm:px-8 sm:text-base'
+            }
           >
             {t('actions.save')}
           </Button>

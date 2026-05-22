@@ -12,10 +12,10 @@ import {
 import { cn } from '@/shared/ui/utils'
 
 const fieldShellClass =
-  'flex min-h-14 items-center justify-between gap-3 rounded-xl bg-white px-4 py-3 shadow-sm sm:rounded-2xl sm:px-5'
+  'flex min-h-14 items-center justify-between gap-3 rounded-xl bg-data-action-bg px-4 py-3 shadow-sm sm:rounded-2xl sm:px-5'
 
 const inputInFieldClass =
-  'h-auto min-h-0 border-0 bg-transparent px-0 py-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 md:text-base'
+  'h-auto min-h-0 rounded-none border-0 bg-transparent px-0 py-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-transparent dark:disabled:bg-transparent md:text-base'
 
 interface SettingsTextFieldProps {
   label: string
@@ -98,7 +98,7 @@ export const SettingsSelectField = ({
           <SelectTrigger
             size={'default'}
             className={cn(
-              'h-auto min-h-0 w-full max-w-none flex-1 border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 data-[size=default]:h-auto sm:text-base [&_svg]:text-brand-purple'
+              'h-auto min-h-0 w-full max-w-none flex-1 rounded-none border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent data-[size=default]:h-auto sm:text-base [&_svg]:text-brand-purple'
             )}
           >
             <SelectValue />
