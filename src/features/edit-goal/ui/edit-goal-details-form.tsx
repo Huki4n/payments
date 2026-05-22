@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { getMinGoalDeadline, useUpdateGoalMutation, type GoalDetails } from '@/entities/goal'
 import { getApiErrorMessage } from '@/entities/session'
 import { GOAL_CURRENCIES, type GoalCurrency } from '@/shared/config/currencies'
+import { toast } from '@/shared/lib/toast'
 import { Button, Input, Label, NativeSelect } from '@/shared/ui'
 
 import type { EditGoalFormValues } from '../model/edit-goal-form-values'
@@ -86,11 +87,13 @@ export const EditGoalDetailsForm = ({
           deadline: values.deadline,
         },
       }).unwrap()
+      toast.success(t('savingsPage.editGoal.success.saved'))
       form.clearErrors('root')
       onRootError?.(null)
     } catch (error) {
       const message = getApiErrorMessage(error, t('savingsPage.editGoal.errors.save'))
 
+      toast.error(message)
       form.setError('root', { message })
       onRootError?.(message)
     }
@@ -139,7 +142,9 @@ export const EditGoalDetailsForm = ({
             className={'font-display'}
           />
           {form.formState.errors.targetAmount?.message ? (
-            <p className={'text-sm text-destructive'}>{form.formState.errors.targetAmount.message}</p>
+            <p className={'text-sm text-destructive'}>
+              {form.formState.errors.targetAmount.message}
+            </p>
           ) : null}
         </div>
 
@@ -182,7 +187,9 @@ export const EditGoalDetailsForm = ({
       <Button
         type={'submit'}
         disabled={isBusy}
-        className={'h-10 bg-brand-purple-bg font-display font-bold text-white hover:bg-brand-purple-bg/90'}
+        className={
+          'h-10 bg-brand-purple-bg font-display font-bold text-white hover:bg-brand-purple-bg/90'
+        }
       >
         {t('savingsPage.editGoal.save')}
       </Button>

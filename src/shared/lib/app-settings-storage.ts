@@ -12,7 +12,7 @@ export type AppSettingsColorScheme = (typeof APP_SETTINGS_COLOR_SCHEMES)[number]
 
 const profileDefaults = {
   name: 'Rodion',
-  surname: 'Rodion',
+  surname: 'Panaitov',
   country: 'Russian Federation',
   phone: '+7 245 856 245 525',
   email: 'Rodionsemail@gmail.com',

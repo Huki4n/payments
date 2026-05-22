@@ -89,12 +89,18 @@ export const PinConfirmPage = () => {
       <main className={'flex flex-1 flex-col items-center px-6 pt-12 pb-10 sm:pt-16 lg:pt-20'}>
         <div className={'flex w-full max-w-xl flex-1 flex-col items-center gap-12'}>
           <div className={'flex flex-col items-center gap-8'}>
-            <h1 className={'text-center font-display text-4xl font-bold leading-none sm:text-5xl lg:text-6xl'}>
+            <h1
+              className={
+                'text-center font-display text-4xl font-bold leading-none sm:text-5xl lg:text-6xl'
+              }
+            >
               {t('auth.pinConfirm.title')}
             </h1>
             <Progress
               value={90}
-              className={'h-4 w-72 max-w-full bg-brand-blue/30 *:data-[slot=progress-indicator]:bg-brand-blue'}
+              className={
+                'h-4 w-72 max-w-full bg-brand-blue/30 *:data-[slot=progress-indicator]:bg-brand-blue'
+              }
             />
           </div>
           <div className={'flex w-full flex-col items-center gap-8'}>
@@ -142,7 +148,9 @@ export const PinConfirmPage = () => {
               form={FORM_ID}
               type={'submit'}
               disabled={isSubmitting}
-              className={'h-16 w-72 max-w-full rounded-control bg-brand-purple-bg font-display text-xl font-bold text-white hover:bg-brand-purple-bg/90'}
+              className={
+                'h-16 w-72 max-w-full rounded-control bg-brand-purple-bg font-display text-xl font-bold text-white hover:bg-brand-purple-bg/90'
+              }
             >
               {t('auth.pinConfirm.submit')}
             </Button>

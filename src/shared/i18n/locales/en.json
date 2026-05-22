@@ -85,6 +85,9 @@
       "edit": "Edit Account Information",
       "save": "Save",
       "resetPin": "Reset your PIN"
+    },
+    "toast": {
+      "saved": "Settings saved"
     }
   },
   "home": {
@@ -96,6 +99,7 @@
     },
     "settingsAria": "Settings",
     "profileAria": "Profile",
+    "menuAria": "Navigation menu",
     "welcome": "Welcome, {{name}}",
     "balanceLabel": "Your current account Balance",
     "transactionsPage": {
@@ -121,6 +125,7 @@
         "deadlineLabel": "Deadline",
         "submit": "Create",
         "cancel": "Cancel",
+        "success": "Goal created",
         "errors": {
           "required": "This field is required",
           "invalidAmount": "Amount must be greater than 0",
@@ -146,6 +151,12 @@
         "delete": "Delete goal",
         "close": "Close",
         "deleteConfirm": "Delete this saving?",
+        "success": {
+          "saved": "Goal saved",
+          "deposit": "Funds deposited",
+          "withdraw": "Funds withdrawn",
+          "deleted": "Goal deleted"
+        },
         "historyLoading": "Loading history…",
         "historyEmpty": "No transactions yet",
         "errors": {
@@ -233,6 +244,9 @@
       "manual": "Fill Out Manually",
       "upload": "Upload Bank Statements",
       "or": "or",
+      "errors": {
+        "submitFailed": "Could not submit data. Please try again."
+      },
       "processing": {
         "loadingTitle": "Saving and analyzing your data…",
         "loadingSubtitle": "This will only take a moment.",
@@ -257,6 +271,9 @@
         "category": "Category",
         "amount": "Amount",
         "addNew": "Add New",
+        "save": "Save",
+        "cancel": "Cancel",
+        "saved": "Entry saved",
         "saveProceed": "Save & Proceed",
         "categories": {
           "groceries": "Groceries",

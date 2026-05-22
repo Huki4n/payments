@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { getDefaultGoalDeadline, getMinGoalDeadline, useCreateGoalMutation } from '@/entities/goal'
 import { getApiErrorMessage } from '@/entities/session'
 import { GOAL_CURRENCIES } from '@/shared/config/currencies'
+import { toast } from '@/shared/lib/toast'
 import {
   Button,
   Dialog,
@@ -81,11 +82,13 @@ export const CreateGoalDialog = ({ open, onOpenChange }: CreateGoalDialogProps) 
         currency: values.currency,
         deadline: values.deadline,
       }).unwrap()
+      toast.success(t('savingsPage.createGoal.success'))
       handleOpenChange(false)
     } catch (error) {
-      form.setError('root', {
-        message: getApiErrorMessage(error, t('savingsPage.createGoal.errors.submit')),
-      })
+      const message = getApiErrorMessage(error, t('savingsPage.createGoal.errors.submit'))
+
+      toast.error(message)
+      form.setError('root', { message })
     }
   })
 
@@ -186,7 +189,9 @@ export const CreateGoalDialog = ({ open, onOpenChange }: CreateGoalDialogProps) 
             <Button
               type={'submit'}
               disabled={isLoading}
-              className={'bg-brand-purple-bg font-display font-bold text-white hover:bg-brand-purple-bg/90'}
+              className={
+                'bg-brand-purple-bg font-display font-bold text-white hover:bg-brand-purple-bg/90'
+              }
             >
               {t('savingsPage.createGoal.submit')}
             </Button>

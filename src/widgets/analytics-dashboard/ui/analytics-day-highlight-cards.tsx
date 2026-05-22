@@ -11,7 +11,11 @@ type DayHighlightCardProps = {
 
 const DayHighlightCard = ({ frameClassName, title, dateLabel, hint }: DayHighlightCardProps) => (
   <article className={`rounded-xl p-5 shadow-sm ${frameClassName}`}>
-    <div className={'flex flex-col items-center justify-center gap-6 rounded-xl bg-card px-5 py-6 text-center sm:gap-8 sm:px-8 sm:py-8'}>
+    <div
+      className={
+        'flex flex-col items-center justify-center gap-6 rounded-xl bg-card px-5 py-6 text-center sm:gap-8 sm:px-8 sm:py-8'
+      }
+    >
       <p className={'text-lg font-bold leading-none text-brand-purple sm:text-2xl'}>{title}</p>
       <p className={'text-xl font-bold leading-none text-brand-purple md:text-3xl'}>{dateLabel}</p>
       <p className={'text-lg font-bold leading-none text-brand-purple sm:text-2xl'}>{hint}</p>

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useAddContributionMutation } from '@/entities/goal'
 import { getApiErrorMessage } from '@/entities/session'
+import { toast } from '@/shared/lib/toast'
 import { Button, Input, Label } from '@/shared/ui'
 
 import { EDIT_GOAL_ACTION_BTN_CLASS } from '../config/form-ui'
@@ -47,11 +48,13 @@ export const EditGoalWithdrawForm = ({
         goalId,
         body: { amount: -amount, type: 'MANUAL' },
       }).unwrap()
+      toast.success(t('savingsPage.editGoal.success.withdraw'))
       form.reset({ amount: '' })
     } catch (error) {
-      form.setError('root', {
-        message: getApiErrorMessage(error, t('savingsPage.editGoal.errors.withdrawal')),
-      })
+      const message = getApiErrorMessage(error, t('savingsPage.editGoal.errors.withdrawal'))
+
+      toast.error(message)
+      form.setError('root', { message })
     }
   })
 

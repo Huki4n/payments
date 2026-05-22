@@ -32,7 +32,11 @@ export const SavingsSwiper = ({
 
   if (isLoading) {
     return (
-      <section className={'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'}>
+      <section
+        className={
+          'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'
+        }
+      >
         <p className={'font-display text-lg text-brand-purple/70'}>{loadingMessage}</p>
       </section>
     )
@@ -40,7 +44,11 @@ export const SavingsSwiper = ({
 
   if (items.length === 0) {
     return (
-      <section className={'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'}>
+      <section
+        className={
+          'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'
+        }
+      >
         <p className={'text-center font-display text-lg text-brand-purple/70'}>{emptyMessage}</p>
       </section>
     )

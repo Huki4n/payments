@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { INITIAL_CHART_DIMENSION } from '@/shared/ui/chart-constants'
 import { DashboardSpendCategoryIcon } from '@/shared/ui/icons/category-icons'
@@ -15,16 +15,23 @@ export const SpendsChartCard = () => {
   const data = spendsChartPie.map(row => ({
     ...row,
     name: t(`dashboard.categories.${row.nameKey}`),
+    fill: row.color,
   }))
 
   return (
-    <section className={'overflow-hidden rounded-4xl bg-dashboard-card shadow-sm px-4 py-5 sm:px-6 sm:py-6 pr-3 sm:pr-4'}>
-      <h2 className={'mb-4 font-display text-base font-bold text-brand-purple sm:text-lg md:text-xl'}>
+    <section
+      className={
+        'overflow-hidden rounded-4xl bg-dashboard-card shadow-sm px-4 py-5 sm:px-6 sm:py-6 pr-3 sm:pr-4'
+      }
+    >
+      <h2
+        className={'mb-4 font-display text-base font-bold text-brand-purple sm:text-lg md:text-xl'}
+      >
         {t('dashboard.monthlySpendsWheel')}
       </h2>
 
       <div className={'flex flex-col items-stretch gap-6 md:flex-row md:items-stretch'}>
-        <div className={'mx-auto h-56 w-full max-w-64 min-h-0 min-w-0 shrink-0 md:w-60'}>
+        <div className={'mx-auto h-80 w-full max-w-80 min-h-0 min-w-0 shrink-0 md:w-80'}>
           <ResponsiveContainer
             width={'100%'}
             height={'100%'}
@@ -40,11 +47,7 @@ export const SpendsChartCard = () => {
                 outerRadius={'88%'}
                 paddingAngle={0}
                 strokeWidth={0}
-              >
-                {data.map(entry => (
-                  <Cell key={entry.nameKey} fill={entry.color} />
-                ))}
-              </Pie>
+              />
               <Tooltip
                 formatter={value => {
                   const num = typeof value === 'number' ? value : Number(value ?? 0)
@@ -90,7 +93,11 @@ export const SpendsChartCard = () => {
                   >
                     {t(`dashboard.categories.${row.nameKey}`)}
                   </span>
-                  <span className={'min-w-26 shrink-0 rounded-lg bg-dashboard-expense-pill px-2.5 py-1.5 text-center font-display text-xs font-bold text-brand-purple sm:text-sm'}>
+                  <span
+                    className={
+                      'min-w-26 shrink-0 rounded-lg bg-dashboard-expense-pill px-2.5 py-1.5 text-center font-display text-xs font-bold text-brand-purple sm:text-sm'
+                    }
+                  >
                     -{row.value.toFixed(2).replace('.', ',')} $
                   </span>
                 </li>

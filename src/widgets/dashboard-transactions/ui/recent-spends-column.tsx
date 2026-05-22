@@ -47,7 +47,9 @@ export const RecentSpendsColumn = ({
         <Button
           asChild
           size={'lg'}
-          className={'h-11 min-w-[7.5rem] rounded-[11px] bg-brand-blue px-6 font-display text-sm font-bold text-white hover:bg-brand-blue/90'}
+          className={
+            'h-11 min-w-[7.5rem] rounded-[11px] bg-brand-blue px-6 font-display text-sm font-bold text-white hover:bg-brand-blue/90'
+          }
         >
           <Link to={addNewTo}>{t('addData.manualForm.addNew')}</Link>
         </Button>
