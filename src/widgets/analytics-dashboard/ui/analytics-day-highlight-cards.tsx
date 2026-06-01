@@ -32,9 +32,7 @@ export const AnalyticsDayHighlightCards = () => {
         frameClassName={'bg-dashboard-income-pill'}
         title={t('analyticsPage.mostProfitableDay')}
         dateLabel={analyticsDayHighlights.bestDayLabel}
-        hint={t('analyticsPage.mostProfitableHint', {
-          amount: analyticsDayHighlights.bestDayAmount,
-        })}
+        hint={t('analyticsPage.mostProfitableHint', { amount: analyticsDayHighlights.bestDayAmount })}
       />
       <DayHighlightCard
         frameClassName={'bg-dashboard-expense-pill'}

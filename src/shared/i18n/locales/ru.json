@@ -65,29 +65,48 @@
           "mismatch": "PIN не совпадает"
         }
       }
+    },
+    "congratulations": {
+      "title": "Поздравляем! Вы теперь участник!",
+      "proceed": "Продолжить"
     }
   },
   "settings": {
     "fields": {
       "name": "Имя",
       "surname": "Фамилия",
-      "country": "Страна",
       "phoneNumber": "Номер телефона",
       "email": "E-Mail",
       "currency": "Валюта",
       "darkTheme": "Тема",
       "themeLight": "Светлая",
       "themeDark": "Тёмная",
-      "pinCode": "PIN-код",
       "language": "Язык"
+    },
+    "options": {
+      "currency": {
+        "none": "—",
+        "usd": "USD $",
+        "eur": "EUR €",
+        "rub": "RUB ₽"
+      },
+      "language": {
+        "en": "ENG",
+        "ru": "RUS"
+      }
     },
     "actions": {
       "edit": "Редактировать профиль",
-      "save": "Сохранить",
-      "resetPin": "Сбросить PIN"
+      "save": "Сохранить"
     },
     "toast": {
       "saved": "Настройки сохранены"
+    },
+    "requireCurrency": {
+      "title": "Выберите валюту",
+      "description": "Чтобы загрузить данные, укажите валюту в настройках и сохраните изменения.",
+      "action": "Перейти в настройки",
+      "toast": "Сначала выберите валюту в настройках"
     }
   },
   "home": {
@@ -206,6 +225,20 @@
     "dashboard": {
       "yearlyFinance": "Ваша годовая финансовая динамика",
       "yearlyRange": "01.01.2025 — сейчас",
+      "months": {
+        "jan": "Янв",
+        "feb": "Фев",
+        "mar": "Мар",
+        "apr": "Апр",
+        "may": "Май",
+        "jun": "Июн",
+        "jul": "Июл",
+        "aug": "Авг",
+        "sep": "Сен",
+        "oct": "Окт",
+        "nov": "Ноя",
+        "dec": "Дек"
+      },
       "exploreYearly": "Подробнее о годовой статистике",
       "transactionsTitle": "Транзакции",
       "recentEarnings": "Недавние поступления",

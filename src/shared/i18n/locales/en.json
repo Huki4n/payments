@@ -65,29 +65,48 @@
           "mismatch": "PINs do not match"
         }
       }
+    },
+    "congratulations": {
+      "title": "Congratulations! You are Member Now!",
+      "proceed": "Proceed"
     }
   },
   "settings": {
     "fields": {
       "name": "Name",
       "surname": "Surname",
-      "country": "Country",
       "phoneNumber": "Phone Number",
       "email": "E-Mail",
       "currency": "Currency",
       "darkTheme": "Theme",
       "themeLight": "Light",
       "themeDark": "Dark",
-      "pinCode": "PIN-Code",
       "language": "Language"
+    },
+    "options": {
+      "currency": {
+        "none": "—",
+        "usd": "USD $",
+        "eur": "EUR €",
+        "rub": "RUB ₽"
+      },
+      "language": {
+        "en": "ENG",
+        "ru": "RUS"
+      }
     },
     "actions": {
       "edit": "Edit Account Information",
-      "save": "Save",
-      "resetPin": "Reset your PIN"
+      "save": "Save"
     },
     "toast": {
       "saved": "Settings saved"
+    },
+    "requireCurrency": {
+      "title": "Select a currency",
+      "description": "Choose your currency in settings and save changes to load data.",
+      "action": "Go to settings",
+      "toast": "Select a currency in settings first"
     }
   },
   "home": {
@@ -206,6 +225,20 @@
     "dashboard": {
       "yearlyFinance": "Your yearly Finance",
       "yearlyRange": "01.01.2025 - now",
+      "months": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
+      },
       "exploreYearly": "Explore deeper yearly statistics",
       "transactionsTitle": "Transactions",
       "recentEarnings": "Your recent Earnings",

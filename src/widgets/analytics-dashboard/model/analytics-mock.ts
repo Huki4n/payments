@@ -38,16 +38,17 @@ export const analyticsDayHighlights = {
 } as const
 
 export const analyticsCategoryExtremes = {
-  mostKey: 'catShopping' as const,
+  mostCategoryId: 'catShopping' as const,
   mostPercent: 88,
-  leastKey: 'catOther' as const,
+  leastCategoryId: 'catOther' as const,
   leastPercent: 12,
 } as const
 
-/** Тексты карточки справа (аналитика), не из API */
-export const analyticsCategoryNarrativeAmounts = {
-  most: '1528$',
-  least: '0,28$',
+export const analyticsCategoryNarratives = {
+  top:
+    'Shopping is your top spending category. In the selected period you\'ve spent 1528$ on this category.',
+  lowest:
+    'Other is your lowest spending category. In the selected period you\'ve spent 0,28$ on this category.',
 } as const
 
 export const analyticsSavingsList = [
@@ -65,11 +66,10 @@ export const analyticsTotalSavedSeries = [
   { month: 'Jun', value: 14100 },
 ] as const
 
-export const analyticsNetProfitPercent = 72
-
 export const analyticsAverageComparison = {
   dailySpending: '23$',
   dailyIncome: '79$',
+  netProfitPercent: '72%',
 } as const
 
 export const analyticsTotalSavedAmount = '+15000$'

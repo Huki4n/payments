@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import { Button } from '@/shared/ui/button'
@@ -11,16 +10,16 @@ import { RecentSpendRow } from './recent-spend-row'
 export interface RecentSpendsColumnProps {
   title: string
   rows: readonly SpendMockRow[]
+  addNewLabel: string
   addNewTo?: string
 }
 
 export const RecentSpendsColumn = ({
   title,
   rows,
+  addNewLabel,
   addNewTo = '/profile',
 }: RecentSpendsColumnProps) => {
-  const { t } = useTranslation('home')
-
   return (
     <div className={'flex min-h-0 flex-col'}>
       <h3 className={'mb-3 font-display text-sm font-bold text-brand-purple sm:text-base'}>
@@ -37,7 +36,7 @@ export const RecentSpendsColumn = ({
             <RecentSpendRow
               key={row.id}
               amount={row.amount}
-              label={t(`dashboard.merchants.${row.labelKey}`)}
+              label={row.label}
               icon={row.icon}
             />
           ))}
@@ -51,7 +50,7 @@ export const RecentSpendsColumn = ({
             'h-11 min-w-[7.5rem] rounded-[11px] bg-brand-blue px-6 font-display text-sm font-bold text-white hover:bg-brand-blue/90'
           }
         >
-          <Link to={addNewTo}>{t('addData.manualForm.addNew')}</Link>
+          <Link to={addNewTo}>{addNewLabel}</Link>
         </Button>
       </div>
     </div>
