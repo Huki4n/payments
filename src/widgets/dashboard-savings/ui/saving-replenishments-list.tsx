@@ -1,17 +1,19 @@
 import { useTranslation } from 'react-i18next'
 
-import type { SavingsSlide } from '@/entities/goal'
+import { formatContributionAmount, type SavingsSlide } from '@/entities/goal'
 
 import { SavingReplenishmentRow } from './saving-replenishment-row'
 
 interface SavingReplenishmentsListProps {
   slideId: string
   replenishments: SavingsSlide['replenishments']
+  currency: string
 }
 
 export const SavingReplenishmentsList = ({
   slideId,
   replenishments,
+  currency,
 }: SavingReplenishmentsListProps) => {
   const { t } = useTranslation('home')
 
@@ -25,7 +27,7 @@ export const SavingReplenishmentsList = ({
           <SavingReplenishmentRow
             key={`${slideId}-${r.date}-${idx}`}
             date={r.date}
-            amount={r.amount}
+            amount={formatContributionAmount(r.amount, currency)}
             isWithdrawal={r.isWithdrawal}
           />
         ))}

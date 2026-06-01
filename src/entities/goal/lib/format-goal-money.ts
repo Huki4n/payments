@@ -4,8 +4,13 @@ const CURRENCY_SYMBOL: Record<string, string> = {
   RUB: '₽',
 }
 
+function resolveCurrencyCode(currency: string): string {
+  return currency.trim().toUpperCase()
+}
+
 export function formatGoalMoney(amount: number, currency: string): string {
-  const symbol = CURRENCY_SYMBOL[currency] ?? currency
+  const code = resolveCurrencyCode(currency)
+  const symbol = CURRENCY_SYMBOL[code] ?? code
 
   const formatted = amount.toLocaleString('en-US', {
     minimumFractionDigits: 2,
