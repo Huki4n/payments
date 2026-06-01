@@ -16,7 +16,6 @@ import {
 
 import { EditGoalDepositForm } from './edit-goal-deposit-form'
 import { EditGoalDetailsForm } from './edit-goal-details-form'
-import { EditGoalWithdrawForm } from './edit-goal-withdraw-form'
 
 export interface EditGoalDialogProps {
   goalId: number | null
@@ -87,7 +86,6 @@ export const EditGoalDialog = ({ goalId, open, onOpenChange }: EditGoalDialogPro
 
             <div className={'flex flex-col gap-5'}>
               <EditGoalDepositForm goalId={goalId} disabled={isBusy} resetKey={formResetKey} />
-              <EditGoalWithdrawForm goalId={goalId} disabled={isBusy} resetKey={formResetKey} />
             </div>
           </div>
         </div>
