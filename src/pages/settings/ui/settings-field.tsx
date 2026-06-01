@@ -80,6 +80,8 @@ interface SettingsSelectFieldProps {
   value: string
   onValueChange: (value: string) => void
   options: SelectOption[]
+  placeholder?: string
+  emptyValue?: string
 }
 
 export const SettingsSelectField = ({
@@ -87,21 +89,26 @@ export const SettingsSelectField = ({
   value,
   onValueChange,
   options,
+  placeholder,
+  emptyValue,
 }: SettingsSelectFieldProps) => {
+  const selectValue = emptyValue !== undefined && value === emptyValue ? undefined : value
+
   return (
     <div className={'flex flex-col gap-2'}>
       <span className={'font-display text-sm font-medium text-brand-purple sm:text-base'}>
         {label}
       </span>
       <div className={cn(fieldShellClass, 'py-2 sm:py-2.5')}>
-        <Select value={value} onValueChange={onValueChange}>
+        <Select value={selectValue} onValueChange={onValueChange}>
           <SelectTrigger
             size={'default'}
             className={cn(
-              'h-auto min-h-0 w-full max-w-none flex-1 rounded-none border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent data-[size=default]:h-auto sm:text-base [&_svg]:text-brand-purple'
+              'h-auto min-h-0 w-full max-w-none flex-1 rounded-none border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent data-[size=default]:h-auto sm:text-base [&_svg]:text-brand-purple',
+              selectValue === undefined && 'text-brand-purple/50'
             )}
           >
-            <SelectValue />
+            <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
             {options.map(opt => (

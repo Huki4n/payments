@@ -1,9 +1,5 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-import { ChevronRight } from 'lucide-react'
-
-import type { AppSettingsCurrency, AppSettingsLanguage } from '@/shared/lib/app-settings-storage'
 
 import { AppLayout } from '@/app/layouts'
 import { useAppDispatch, useAppSelector } from '@/app/store'
@@ -11,7 +7,6 @@ import {
   persistSettingsRequested,
   selectSettings,
   setColorScheme,
-  setCountry,
   setCurrency,
   setEmail,
   setLanguage,
@@ -19,27 +14,39 @@ import {
   setPhone,
   setSurname,
 } from '@/entities/settings'
+import {
+  APP_SETTINGS_CURRENCY_UNSET,
+  type AppSettingsCurrency,
+  type AppSettingsLanguage,
+} from '@/shared/lib/app-settings-storage'
 import { Button } from '@/shared/ui'
 import { HomeNavigation } from '@/widgets/home-navigation'
 
 import { SettingsSelectField, SettingsTextField, SettingsThemeToggle } from './settings-field'
 
-const CURRENCY_OPTIONS = [
-  { value: 'usd', label: 'USD $' },
-  { value: 'eur', label: 'EUR €' },
-  { value: 'rub', label: 'RUB ₽' },
-]
-
-const LANGUAGE_OPTIONS = [
-  { value: 'en', label: 'ENG' },
-  { value: 'ru', label: 'RUS' },
-]
-
 export const SettingsPage = () => {
   const { t } = useTranslation('settings')
   const dispatch = useAppDispatch()
   const settings = useAppSelector(selectSettings)
-  const { currency, language, colorScheme, name, surname, country, phone, email } = settings
+  const { currency, language, colorScheme, name, surname, phone, email } = settings
+
+  const currencyOptions = useMemo(
+    () => [
+      { value: APP_SETTINGS_CURRENCY_UNSET, label: t('options.currency.none') },
+      { value: 'usd', label: t('options.currency.usd') },
+      { value: 'eur', label: t('options.currency.eur') },
+      { value: 'rub', label: t('options.currency.rub') },
+    ],
+    [t]
+  )
+
+  const languageOptions = useMemo(
+    () => [
+      { value: 'en', label: t('options.language.en') },
+      { value: 'ru', label: t('options.language.ru') },
+    ],
+    [t]
+  )
 
   const [savedJson, setSavedJson] = useState(() => JSON.stringify(settings))
   const isDirty = JSON.stringify(settings) !== savedJson
@@ -69,17 +76,11 @@ export const SettingsPage = () => {
           />
 
           <SettingsTextField
-            label={t('fields.country')}
-            value={country}
-            onChange={v => dispatch(setCountry(v))}
-          />
-          <SettingsTextField
             label={t('fields.phoneNumber')}
             value={phone}
             onChange={v => dispatch(setPhone(v))}
             inputType={'tel'}
           />
-
           <SettingsTextField
             label={t('fields.email')}
             value={email}
@@ -90,27 +91,15 @@ export const SettingsPage = () => {
             label={t('fields.currency')}
             value={currency}
             onValueChange={v => dispatch(setCurrency(v as AppSettingsCurrency))}
-            options={CURRENCY_OPTIONS}
-          />
-
-          <SettingsTextField
-            label={t('fields.pinCode')}
-            value={t('actions.resetPin')}
-            readOnly
-            dimValue
-            trailing={
-              <ChevronRight
-                className={'size-5 shrink-0 text-brand-purple/50 sm:size-6'}
-                strokeWidth={1.5}
-                aria-hidden
-              />
-            }
+            options={currencyOptions}
+            emptyValue={APP_SETTINGS_CURRENCY_UNSET}
+            placeholder={t('options.currency.none')}
           />
           <SettingsSelectField
             label={t('fields.language')}
             value={language}
             onValueChange={v => dispatch(setLanguage(v as AppSettingsLanguage))}
-            options={LANGUAGE_OPTIONS}
+            options={languageOptions}
           />
           <SettingsThemeToggle
             label={t('fields.darkTheme')}
