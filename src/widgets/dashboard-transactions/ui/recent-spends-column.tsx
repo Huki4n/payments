@@ -33,12 +33,7 @@ export const RecentSpendsColumn = ({
       >
         <ul className={'space-y-2.5 pr-2'}>
           {rows.map(row => (
-            <RecentSpendRow
-              key={row.id}
-              amount={row.amount}
-              label={row.label}
-              icon={row.icon}
-            />
+            <RecentSpendRow key={row.id} amount={row.amount} label={row.label} icon={row.icon} />
           ))}
         </ul>
       </ScrollArea>
@@ -47,7 +42,7 @@ export const RecentSpendsColumn = ({
           asChild
           size={'lg'}
           className={
-            'h-11 min-w-[7.5rem] rounded-[11px] bg-brand-blue px-6 font-display text-sm font-bold text-white hover:bg-brand-blue/90'
+            'h-11 min-w-30 rounded-lg bg-brand-blue px-6 font-display text-sm font-bold text-white hover:bg-brand-blue/90'
           }
         >
           <Link to={addNewTo}>{addNewLabel}</Link>
