@@ -74,6 +74,11 @@ export function buildIncomeSpendMonthSeries(
 
   for (const tx of transactions ?? []) {
     const key = tx.operationDate.slice(0, 7)
+
+    if (!/^\d{4}-\d{2}$/.test(key)) {
+      continue
+    }
+
     const bucket = buckets.get(key)
 
     if (!bucket) {
@@ -113,7 +118,12 @@ export function buildIncomeSpendDaySeries(
   )
 
   for (const tx of transactions ?? []) {
-    const key = tx.operationDate
+    const key = tx.operationDate.slice(0, 10)
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(key)) {
+      continue
+    }
+
     const bucket = buckets.get(key)
 
     if (!bucket) {

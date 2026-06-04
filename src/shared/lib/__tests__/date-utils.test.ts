@@ -5,6 +5,7 @@ import {
   formatIsoDateDayMonthLabel,
   getCurrentMonthRange,
   getDefaultGoalDeadline,
+  isDeadlinePassed,
   getLast30DaysRange,
   getMinGoalDeadline,
   getMonthKeyFromIso,
@@ -122,6 +123,26 @@ describe('getLast30DaysRange', () => {
       fromDate: '2026-02-03',
       toDate: '2026-03-05',
     })
+  })
+})
+
+describe('isDeadlinePassed', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2026, 5, 4, 12, 0, 0))
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('returns true when deadline is before today', () => {
+    expect(isDeadlinePassed('2026-06-03')).toBe(true)
+  })
+
+  it('returns false for today and future deadlines', () => {
+    expect(isDeadlinePassed('2026-06-04')).toBe(false)
+    expect(isDeadlinePassed('2026-07-01')).toBe(false)
   })
 })
 

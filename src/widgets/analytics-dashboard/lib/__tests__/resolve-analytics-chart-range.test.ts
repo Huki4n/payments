@@ -24,6 +24,18 @@ describe('resolveAnalyticsChartRange', () => {
     })
   })
 
+  it('for preset all extends end by one day when first transaction is today', () => {
+    const fallbackFrom = new Date(2025, 6, 1)
+    const fallbackTo = new Date(2026, 5, 3)
+
+    expect(
+      resolveAnalyticsChartRange('all', ['2026-06-04T12:00:00'], fallbackFrom, fallbackTo)
+    ).toEqual({
+      chartFrom: new Date(2026, 5, 4),
+      chartTo: new Date(2026, 5, 5),
+    })
+  })
+
   it('for preset all without data falls back to default from and today', () => {
     const fallbackFrom = new Date(2025, 6, 1)
     const fallbackTo = new Date(2026, 5, 3)

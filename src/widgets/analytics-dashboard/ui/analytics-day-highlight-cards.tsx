@@ -31,7 +31,7 @@ const DayHighlightCard = ({
   <article className={`rounded-xl p-5 shadow-sm ${frameClassName}`}>
     <div
       className={
-        'flex flex-col items-center justify-center gap-6 rounded-xl bg-card px-5 py-6 text-center sm:gap-8 sm:px-8 sm:py-8'
+        'flex flex-col items-center justify-center gap-6 rounded-xl bg-card px-5 py-6 text-center sm:gap-8 sm:px-8 sm:py-8 h-full'
       }
     >
       <p className={'text-lg font-bold leading-none text-brand-purple sm:text-2xl'}>{title}</p>
