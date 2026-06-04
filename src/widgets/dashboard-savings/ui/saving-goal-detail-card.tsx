@@ -53,7 +53,7 @@ export const SavingGoalDetailCard = ({
         className={'grid min-h-0 flex-1 gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-stretch lg:gap-8'}
       >
         <div className={'flex min-h-0 flex-col gap-6 text-left'}>
-          <SavingGoalHeader title={title} />
+          <SavingGoalHeader title={title} deadline={slide.deadline} />
           <SavingGoalStats goal={goal} total={total} currency={currency} />
           <SavingReplenishmentsList
             slideId={slide.id}

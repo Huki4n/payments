@@ -1,27 +1,18 @@
-import { useMemo, useState } from 'react'
-import type { DateRange } from 'react-day-picker'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { format, subDays, subMonths, subYears } from 'date-fns'
-
+import { formatDateRangeLabel } from '@/shared/lib/date-utils'
 import { Button } from '@/shared/ui/button'
 import { Calendar } from '@/shared/ui/calendar'
 import { DashboardCalendarIcon } from '@/shared/ui/icons/category-icons'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover'
 import { cn } from '@/shared/ui/utils'
 
-type PeriodPreset = 'all' | 'week' | 'month' | '3m' | '6m' | 'year' | 'custom'
+import type { AnalyticsPeriodPreset } from '../lib/get-analytics-period-range'
 
-type PresetId = Exclude<PeriodPreset, 'custom'>
+import { useAnalyticsPeriod } from '../model/analytics-period-context'
 
-const PRESET_RANGES: Record<PresetId, (now: Date) => DateRange | undefined> = {
-  all: () => undefined,
-  week: now => ({ from: subDays(now, 7), to: now }),
-  month: now => ({ from: subMonths(now, 1), to: now }),
-  '3m': now => ({ from: subMonths(now, 3), to: now }),
-  '6m': now => ({ from: subMonths(now, 6), to: now }),
-  year: now => ({ from: subYears(now, 1), to: now }),
-}
+type PresetId = Exclude<AnalyticsPeriodPreset, 'custom'>
 
 const PRESETS: { id: PresetId; row: 1 | 2 }[] = [
   { id: 'week', row: 1 },
@@ -32,34 +23,14 @@ const PRESETS: { id: PresetId; row: 1 | 2 }[] = [
   { id: 'all', row: 2 },
 ]
 
-function formatRange(range: DateRange | undefined, allLabel: string) {
-  if (!range?.from) {
-    return allLabel
-  }
-  const a = format(range.from, 'dd.MM.yyyy')
-
-  if (!range.to) {
-    return `${a} — …`
-  }
-  const b = format(range.to, 'dd.MM.yyyy')
-
-  return `${a} — ${b}`
-}
-
 export const AnalyticsPeriodSelector = () => {
   const { t } = useTranslation('home')
-  const [preset, setPreset] = useState<PeriodPreset>('all')
-  const [range, setRange] = useState<DateRange | undefined>()
+  const { preset, range, setPreset, setRange, applyPreset } = useAnalyticsPeriod()
 
   const rangeLabel = useMemo(
-    () => formatRange(range, t('analyticsPage.periodRangePlaceholder')),
+    () => formatDateRangeLabel(range, t('analyticsPage.periodRangePlaceholder')),
     [range, t]
   )
-
-  const applyPreset = (id: PresetId) => {
-    setPreset(id)
-    setRange(PRESET_RANGES[id](new Date()))
-  }
 
   const chipClass =
     'inline-flex shrink-0 items-center justify-center rounded-lg border border-[rgba(167,191,255,0.8)] px-3 font-display text-xs font-bold text-brand-purple transition-colors sm:px-4 sm:text-sm'
@@ -76,13 +47,13 @@ export const AnalyticsPeriodSelector = () => {
         {t('analyticsPage.selectPeriod')}
       </h2>
 
-      <div className={'flex flex-row gap-4 lg:items-start lg:justify-between lg:gap-6 flex-1'}>
+      <div className={'flex flex-1 flex-row gap-4 lg:items-start lg:justify-between lg:gap-6'}>
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant={'outline'}
               className={
-                'h-full min-h-6 w-full max-w-75 justify-center gap-4 rounded-2xl border-0 bg-white px-5 py-3 font-display text-sm font-medium text-brand-purple/80 shadow-sm hover:bg-white/95 sm:text-base lg:w-auto'
+                'h-full min-h-6 w-full max-w-75 justify-center gap-4 rounded-2xl border-0 bg-white px-5 py-3 font-display text-sm font-medium text-brand-purple/80 shadow-sm hover:bg-white/95 sm:text-base'
               }
             >
               <span>{rangeLabel}</span>
@@ -110,7 +81,14 @@ export const AnalyticsPeriodSelector = () => {
                 key={id}
                 variant={'ghost'}
                 type={'button'}
-                onClick={() => applyPreset(id)}
+                onClick={() => {
+                  if (id === 'all') {
+                    setPreset('all')
+                    setRange(undefined)
+                  } else {
+                    applyPreset(id)
+                  }
+                }}
                 className={cn(
                   chipClass,
                   preset === id && 'border-transparent bg-brand-blue text-white'

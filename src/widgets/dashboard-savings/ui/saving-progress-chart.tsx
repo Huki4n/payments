@@ -10,6 +10,7 @@ import {
 
 import { formatGoalMoney, type SavingsSlide } from '@/entities/goal'
 import { dashboardChartXAxisTick, dashboardChartYAxisTick } from '@/shared/lib/dashboard-chart-axes'
+import { formatCompactAmount } from '@/shared/lib/money-format'
 import { INITIAL_CHART_DIMENSION } from '@/shared/ui/chart-constants'
 
 const TICK_COUNT = 5
@@ -77,8 +78,8 @@ export const SavingProgressChart = ({ slideId, progressChart, currency }: Saving
             tick={dashboardChartYAxisTick}
             tickLine={false}
             axisLine={false}
-            width={48}
-            tickFormatter={v => String(Math.round(v))}
+            width={40}
+            tickFormatter={formatCompactAmount}
           />
           <Tooltip
             content={({ active, payload }) =>

@@ -1,45 +1,29 @@
-/** Pie segments + category list mock (Figma spends chart reference) */
-export const spendsChartPie = [
-  {
-    categoryId: 'catFoodDeliveries' as const,
-    name: 'Food deliveries',
-    value: 72.32,
-    color: '#48abe0',
-    icon: 'utensils' as const,
-  },
-  {
-    categoryId: 'catCafesRestaurants' as const,
-    name: 'Cafes & Restaurants',
-    value: 54.1,
-    color: '#08246e',
-    icon: 'coffee' as const,
-  },
-  {
-    categoryId: 'catPharmacies' as const,
-    name: 'Pharmacies & hospitals',
-    value: 87.3,
-    color: '#6140c9',
-    icon: 'cross' as const,
-  },
-  {
-    categoryId: 'catShopping' as const,
-    name: 'Shopping',
-    value: 123.45,
-    color: '#0f0533',
-    icon: 'shopping' as const,
-  },
-  {
-    categoryId: 'catOther' as const,
-    name: 'Other',
-    value: 3.45,
-    color: '#42d1b5',
-    icon: 'more' as const,
-  },
-  {
-    categoryId: 'catGames' as const,
-    name: 'Games',
-    value: 42.79,
-    color: '#b336c1',
-    icon: 'gamepad' as const,
-  },
-] as const
+import { SPEND_CATEGORIES } from '@/shared/config/spend-categories'
+
+import { SPEND_CHART_COLORS } from './spend-chart-colors'
+
+/** Pie segments mock (Figma reference) — для аналитики и сторибуков. */
+const spendsChartMeta: Record<
+  (typeof SPEND_CATEGORIES)[number]['id'],
+  { name: string; value: number }
+> = {
+  catSupermarkets: { name: 'Supermarkets', value: 72.32 },
+  catTransport: { name: 'Transport', value: 41.2 },
+  catTaxi: { name: 'Taxi', value: 18.5 },
+  catRestaurants: { name: 'Restaurants', value: 54.1 },
+  catEntertainment: { name: 'Entertainment', value: 42.79 },
+  catClothing: { name: 'Clothing', value: 88.2 },
+  catPharmacy: { name: 'Pharmacy', value: 87.3 },
+  catSubscriptions: { name: 'Subscriptions', value: 24.99 },
+  catTelecom: { name: 'Telecom', value: 28.5 },
+  catUtilities: { name: 'Utilities', value: 63.15 },
+  catMarketplaces: { name: 'Marketplaces', value: 123.45 },
+  catOther: { name: 'Other', value: 3.45 },
+}
+
+export const spendsChartPie = SPEND_CATEGORIES.map(category => ({
+  categoryId: category.id,
+  icon: category.icon,
+  color: SPEND_CHART_COLORS[category.id],
+  ...spendsChartMeta[category.id],
+}))

@@ -1,7 +1,7 @@
 import { DashboardSpendCategoryIcon } from '@/shared/ui/icons/category-icons'
 import { cn } from '@/shared/ui/utils'
 
-import type { SpendMockRow } from '../model/transactions-mock'
+import type { SpendMockRow } from '../model/types'
 
 export interface RecentSpendRowProps {
   amount: string
@@ -23,7 +23,7 @@ export const RecentSpendRow = ({ amount, label, icon }: RecentSpendRowProps) => 
         name={icon}
         className={cn(
           'size-5 shrink-0 text-brand-purple/50',
-          icon === 'gamepad' && 'text-brand-purple/60'
+          (icon === 'gamepad' || icon === 'credit-card') && 'text-brand-purple/60'
         )}
       />
       <span

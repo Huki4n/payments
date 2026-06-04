@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { Provider } from 'react-redux'
 import {
   createMemoryRouter,
   RouterProvider,
@@ -7,6 +8,8 @@ import {
 } from 'react-router-dom'
 
 import { render, type RenderOptions } from '@testing-library/react'
+
+import { testStore } from './test-store'
 
 type RouterRenderOptions = Omit<RenderOptions, 'wrapper'> & {
   routerProps?: Pick<MemoryRouterProps, 'initialEntries' | 'initialIndex'>
@@ -26,5 +29,10 @@ export function renderWithRouter(ui: ReactElement, options: RouterRenderOptions 
     initialIndex: routerProps?.initialIndex,
   })
 
-  return render(<RouterProvider router={router} />, renderOptions)
+  return render(
+    <Provider store={testStore}>
+      <RouterProvider router={router} />
+    </Provider>,
+    renderOptions
+  )
 }

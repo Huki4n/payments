@@ -12,15 +12,21 @@ import {
   useCurrencySettingsGate,
 } from '@/features/require-settings-currency'
 import { Button } from '@/shared/ui'
-import { AccountBalance } from '@/widgets/account-balance'
+import { AccountBalance, useAccountHeader } from '@/widgets/account-balance'
 import { SavingsSwiper } from '@/widgets/dashboard-savings'
 import { HomeNavigation } from '@/widgets/home-navigation'
 
 export const SavesPage = () => {
   const { t } = useTranslation('home')
+  const accountHeader = useAccountHeader()
+
   const { isCurrencyConfigured } = useCurrencySettingsGate()
   const displayCurrency = useAppSelector(selectDisplayGoalCurrency)
-  const { data: slides = [], isLoading, isError } = useGetSavingsSlidesQuery(displayCurrency!, {
+  const {
+    data: slides = [],
+    isLoading,
+    isError,
+  } = useGetSavingsSlidesQuery(displayCurrency!, {
     skip: !displayCurrency,
   })
   const [createGoalOpen, setCreateGoalOpen] = useState(false)
@@ -35,12 +41,7 @@ export const SavesPage = () => {
       header={
         <>
           <HomeNavigation />
-          <AccountBalance
-            welcomeText={t('welcome', { name: 'Rodion' })}
-            balanceLabel={t('balanceLabel')}
-            integerPart={'$1650'}
-            fractionPart={'.40'}
-          />
+          <AccountBalance {...accountHeader} />
         </>
       }
     >

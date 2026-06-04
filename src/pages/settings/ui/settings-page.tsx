@@ -8,7 +8,6 @@ import {
   selectSettings,
   setColorScheme,
   setCurrency,
-  setEmail,
   setLanguage,
   setName,
   setPhone,
@@ -28,7 +27,7 @@ export const SettingsPage = () => {
   const { t } = useTranslation('settings')
   const dispatch = useAppDispatch()
   const settings = useAppSelector(selectSettings)
-  const { currency, language, colorScheme, name, surname, phone, email } = settings
+  const { currency, language, colorScheme, name, surname, phone } = settings
 
   const currencyOptions = useMemo(
     () => [
@@ -80,12 +79,6 @@ export const SettingsPage = () => {
             value={phone}
             onChange={v => dispatch(setPhone(v))}
             inputType={'tel'}
-          />
-          <SettingsTextField
-            label={t('fields.email')}
-            value={email}
-            onChange={v => dispatch(setEmail(v))}
-            inputType={'email'}
           />
           <SettingsSelectField
             label={t('fields.currency')}

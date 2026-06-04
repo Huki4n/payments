@@ -1,28 +1,68 @@
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { Loader2Icon } from 'lucide-react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
+import { useAppSelector } from '@/app/store'
+import { selectDisplayGoalCurrency } from '@/entities/settings'
+import { useGetTransactionsQuery } from '@/entities/transaction'
+import { formatGoalMoney } from '@/shared/lib/money-format'
 import { INITIAL_CHART_DIMENSION } from '@/shared/ui/chart-constants'
 import { DashboardSpendCategoryIcon } from '@/shared/ui/icons/category-icons'
 import { Progress } from '@/shared/ui/progress'
-import { spendsChartPie } from '@/widgets/spends-chart'
-
-import { renderSpendsPieLabel } from '../lib/render-spends-pie-label'
+import { ScrollArea } from '@/shared/ui/scroll-area'
+import { cn } from '@/shared/ui/utils'
 import {
-  analyticsCategoryExtremes,
-  analyticsCategoryNarratives,
-} from '../model/analytics-mock'
+  buildSpendsChartData,
+  formatSpendsPieTooltip,
+  SPENDS_PIE_TOOLTIP_CONTENT_STYLE,
+} from '@/widgets/spends-chart'
+
+import { getCategorySpendingExtremes } from '../lib/get-category-spending-extremes'
+import { renderSpendsPieLabel } from '../lib/render-spends-pie-label'
+import { useAnalyticsPeriod } from '../model/analytics-period-context'
 
 export const AnalyticsIncomeExpenseChart = () => {
   const { t } = useTranslation('home')
-  const pieData = spendsChartPie.map(row => ({ ...row }))
+  const displayCurrency = useAppSelector(selectDisplayGoalCurrency)
+  const { apiRange } = useAnalyticsPeriod()
 
-  const mostMeta = spendsChartPie.find(
-    row => row.categoryId === analyticsCategoryExtremes.mostCategoryId
+  const { data, isLoading, isError } = useGetTransactionsQuery(
+    {
+      displayCurrency: displayCurrency!,
+      params: { type: 'EXPENSE', ...apiRange },
+    },
+    { skip: !displayCurrency }
   )
-  const leastMeta = spendsChartPie.find(
-    row => row.categoryId === analyticsCategoryExtremes.leastCategoryId
-  )
+
+  const chartRows = useMemo(() => {
+    if (!displayCurrency) {
+      return []
+    }
+
+    return buildSpendsChartData(data?.transactions, displayCurrency, t)
+  }, [data?.transactions, displayCurrency, t])
+
+  const pieData = useMemo(() => chartRows.map(row => ({ ...row })), [chartRows])
+
+  const extremes = useMemo(() => getCategorySpendingExtremes(chartRows), [chartRows])
+
+  const currency = displayCurrency ?? 'USD'
+
+  const topCaption =
+    extremes.most &&
+    t('analyticsPage.topCategoryCaption', {
+      category: extremes.most.name,
+      amount: formatGoalMoney(extremes.most.value, currency),
+    })
+
+  const lowestCaption =
+    extremes.least &&
+    t('analyticsPage.lowestCategoryCaption', {
+      category: extremes.least.name,
+      amount: formatGoalMoney(extremes.least.value, currency),
+    })
 
   return (
     <section
@@ -38,137 +78,166 @@ export const AnalyticsIncomeExpenseChart = () => {
         {t('analyticsPage.categorySpendsWheelTitle')}
       </h2>
 
-      <div className={'flex flex-col items-stretch gap-4 lg:flex-row lg:gap-5 xl:gap-6'}>
-        <div
+      {isError ? (
+        <p
           className={
-            'mx-auto my-auto h-90 w-full max-w-90 min-h-0 min-w-0 shrink-0 sm:h-90 sm:max-w-90 md:h-90 md:max-w-90'
+            'rounded-2xl bg-card/60 px-4 py-10 text-center font-display text-sm text-brand-purple/70 sm:text-base'
           }
         >
-          <ResponsiveContainer
-            width={'100%'}
-            height={'100%'}
-            initialDimension={INITIAL_CHART_DIMENSION}
-          >
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey={'value'}
-                nameKey={'name'}
-                cx={'50%'}
-                cy={'50%'}
-                innerRadius={0}
-                outerRadius={'98%'}
-                paddingAngle={0}
-                strokeWidth={0}
-                label={renderSpendsPieLabel}
-                labelLine={false}
-                isAnimationActive={false}
-              >
-                {pieData.map(entry => (
-                  <Cell key={entry.categoryId} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={value => {
-                  const num = typeof value === 'number' ? value : Number(value ?? 0)
-
-                  return [`-${num.toFixed(2)} $`, t('dashboard.spendAmount')]
-                }}
-                contentStyle={{
-                  borderRadius: 12,
-                  border: '1px solid var(--dashboard-tooltip-border)',
-                  fontFamily: 'var(--font-display)',
-                }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
+          {t('analyticsPage.loadError')}
+        </p>
+      ) : isLoading ? (
+        <div
+          className={'flex min-h-90 items-center justify-center'}
+          role={'status'}
+          aria-live={'polite'}
+          aria-busy={'true'}
+        >
+          <Loader2Icon className={'size-10 animate-spin text-brand-blue sm:size-12'} aria-hidden />
         </div>
-
-        <div
+      ) : chartRows.length === 0 ? (
+        <p
           className={
-            'flex shrink-0 flex-row flex-wrap justify-center gap-2 lg:flex-col lg:justify-center lg:gap-2.5'
+            'rounded-2xl bg-card/60 px-4 py-10 text-center font-display text-sm text-muted-foreground sm:text-base'
           }
         >
-          {spendsChartPie.map(row => (
-            <span
-              key={row.categoryId}
-              className={
-                'flex h-13 w-14 shrink-0 items-center justify-center rounded-xl sm:h-14 sm:w-14'
-              }
-              style={{ backgroundColor: row.color }}
-              title={row.name}
-            >
-              <DashboardSpendCategoryIcon
-                name={row.icon}
-                className={'size-7 text-dashboard-on-chart-swatch'}
-              />
-            </span>
-          ))}
-        </div>
-
-        <div
-          className={
-            'flex min-h-0 min-w-0 flex-1 justify-around flex-col gap-4 rounded-2xl bg-card px-3 py-4 shadow-sm sm:gap-5 sm:px-4 sm:py-5 md:rounded-3xl lg:self-stretch font-display-alternates'
-          }
-        >
-          <h3
+          {t('dashboard.spendsChartEmpty')}
+        </p>
+      ) : (
+        <div className={'flex flex-col items-stretch gap-4 lg:flex-row lg:gap-5 xl:gap-6'}>
+          <div
             className={
-              'w-full text-center font-display-alternates text-base font-bold leading-none text-foreground sm:text-lg'
+              'mx-auto my-auto h-90 w-full max-w-90 min-h-0 min-w-0 shrink-0 sm:h-90 sm:max-w-90 md:h-90 md:max-w-90'
             }
           >
-            {t('analyticsPage.mostLowestCategoriesTitle')}
-          </h3>
-
-          <div className={'w-full min-w-0'}>
-            <div className={'flex flex-col gap-2.5 sm:gap-3'}>
-              <div className={'flex items-center gap-2.5'}>
-                {mostMeta ? (
-                  <DashboardSpendCategoryIcon
-                    name={mostMeta.icon}
-                    className={'size-15 shrink-0 text-brand-purple sm:size-16'}
-                  />
-                ) : null}
-                <Progress
-                  value={analyticsCategoryExtremes.mostPercent}
-                  className={
-                    'h-6 w-full rounded-full border border-brand-purple/30 bg-white **:data-[slot=progress-indicator]:bg-dashboard-chart-teal dark:bg-card'
+            <ResponsiveContainer
+              width={'100%'}
+              height={'100%'}
+              initialDimension={INITIAL_CHART_DIMENSION}
+            >
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey={'value'}
+                  nameKey={'name'}
+                  cx={'50%'}
+                  cy={'50%'}
+                  innerRadius={0}
+                  outerRadius={'98%'}
+                  paddingAngle={0}
+                  strokeWidth={0}
+                  label={renderSpendsPieLabel}
+                  labelLine={false}
+                  isAnimationActive={false}
+                >
+                  {pieData.map(entry => (
+                    <Cell key={entry.categoryId} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  formatter={(value, name, item) =>
+                    formatSpendsPieTooltip(value, name, item, currency)
                   }
+                  contentStyle={SPENDS_PIE_TOOLTIP_CONTENT_STYLE}
                 />
-              </div>
-
-              <p
-                className={'text-left text-md font-normal leading-snug text-foreground sm:text-lg'}
-              >
-                {mostMeta ? analyticsCategoryNarratives.top : null}
-              </p>
-            </div>
+              </PieChart>
+            </ResponsiveContainer>
           </div>
 
-          <div className={'w-full min-w-0'}>
-            <div className={'flex flex-col gap-2.5 sm:gap-3'}>
-              <div className={'flex items-center gap-2.5'}>
-                {leastMeta ? (
-                  <DashboardSpendCategoryIcon
-                    name={leastMeta.icon}
-                    className={'size-15 shrink-0 text-brand-purple sm:size-16'}
-                  />
-                ) : null}
-                <Progress
-                  value={analyticsCategoryExtremes.leastPercent}
+          <ScrollArea
+            hideScrollbar
+            className={cn(
+              'min-h-0 w-14 shrink-0 overflow-hidden',
+              'max-h-[calc(6*3.5rem+5*0.625rem)]'
+            )}
+          >
+            <div className={'flex flex-col gap-2.5'}>
+              {chartRows.map(row => (
+                <span
+                  key={row.categoryId}
                   className={
-                    'h-6 w-full rounded-full border border-brand-purple/30 bg-white **:data-[slot=progress-indicator]:bg-brand-blue dark:bg-card'
+                    'flex h-13 w-14 shrink-0 items-center justify-center rounded-xl sm:h-14 sm:w-14'
                   }
-                />
+                  style={{ backgroundColor: row.color }}
+                  title={row.name}
+                >
+                  <DashboardSpendCategoryIcon
+                    name={row.icon}
+                    className={'size-7 text-dashboard-on-chart-swatch'}
+                  />
+                </span>
+              ))}
+            </div>
+          </ScrollArea>
+
+          <div
+            className={
+              'flex min-h-0 min-w-0 flex-1 flex-col justify-around gap-4 rounded-2xl bg-card px-3 py-4 shadow-sm sm:gap-5 sm:px-4 sm:py-5 md:rounded-3xl lg:self-stretch font-display-alternates'
+            }
+          >
+            <h3
+              className={
+                'w-full text-center font-display-alternates text-base font-bold leading-none text-foreground sm:text-lg'
+              }
+            >
+              {t('analyticsPage.mostLowestCategoriesTitle')}
+            </h3>
+
+            <div className={'w-full min-w-0'}>
+              <div className={'flex flex-col gap-2.5 sm:gap-3'}>
+                <div className={'flex items-center gap-2.5'}>
+                  {extremes.most ? (
+                    <DashboardSpendCategoryIcon
+                      name={extremes.most.icon}
+                      className={'size-15 shrink-0 text-brand-purple sm:size-16'}
+                    />
+                  ) : null}
+                  <Progress
+                    value={extremes.mostPercent}
+                    className={
+                      'h-6 w-full rounded-full border border-brand-purple/30 bg-white **:data-[slot=progress-indicator]:bg-dashboard-chart-teal dark:bg-card'
+                    }
+                  />
+                </div>
+
+                <p
+                  className={
+                    'text-left text-md font-normal leading-snug text-foreground sm:text-lg'
+                  }
+                >
+                  {topCaption}
+                </p>
               </div>
-              <p
-                className={'text-left text-md font-normal leading-snug text-foreground sm:text-lg'}
-              >
-                {leastMeta ? analyticsCategoryNarratives.lowest : null}
-              </p>
+            </div>
+
+            <div className={'w-full min-w-0'}>
+              <div className={'flex flex-col gap-2.5 sm:gap-3'}>
+                <div className={'flex items-center gap-2.5'}>
+                  {extremes.least ? (
+                    <DashboardSpendCategoryIcon
+                      name={extremes.least.icon}
+                      className={'size-15 shrink-0 text-brand-purple sm:size-16'}
+                    />
+                  ) : null}
+                  <Progress
+                    value={extremes.leastPercent}
+                    className={
+                      'h-6 w-full rounded-full border border-brand-purple/30 bg-white **:data-[slot=progress-indicator]:bg-brand-blue dark:bg-card'
+                    }
+                  />
+                </div>
+                <p
+                  className={
+                    'text-left text-md font-normal leading-snug text-foreground sm:text-lg'
+                  }
+                >
+                  {lowestCaption}
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   )
 }

@@ -23,3 +23,25 @@ export type ContributionsPage = {
   first: boolean
   last: boolean
 }
+
+/** Элемент списка GET /goals/contributions */
+export type GoalContributionItemResponse = {
+  id: number
+  goalId: number
+  goalTitle: string
+  amount: number
+  type: ContributionType
+  createdAt: string
+}
+
+/** GET /goals/contributions */
+export type GoalContributionsPeriodResponse = {
+  totalAmount: number
+  count: number
+  contributions: GoalContributionItemResponse[]
+}
+
+export type GetGoalContributionsPeriodParams = {
+  fromDate?: string
+  toDate?: string
+}

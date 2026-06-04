@@ -12,6 +12,9 @@ export type {
   Contribution,
   AddContributionRequest,
   ContributionsPage,
+  GoalContributionItemResponse,
+  GoalContributionsPeriodResponse,
+  GetGoalContributionsPeriodParams,
 } from './contributions-types'
 
 export type { SavingsSlide, SavingsReplenishment, SavingsProgressPoint } from './savings-slide'

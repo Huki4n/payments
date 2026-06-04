@@ -1,14 +1,31 @@
-export const financeChartData = [
-  { month: 'Jan', value: 420 },
-  { month: 'Feb', value: 580 },
-  { month: 'Mar', value: 910 },
-  { month: 'Apr', value: 720 },
-  { month: 'May', value: 1100 },
-  { month: 'Jun', value: 980 },
-  { month: 'Jul', value: 1500 },
-  { month: 'Aug', value: 2343 },
-  { month: 'Sep', value: 1850 },
-  { month: 'Oct', value: 1600 },
-  { month: 'Nov', value: 1420 },
-  { month: 'Dec', value: 1280 },
+export const FINANCE_CHART_MONTH_KEYS = [
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec',
 ] as const
+
+export type FinanceChartMonthKey = (typeof FINANCE_CHART_MONTH_KEYS)[number]
+
+export const financeChartData: { monthKey: FinanceChartMonthKey; value: number }[] = [
+  { monthKey: 'jan', value: 420 },
+  { monthKey: 'feb', value: 580 },
+  { monthKey: 'mar', value: 910 },
+  { monthKey: 'apr', value: 720 },
+  { monthKey: 'may', value: 1100 },
+  { monthKey: 'jun', value: 980 },
+  { monthKey: 'jul', value: 1500 },
+  { monthKey: 'aug', value: 2343 },
+  { monthKey: 'sep', value: 1850 },
+  { monthKey: 'oct', value: 1600 },
+  { monthKey: 'nov', value: 1420 },
+  { monthKey: 'dec', value: 1280 },
+]

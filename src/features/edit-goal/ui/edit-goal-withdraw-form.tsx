@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
@@ -22,6 +23,7 @@ export const EditGoalWithdrawForm = ({
 }: EditGoalWithdrawFormProps) => {
   const { t } = useTranslation('home')
   const [addContribution, { isLoading }] = useAddContributionMutation()
+  const [amountInputKey, setAmountInputKey] = useState(0)
 
   const form = useForm<{ amount: string }>({
     defaultValues: { amount: '' },
@@ -50,6 +52,8 @@ export const EditGoalWithdrawForm = ({
       }).unwrap()
       toast.success(t('savingsPage.editGoal.success.withdraw'))
       form.reset({ amount: '' })
+      form.clearErrors()
+      setAmountInputKey(key => key + 1)
     } catch (error) {
       const message = getApiErrorMessage(error, t('savingsPage.editGoal.errors.withdrawal'))
 
@@ -72,6 +76,7 @@ export const EditGoalWithdrawForm = ({
         <div className={'flex min-w-0 flex-col gap-2'}>
           <Label htmlFor={'edit-goal-withdraw'}>{t('savingsPage.editGoal.amountLabel')}</Label>
           <Input
+            key={amountInputKey}
             id={'edit-goal-withdraw'}
             type={'number'}
             min={0.01}

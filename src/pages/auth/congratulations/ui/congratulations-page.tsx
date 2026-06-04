@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
+import { AUTH_PAGE_SHELL_CLASSNAME } from '@/pages/auth/lib/auth-page-shell'
 import { Button } from '@/shared/ui'
 
 const CongratulationsIllustration = () => (
@@ -114,7 +115,7 @@ export const CongratulationsPage = () => {
   const navigate = useNavigate()
 
   return (
-    <div className={'relative flex min-h-svh flex-col bg-white text-brand-purple'}>
+    <div className={AUTH_PAGE_SHELL_CLASSNAME}>
       <header className={'px-6 pt-12 sm:pt-16 lg:pt-20'}>
         <h1
           className={

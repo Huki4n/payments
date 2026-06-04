@@ -4,6 +4,7 @@ export const savingsSlidesMock: SavingsSlide[] = [
   {
     id: 'world-trip',
     title: 'World trip',
+    deadline: '2027-06-15',
     currency: 'USD',
     goal: 15000,
     total: 14100,
@@ -24,6 +25,7 @@ export const savingsSlidesMock: SavingsSlide[] = [
   {
     id: 'emergency',
     title: 'Emergency fund',
+    deadline: '2026-12-31',
     currency: 'USD',
     goal: 8000,
     total: 6200,
@@ -43,6 +45,7 @@ export const savingsSlidesMock: SavingsSlide[] = [
   {
     id: 'car-purchase',
     title: 'New car',
+    deadline: '2028-03-01',
     currency: 'USD',
     goal: 15000,
     total: 14100,
@@ -63,6 +66,7 @@ export const savingsSlidesMock: SavingsSlide[] = [
   {
     id: 'home-fund',
     title: 'Home fund',
+    deadline: '2030-01-01',
     currency: 'USD',
     goal: 25000,
     total: 8750,
@@ -82,6 +86,7 @@ export const savingsSlidesMock: SavingsSlide[] = [
   {
     id: 'gadget-fund',
     title: 'Gadget savings',
+    deadline: '2026-09-30',
     currency: 'USD',
     goal: 3000,
     total: 2100,

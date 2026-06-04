@@ -76,7 +76,6 @@
       "name": "Name",
       "surname": "Surname",
       "phoneNumber": "Phone Number",
-      "email": "E-Mail",
       "currency": "Currency",
       "darkTheme": "Theme",
       "themeLight": "Light",
@@ -100,7 +99,8 @@
       "save": "Save"
     },
     "toast": {
-      "saved": "Settings saved"
+      "saved": "Settings saved",
+      "saveFailed": "Could not save profile to server"
     },
     "requireCurrency": {
       "title": "Select a currency",
@@ -121,13 +121,17 @@
     "menuAria": "Navigation menu",
     "welcome": "Welcome, {{name}}",
     "balanceLabel": "Your current account Balance",
+    "profile": {
+      "fallbackName": "there"
+    },
     "transactionsPage": {
       "searchByName": "Search by Name",
       "searchByAmount": "Search by Amount",
       "category": "Category",
       "categoryAll": "All categories",
       "totalMonthEarnings": "Total Month Earnings",
-      "totalMonthSpends": "Total Month Spends"
+      "totalMonthSpends": "Total Month Spends",
+      "loadError": "Could not load transactions"
     },
     "savingsPage": {
       "addNewSaving": "Add new saving",
@@ -215,16 +219,19 @@
       "mostSpentCategory": "Most spent",
       "leastSpentCategory": "Lowest spent",
       "avgCompareTitle": "Your Average Daily Spending is Lower Than Your Average Daily Income ! Nice!",
+      "avgCompareTitleNegative": "Your average daily spending is higher than your average daily income",
       "avgCompareStatsLead": "Your average spending number is:",
       "avgCompareStatsMiddle": "per day in this period, while your average income number is:",
       "keepGoing": "Keep Going!",
-      "netProfit": "Your Net Profit is {{percent}}%",
+      "avgCompareKeepGoingNegative": "Consider reviewing your spending for this period",
+      "netProfit": "Your Net Profit is {{amount}}",
       "periodSavedTitle": "In selected period you saved:",
-      "totalSavedChartTitle": "Total Saved"
+      "totalSavedChartTitle": "Total Saved",
+      "loadError": "Could not load transactions"
     },
     "dashboard": {
-      "yearlyFinance": "Your yearly Finance",
-      "yearlyRange": "01.01.2025 - now",
+      "monthFinance": "Your monthly Finance",
+      "monthRange": "{{from}} — now",
       "months": {
         "jan": "Jan",
         "feb": "Feb",
@@ -239,14 +246,16 @@
         "nov": "Nov",
         "dec": "Dec"
       },
-      "exploreYearly": "Explore deeper yearly statistics",
+      "exploreMonth": "Explore deeper monthly statistics",
       "transactionsTitle": "Transactions",
       "recentEarnings": "Your recent Earnings",
       "recentSpends": "Your recent Spends",
       "monthlySpendsWheel": "Your monthly Spends wheel",
+      "spendsChartEmpty": "No incomes this month",
       "spendAmount": "Amount",
       "savingGoal": "Your saving goal:",
       "savingTotal": "Your saving total:",
+      "savingDeadline": "Deadline:",
       "savingsReplenishments": "Your Savings replenishments",
       "savingProgress": "Your saving progress:",
       "configureSavings": "Configure your savings",
@@ -264,12 +273,25 @@
         "shawarmaLeonstreet": "Shawarma Leonstreet"
       },
       "categories": {
-        "catFoodDeliveries": "Food deliveries",
-        "catCafesRestaurants": "Cafes & Restaurants",
-        "catPharmacies": "Pharmacies & hospitals",
-        "catShopping": "Shopping",
-        "catOther": "Other",
-        "catGames": "Games"
+        "catSalary": "Salary",
+        "catTransfer": "Transfer",
+        "catFreelance": "Freelance",
+        "catCashback": "Cashback",
+        "catInterest": "Interest",
+        "catRefund": "Refund",
+        "catGift": "Gift",
+        "catSupermarkets": "Supermarkets",
+        "catTransport": "Transport",
+        "catTaxi": "Taxi",
+        "catRestaurants": "Cafes & restaurants",
+        "catEntertainment": "Entertainment",
+        "catClothing": "Clothing",
+        "catPharmacy": "Pharmacy",
+        "catSubscriptions": "Subscriptions",
+        "catTelecom": "Telecom",
+        "catUtilities": "Utilities",
+        "catMarketplaces": "Marketplaces",
+        "catOther": "Other"
       }
     },
     "addData": {
@@ -278,7 +300,11 @@
       "upload": "Upload Bank Statements",
       "or": "or",
       "errors": {
-        "submitFailed": "Could not submit data. Please try again."
+        "submitFailed": "Could not submit data. Please try again.",
+        "noFiles": "Add at least one bank statement CSV file.",
+        "invalidFileType": "Only CSV files are supported (semicolon delimiter).",
+        "noRows": "Fill in at least one row with a category and amount.",
+        "invalidRows": "Check your rows: category and amount (min 0.01) are required."
       },
       "processing": {
         "loadingTitle": "Saving and analyzing your data…",
@@ -286,16 +312,18 @@
         "uploadLoadingTitle": "Your Data Saved Successfully!",
         "uploadLoadingSubtitle": "We are analyzing it now, it can take a few minutes.",
         "completeTitle": "Your Analytics Are Ready !",
+        "completeUploadMore": "Upload more",
         "completeButton": "Refresh Homepage"
       },
       "uploadForm": {
         "title": "Upload Your Bank Statements",
-        "description": "Choose files or drag them into the upload area, review your uploads, then save and proceed.",
+        "description": "Upload a CSV bank statement (semicolon delimiter): choose files or drag them into the upload area, then save and proceed.",
         "chooseFile": "Choose a file",
         "dragHere": "Drag it here",
         "yourUploads": "Your Uploads",
         "empty": "No files yet — choose or drag files on the left.",
-        "dropzoneAria": "Upload area: choose a file or drag files here"
+        "dropzoneAria": "Upload area: choose a file or drag files here",
+        "removeFile": "Remove file from the list"
       },
       "manualForm": {
         "title": "Fill Out Your Data",
@@ -307,15 +335,7 @@
         "save": "Save",
         "cancel": "Cancel",
         "saved": "Entry saved",
-        "saveProceed": "Save & Proceed",
-        "categories": {
-          "groceries": "Groceries",
-          "transport": "Transport",
-          "bills": "Bills",
-          "entertainment": "Entertainment",
-          "health": "Health",
-          "other": "Other"
-        }
+        "saveProceed": "Save & Proceed"
       }
     }
   }

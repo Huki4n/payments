@@ -7,6 +7,8 @@ import type {
   Contribution,
   ContributionsPage,
   CreateGoalRequest,
+  GetGoalContributionsPeriodParams,
+  GoalContributionsPeriodResponse,
   GoalDetails,
   GoalListItem,
   SavingsSlide,
@@ -38,6 +40,16 @@ export const goalsApi = baseApi.injectEndpoints({
     getGoalById: build.query<GoalDetails, number>({
       query: goalId => `/goals/${goalId}`,
       providesTags: (_result, _error, goalId) => [{ type: 'Goal', id: goalId }],
+    }),
+    getGoalContributionsForPeriod: build.query<
+      GoalContributionsPeriodResponse,
+      GetGoalContributionsPeriodParams | void
+    >({
+      query: params => ({
+        url: '/goals/contributions',
+        params: params ?? undefined,
+      }),
+      providesTags: [{ type: 'Goal', id: 'CONTRIBUTIONS_PERIOD' }],
     }),
     getGoalContributions: build.query<
       ContributionsPage,
@@ -82,6 +94,7 @@ export const goalsApi = baseApi.injectEndpoints({
           { type: 'Goal', id: goalId },
           { type: 'Goal', id: 'LIST' },
           { type: 'Goal', id: `${goalId}-contributions` },
+          { type: 'Goal', id: 'CONTRIBUTIONS_PERIOD' },
         ],
       }
     ),
@@ -141,5 +154,6 @@ export const {
   useGetGoalsQuery,
   useGetGoalByIdQuery,
   useGetGoalContributionsQuery,
+  useGetGoalContributionsForPeriodQuery,
   useGetSavingsSlidesQuery,
 } = goalsApi

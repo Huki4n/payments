@@ -9,6 +9,7 @@ import {
   type AuthFlowState,
 } from '@/entities/session'
 import { AUTH_PIN_FORM_ID, AuthPinForm, type AuthPinFormSubmitResult } from '@/features/auth-pin'
+import { AUTH_PAGE_SHELL_CLASSNAME } from '@/pages/auth/lib/auth-page-shell'
 import { Button, Progress } from '@/shared/ui'
 
 export const PinPage = () => {
@@ -50,7 +51,7 @@ export const PinPage = () => {
   }
 
   return (
-    <div className={'relative flex min-h-svh flex-col bg-white text-brand-purple'}>
+    <div className={AUTH_PAGE_SHELL_CLASSNAME}>
       <main className={'flex flex-1 flex-col items-center px-6 pt-12 pb-10 sm:pt-16 lg:pt-20'}>
         <div className={'flex w-full max-w-xl flex-1 flex-col items-center gap-12'}>
           <div className={'flex flex-col items-center gap-8'}>

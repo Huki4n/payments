@@ -96,6 +96,7 @@ export function mapGoalToSavingsSlide(
   return {
     id: String(goal.id),
     title: goal.title,
+    deadline: goal.deadline,
     currency: options.displayCurrency,
     goal: targetAmount,
     total,

@@ -10,7 +10,7 @@ import {
   CurrencySettingsRequiredNotice,
   useCurrencySettingsGate,
 } from '@/features/require-settings-currency'
-import { AccountBalance } from '@/widgets/account-balance'
+import { AccountBalance, useAccountHeader } from '@/widgets/account-balance'
 import { SavingsSwiper } from '@/widgets/dashboard-savings'
 import { DashboardTransactionsCard } from '@/widgets/dashboard-transactions'
 import { FinanceChartCard } from '@/widgets/finance-chart'
@@ -19,10 +19,15 @@ import { SpendsChartCard } from '@/widgets/spends-chart'
 
 export const HomePage = () => {
   const { t } = useTranslation('home')
+  const accountHeader = useAccountHeader()
   const { isCurrencyConfigured } = useCurrencySettingsGate()
   const displayCurrency = useAppSelector(selectDisplayGoalCurrency)
   const [editGoalId, setEditGoalId] = useState<number | null>(null)
-  const { data: slides = [], isLoading, isError } = useGetSavingsSlidesQuery(displayCurrency!, {
+  const {
+    data: slides = [],
+    isLoading,
+    isError,
+  } = useGetSavingsSlidesQuery(displayCurrency!, {
     skip: !displayCurrency,
   })
 
@@ -35,12 +40,7 @@ export const HomePage = () => {
       header={
         <>
           <HomeNavigation />
-          <AccountBalance
-            welcomeText={t('welcome', { name: 'Rodion' })}
-            balanceLabel={t('balanceLabel')}
-            integerPart={'$1650'}
-            fractionPart={'.40'}
-          />
+          <AccountBalance {...accountHeader} />
         </>
       }
     >
@@ -48,6 +48,7 @@ export const HomePage = () => {
         <div className={'mx-auto flex max-w-5xl flex-col gap-6 md:gap-8'}>
           <FinanceChartCard />
           <DashboardTransactionsCard
+            skipApi={!displayCurrency}
             sectionTitle={t('dashboard.transactionsTitle')}
             earningsTitle={t('dashboard.recentEarnings')}
             spendsTitle={t('dashboard.recentSpends')}

@@ -14,15 +14,20 @@ import { mapAppSettingsCurrencyToGoalCurrency } from '@/shared/lib/currency-exch
 
 import { persistSettingsRequested } from './persist-settings-requested'
 
+export type ProfileHydrationFields = {
+  name: string
+  surname: string
+  phone: string
+  language: AppSettingsLanguage
+}
+
 export interface SettingsState {
   currency: AppSettingsCurrency
   language: AppSettingsLanguage
   colorScheme: AppSettingsColorScheme
   name: string
   surname: string
-  country: string
   phone: string
-  email: string
   isPersisted: boolean
 }
 
@@ -50,14 +55,14 @@ export const settingsSlice = createSlice({
     setSurname(state, action: PayloadAction<string>) {
       state.surname = action.payload
     },
-    setCountry(state, action: PayloadAction<string>) {
-      state.country = action.payload
-    },
     setPhone(state, action: PayloadAction<string>) {
       state.phone = action.payload
     },
-    setEmail(state, action: PayloadAction<string>) {
-      state.email = action.payload
+    hydrateFromProfile(state, action: PayloadAction<ProfileHydrationFields>) {
+      state.name = action.payload.name
+      state.surname = action.payload.surname
+      state.phone = action.payload.phone
+      state.language = action.payload.language
     },
   },
   extraReducers: builder => {
@@ -73,9 +78,8 @@ export const {
   setColorScheme,
   setName,
   setSurname,
-  setCountry,
   setPhone,
-  setEmail,
+  hydrateFromProfile,
 } = settingsSlice.actions
 export const settingsReducer = settingsSlice.reducer
 

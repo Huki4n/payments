@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import { ArrowLeftRight, BarChart3, Home, Menu, PiggyBank, Settings, UserRound } from 'lucide-react'
 
@@ -24,6 +24,16 @@ const mobileNavItemActive = 'bg-brand-blue text-white'
 
 const iconButtonClass =
   'rounded-full p-2 text-white outline-offset-2 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white lg:p-2.5'
+
+const iconButtonActive = 'bg-brand-blue text-white shadow-sm hover:bg-brand-blue'
+
+const profileIconButtonClass =
+  'rounded-full border p-2.5 outline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:p-2.5'
+
+const profileIconButtonInactive =
+  'border-white/30 text-white/80 hover:bg-white/10 hover:text-white'
+
+const profileIconButtonActive = 'border-brand-blue bg-brand-blue text-white shadow-sm hover:bg-brand-blue'
 
 type NavItemConfig = {
   to: string
@@ -54,7 +64,7 @@ export const HomeNavigation = () => {
       <div className={'flex items-center gap-2 lg:hidden'}>
         <NavLink
           to={'/settings'}
-          className={({ isActive }) => cn(iconButtonClass, isActive && mobileNavItemActive)}
+          className={({ isActive }) => cn(iconButtonClass, isActive && iconButtonActive)}
           aria-label={t('settingsAria')}
         >
           <Settings className={'size-8 stroke-[1.5]'} />
@@ -111,9 +121,13 @@ export const HomeNavigation = () => {
 
       <div className={'hidden flex-1 items-center justify-between lg:flex'}>
         <div className={'flex items-center gap-3'}>
-          <Link to={'/settings'} className={iconButtonClass} aria-label={t('settingsAria')}>
+          <NavLink
+            to={'/settings'}
+            className={({ isActive }) => cn(iconButtonClass, isActive && iconButtonActive)}
+            aria-label={t('settingsAria')}
+          >
             <Settings className={'size-8 stroke-[1.5]'} />
-          </Link>
+          </NavLink>
 
           <div className={'flex items-center gap-3'}>
             {navItems.slice(0, 2).map(({ to, label, icon: Icon, end }) => (
@@ -150,15 +164,18 @@ export const HomeNavigation = () => {
             </NavLink>
           ))}
 
-          <Link
+          <NavLink
             to={'/profile'}
-            className={
-              'rounded-full border border-white/30 p-2.5 text-white/80 hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
+            className={({ isActive }) =>
+              cn(
+                profileIconButtonClass,
+                isActive ? profileIconButtonActive : profileIconButtonInactive
+              )
             }
             aria-label={t('profileAria')}
           >
             <UserRound className={'size-7'} strokeWidth={1.5} />
-          </Link>
+          </NavLink>
         </div>
       </div>
     </nav>
