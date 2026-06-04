@@ -14,7 +14,7 @@ const spends: SpendMockRow[] = [
     id: '3',
     amount: '−87.30 $',
     label: 'Shop',
-    icon: null,
+    icon: 'shopping',
     category: 'shopping',
   },
 ]
