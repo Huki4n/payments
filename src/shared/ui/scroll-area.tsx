@@ -15,6 +15,8 @@ type ScrollAreaProps = React.ComponentProps<typeof ScrollAreaPrimitive.Root> & {
    * Без переполнения скроллбар не показывается.
    */
   persistentScrollbarWhenOverflow?: boolean
+  /** Прокрутка без видимого скроллбара (колёсико / тач). */
+  hideScrollbar?: boolean
 }
 
 function ScrollArea({
@@ -23,6 +25,7 @@ function ScrollArea({
   overflowFade = false,
   overflowFadeFrom = 'from-background',
   persistentScrollbarWhenOverflow = false,
+  hideScrollbar = false,
   ...props
 }: ScrollAreaProps) {
   const { viewportRef, showTopFade, showBottomFade, hasVerticalOverflow } =
@@ -43,9 +46,10 @@ function ScrollArea({
       <ScrollAreaPrimitive.Viewport
         ref={viewportRef}
         data-slot={'scroll-area-viewport'}
-        className={
-          'size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1'
-        }
+        className={cn(
+          'size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1',
+          hideScrollbar && '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+        )}
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
@@ -71,8 +75,13 @@ function ScrollArea({
         </>
       ) : null}
 
-      <ScrollBar />
-      <ScrollAreaPrimitive.Corner />
+      <ScrollBar
+        className={cn(
+          hideScrollbar &&
+            'w-0 flex-none border-0 p-0 opacity-0 pointer-events-none data-vertical:w-0'
+        )}
+      />
+      <ScrollAreaPrimitive.Corner className={cn(hideScrollbar && 'hidden')} />
     </ScrollAreaPrimitive.Root>
   )
 }
