@@ -6,12 +6,12 @@ export {
   setColorScheme,
   setName,
   setSurname,
-  setCountry,
   setPhone,
-  setEmail,
+  hydrateFromProfile,
   selectSettings,
   selectIsCurrencyConfigured,
   selectDisplayGoalCurrencySelector as selectDisplayGoalCurrency,
   type SettingsState,
+  type ProfileHydrationFields,
 } from './model/settings-slice'
 export { persistSettingsRequested } from './model/persist-settings-requested'
