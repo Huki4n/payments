@@ -1,16 +1,20 @@
-const STORAGE_KEY = 'onboarding-completed'
+export const ONBOARDING_COMPLETED_STORAGE_KEY = 'onboarding-completed'
 
-export const getOnboardingCompleted = (): boolean => {
+/** `true`, только если в localStorage записан флаг завершения онбординга. */
+export const hasOnboardingCompleted = (): boolean => {
   try {
-    return localStorage.getItem(STORAGE_KEY) === 'true'
+    return localStorage.getItem(ONBOARDING_COMPLETED_STORAGE_KEY) === 'true'
   } catch {
     return false
   }
 }
 
+/** @deprecated Используйте {@link hasOnboardingCompleted}. */
+export const getOnboardingCompleted = hasOnboardingCompleted
+
 export const markOnboardingCompleted = (): void => {
   try {
-    localStorage.setItem(STORAGE_KEY, 'true')
+    localStorage.setItem(ONBOARDING_COMPLETED_STORAGE_KEY, 'true')
   } catch {
     // ignore: storage unavailable (private mode, quota, etc.)
   }
@@ -18,7 +22,7 @@ export const markOnboardingCompleted = (): void => {
 
 export const resetOnboardingCompleted = (): void => {
   try {
-    localStorage.removeItem(STORAGE_KEY)
+    localStorage.removeItem(ONBOARDING_COMPLETED_STORAGE_KEY)
   } catch {
     // ignore
   }

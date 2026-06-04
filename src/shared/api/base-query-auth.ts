@@ -16,6 +16,24 @@ const rawAuthorizedQuery = fetchBaseQuery({
 })
 
 let refreshFlight: Promise<boolean> | null = null
+let sessionRedirectScheduled = false
+
+function logoutAndRedirectToAuth(): void {
+  tokenStorage.clear()
+
+  if (typeof window === 'undefined' || sessionRedirectScheduled) {
+    return
+  }
+
+  const { pathname } = window.location
+
+  if (pathname === '/auth' || pathname.startsWith('/auth/')) {
+    return
+  }
+
+  sessionRedirectScheduled = true
+  window.location.replace('/auth')
+}
 
 function getRequestPath(args: string | FetchArgs): string {
   const url = typeof args === 'string' ? args : args.url
@@ -27,32 +45,50 @@ function getRequestPath(args: string | FetchArgs): string {
 async function refreshAccessToken(): Promise<boolean> {
   const refreshToken = tokenStorage.getRefreshToken()
 
-  if (!refreshToken) return false
+  if (!refreshToken) {
+    logoutAndRedirectToAuth()
+
+    return false
+  }
 
   const base = apiConfig.baseUrl.replace(/\/$/, '')
   const refreshUrl = `${base}/refresh`
 
-  const res = await fetch(refreshUrl, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${refreshToken}`,
-      Accept: 'application/json',
-    },
-    credentials: 'include',
-  })
+  try {
+    const res = await fetch(refreshUrl, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+        Accept: 'application/json',
+      },
+      credentials: 'include',
+    })
 
-  if (!res.ok) {
+    if (!res.ok) {
+      logoutAndRedirectToAuth()
+
+      return false
+    }
+
+    const parsed = (await res.json()) as {
+      accessToken: string
+      refreshToken: string
+    }
+
+    if (!parsed.accessToken) {
+      logoutAndRedirectToAuth()
+
+      return false
+    }
+
+    tokenStorage.setTokens(parsed.accessToken, parsed.refreshToken)
+
+    return true
+  } catch {
+    logoutAndRedirectToAuth()
+
     return false
   }
-
-  const parsed = (await res.json()) as {
-    accessToken: string
-    refreshToken: string
-  }
-
-  tokenStorage.setTokens(parsed.accessToken, parsed.refreshToken)
-
-  return true
 }
 
 function shouldSkipReauthRetry(args: string | FetchArgs): boolean {
@@ -87,8 +123,6 @@ export const baseQueryWithAuth: BaseQueryFn = async (args, api, extraOptions) =>
   const refreshed = await guardedRefresh()
 
   if (!refreshed) {
-    tokenStorage.clear()
-
     return result
   }
 
