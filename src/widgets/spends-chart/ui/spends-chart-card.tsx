@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
@@ -11,12 +12,14 @@ import { spendsChartPie } from '../model/spends-chart-mock'
 
 export const SpendsChartCard = () => {
   const { t } = useTranslation('home')
-
-  const data = spendsChartPie.map(row => ({
-    ...row,
-    name: t(`dashboard.categories.${row.nameKey}`),
-    fill: row.color,
-  }))
+  const data = useMemo(
+    () =>
+      spendsChartPie.map(row => ({
+        ...row,
+        fill: row.color,
+      })),
+    []
+  )
 
   return (
     <section
@@ -71,10 +74,10 @@ export const SpendsChartCard = () => {
           className={'h-72 min-h-0 w-full flex-1 md:h-80 pr-2'}
         >
           <ul className={'flex flex-col gap-2 pr-2'}>
-            {spendsChartPie.map(row => {
+            {data.map(row => {
               return (
                 <li
-                  key={row.nameKey}
+                  key={row.categoryId}
                   className={'flex items-center gap-3 rounded-2xl bg-card/95 shadow-sm pr-3.5'}
                 >
                   <span
@@ -91,7 +94,7 @@ export const SpendsChartCard = () => {
                       'flex-1 text-left font-display text-xs text-brand-purple sm:text-sm'
                     )}
                   >
-                    {t(`dashboard.categories.${row.nameKey}`)}
+                    {row.name}
                   </span>
                   <span
                     className={

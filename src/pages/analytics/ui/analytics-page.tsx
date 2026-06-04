@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import { AppLayout } from '@/app/layouts'
 import { AccountBalance } from '@/widgets/account-balance'
 import {
@@ -11,12 +13,19 @@ import {
 import { HomeNavigation } from '@/widgets/home-navigation'
 
 export const AnalyticsPage = () => {
+  const { t } = useTranslation('home')
+
   return (
     <AppLayout
       header={
         <>
           <HomeNavigation />
-          <AccountBalance integerPart={'$1650'} fractionPart={'.40'} />
+          <AccountBalance
+            welcomeText={t('welcome', { name: 'Rodion' })}
+            balanceLabel={t('balanceLabel')}
+            integerPart={'$1650'}
+            fractionPart={'.40'}
+          />
         </>
       }
     >

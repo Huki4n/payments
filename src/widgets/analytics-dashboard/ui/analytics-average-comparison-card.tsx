@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 
 import { ArrowUpRight } from 'lucide-react'
 
-import { analyticsAverageComparison, analyticsNetProfitPercent } from '../model/analytics-mock'
+import { analyticsAverageComparison } from '../model/analytics-mock'
 
 const AverageComparisonIllustration = () => (
   <div
@@ -86,7 +86,7 @@ export const AnalyticsAverageComparisonCard = () => {
             }
           >
             {t('analyticsPage.netProfit', {
-              percent: analyticsNetProfitPercent,
+              percent: analyticsAverageComparison.netProfitPercent,
             })}
           </div>
         </div>

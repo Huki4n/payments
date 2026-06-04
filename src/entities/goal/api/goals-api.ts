@@ -1,4 +1,6 @@
 import { baseApi } from '@/shared/api'
+import { GOAL_CURRENCIES, type GoalCurrency } from '@/shared/config/currencies'
+import { fetchExchangeRates } from '@/shared/lib/currency-exchange'
 
 import type {
   AddContributionRequest,
@@ -83,13 +85,18 @@ export const goalsApi = baseApi.injectEndpoints({
         ],
       }
     ),
-    getSavingsSlides: build.query<SavingsSlide[], void>({
-      async queryFn(_arg, _api, _extraOptions, baseQuery) {
+    getSavingsSlides: build.query<SavingsSlide[], GoalCurrency>({
+      async queryFn(displayCurrency, _api, _extraOptions, baseQuery) {
         const listResult = await baseQuery('/goals')
 
         if (listResult.error) {
           return { error: listResult.error }
         }
+
+        const rates = await fetchExchangeRates({
+          base: 'USD',
+          targets: GOAL_CURRENCIES.filter(code => code !== 'USD'),
+        })
 
         const goals = listResult.data as GoalListItem[]
         const slides: SavingsSlide[] = []
@@ -113,7 +120,8 @@ export const goalsApi = baseApi.injectEndpoints({
           slides.push(
             mapGoalToSavingsSlide(
               detailResult.data as GoalDetails,
-              (contributionsResult.data as ContributionsPage).content
+              (contributionsResult.data as ContributionsPage).content,
+              { displayCurrency, rates }
             )
           )
         }

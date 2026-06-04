@@ -1,4 +1,3 @@
-import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
@@ -9,14 +8,8 @@ import {
   useLoginMutation,
   type AuthFlowState,
 } from '@/entities/session'
-import { PIN_LENGTH, PIN_SLOT_CLASSNAME } from '@/pages/auth/config'
-import { Button, InputOTP, InputOTPGroup, InputOTPSlot, Progress } from '@/shared/ui'
-
-interface PinFormValues {
-  pin: string
-}
-
-const FORM_ID = 'pin-form'
+import { AUTH_PIN_FORM_ID, AuthPinForm, type AuthPinFormSubmitResult } from '@/features/auth-pin'
+import { Button, Progress } from '@/shared/ui'
 
 export const PinPage = () => {
   const { t } = useTranslation('onboarding')
@@ -25,16 +18,6 @@ export const PinPage = () => {
   const authFlow = location.state as AuthFlowState | null
 
   const [login, { isLoading: isLoggingIn }] = useLoginMutation()
-
-  const {
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<PinFormValues>({
-    defaultValues: { pin: '' },
-    mode: 'onSubmit',
-  })
 
   if (!authFlow?.phone) {
     return <Navigate to={'/auth'} replace />
@@ -45,30 +28,26 @@ export const PinPage = () => {
   const descriptionKey = isLogin ? 'auth.pin.login.description' : 'auth.pin.description'
   const submitKey = isLogin ? 'auth.pin.login.submit' : 'auth.pin.submit'
 
-  const rootError = errors.root?.message
-
-  const onSubmit = handleSubmit(async values => {
+  const handleValidSubmit = async (pin: string): Promise<AuthPinFormSubmitResult | void> => {
     if (isLogin) {
       try {
         await login({
           phoneNumber: authFlow.phone,
-          password: pinToPassword(values.pin),
+          password: pinToPassword(pin),
         }).unwrap()
         markOnboardingCompleted()
         navigate('/')
       } catch (error) {
-        setError('root', {
-          message: getApiErrorMessage(error, t('auth.errors.requestFailed')),
-        })
+        return { rootError: getApiErrorMessage(error, t('auth.errors.requestFailed')) }
       }
 
       return
     }
 
     navigate('/auth/pin/confirm', {
-      state: { pin: values.pin, ...authFlow },
+      state: { pin, ...authFlow },
     })
-  })
+  }
 
   return (
     <div className={'relative flex min-h-svh flex-col bg-white text-brand-purple'}>
@@ -83,7 +62,7 @@ export const PinPage = () => {
               {t(titleKey)}
             </h1>
             <Progress
-              value={75}
+              value={60}
               className={
                 'h-4 w-72 max-w-full bg-brand-blue/30 *:data-[slot=progress-indicator]:bg-brand-blue'
               }
@@ -93,44 +72,16 @@ export const PinPage = () => {
             <p className={'min-h-14 text-center font-display text-xl leading-snug'}>
               {t(descriptionKey)}
             </p>
-            <form
-              id={FORM_ID}
-              noValidate
-              onSubmit={onSubmit}
-              className={'flex w-full flex-col items-center gap-2'}
-            >
-              <Controller
-                control={control}
-                name={'pin'}
-                rules={{
-                  validate: value => value.length === PIN_LENGTH || t('auth.pin.errors.incomplete'),
-                }}
-                render={({ field }) => (
-                  <InputOTP
-                    {...field}
-                    maxLength={PIN_LENGTH}
-                    aria-invalid={!!errors.pin}
-                    disabled={isLoggingIn}
-                  >
-                    <InputOTPGroup className={'gap-4'}>
-                      {Array.from({ length: PIN_LENGTH }).map((_, index) => (
-                        <InputOTPSlot key={index} index={index} className={PIN_SLOT_CLASSNAME} />
-                      ))}
-                    </InputOTPGroup>
-                  </InputOTP>
-                )}
-              />
-              {errors.pin ? (
-                <p className={'text-center text-sm text-destructive'}>{errors.pin.message}</p>
-              ) : null}
-              {rootError ? (
-                <p className={'text-center text-sm text-destructive'}>{rootError}</p>
-              ) : null}
-            </form>
+            <AuthPinForm
+              id={AUTH_PIN_FORM_ID}
+              disabled={isLoggingIn}
+              incompleteErrorKey={'auth.pin.errors.incomplete'}
+              onValidSubmit={handleValidSubmit}
+            />
           </div>
           <div className={'mt-auto flex flex-col items-center gap-4'}>
             <Button
-              form={FORM_ID}
+              form={AUTH_PIN_FORM_ID}
               type={'submit'}
               disabled={isLoggingIn}
               className={

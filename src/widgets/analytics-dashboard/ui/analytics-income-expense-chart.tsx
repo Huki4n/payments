@@ -10,19 +10,19 @@ import { spendsChartPie } from '@/widgets/spends-chart'
 import { renderSpendsPieLabel } from '../lib/render-spends-pie-label'
 import {
   analyticsCategoryExtremes,
-  analyticsCategoryNarrativeAmounts,
+  analyticsCategoryNarratives,
 } from '../model/analytics-mock'
 
 export const AnalyticsIncomeExpenseChart = () => {
   const { t } = useTranslation('home')
+  const pieData = spendsChartPie.map(row => ({ ...row }))
 
-  const pieData = spendsChartPie.map(row => ({
-    ...row,
-    name: t(`dashboard.categories.${row.nameKey}`),
-  }))
-
-  const mostMeta = spendsChartPie.find(r => r.nameKey === analyticsCategoryExtremes.mostKey)
-  const leastMeta = spendsChartPie.find(r => r.nameKey === analyticsCategoryExtremes.leastKey)
+  const mostMeta = spendsChartPie.find(
+    row => row.categoryId === analyticsCategoryExtremes.mostCategoryId
+  )
+  const leastMeta = spendsChartPie.find(
+    row => row.categoryId === analyticsCategoryExtremes.leastCategoryId
+  )
 
   return (
     <section
@@ -65,7 +65,7 @@ export const AnalyticsIncomeExpenseChart = () => {
                 isAnimationActive={false}
               >
                 {pieData.map(entry => (
-                  <Cell key={entry.nameKey} fill={entry.color} />
+                  <Cell key={entry.categoryId} fill={entry.color} />
                 ))}
               </Pie>
               <Tooltip
@@ -91,12 +91,12 @@ export const AnalyticsIncomeExpenseChart = () => {
         >
           {spendsChartPie.map(row => (
             <span
-              key={row.nameKey}
+              key={row.categoryId}
               className={
                 'flex h-13 w-14 shrink-0 items-center justify-center rounded-xl sm:h-14 sm:w-14'
               }
               style={{ backgroundColor: row.color }}
-              title={t(`dashboard.categories.${row.nameKey}`)}
+              title={row.name}
             >
               <DashboardSpendCategoryIcon
                 name={row.icon}
@@ -139,12 +139,7 @@ export const AnalyticsIncomeExpenseChart = () => {
               <p
                 className={'text-left text-md font-normal leading-snug text-foreground sm:text-lg'}
               >
-                {mostMeta
-                  ? t('analyticsPage.topCategoryCaption', {
-                      category: t(`dashboard.categories.${mostMeta.nameKey}`),
-                      amount: analyticsCategoryNarrativeAmounts.most,
-                    })
-                  : null}
+                {mostMeta ? analyticsCategoryNarratives.top : null}
               </p>
             </div>
           </div>
@@ -168,12 +163,7 @@ export const AnalyticsIncomeExpenseChart = () => {
               <p
                 className={'text-left text-md font-normal leading-snug text-foreground sm:text-lg'}
               >
-                {leastMeta
-                  ? t('analyticsPage.lowestCategoryCaption', {
-                      category: t(`dashboard.categories.${leastMeta.nameKey}`),
-                      amount: analyticsCategoryNarrativeAmounts.least,
-                    })
-                  : null}
+                {leastMeta ? analyticsCategoryNarratives.lowest : null}
               </p>
             </div>
           </div>

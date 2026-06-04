@@ -10,6 +10,13 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
+    proxy: {
+      '/exchange-rates': {
+        target: 'https://api.frankfurter.dev',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/exchange-rates/, ''),
+      },
+    },
   },
   resolve: {
     alias: {

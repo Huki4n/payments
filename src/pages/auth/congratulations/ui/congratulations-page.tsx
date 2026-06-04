@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/shared/ui'
@@ -109,6 +110,7 @@ const CongratulationsIllustration = () => (
 )
 
 export const CongratulationsPage = () => {
+  const { t } = useTranslation('onboarding')
   const navigate = useNavigate()
 
   return (
@@ -119,7 +121,7 @@ export const CongratulationsPage = () => {
             'text-center font-display text-3xl font-bold leading-tight text-brand-purple sm:text-4xl md:text-5xl'
           }
         >
-          Congratulations! You are Member Now!
+          {t('congratulations.title')}
         </h1>
       </header>
 
@@ -135,7 +137,7 @@ export const CongratulationsPage = () => {
             'h-14 w-72 max-w-full rounded-[11px] bg-brand-purple-bg font-display text-xl font-bold text-white hover:bg-brand-purple-bg/90 sm:h-16'
           }
         >
-          Proceed
+          {t('congratulations.proceed')}
         </Button>
       </footer>
     </div>

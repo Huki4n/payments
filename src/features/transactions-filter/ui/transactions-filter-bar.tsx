@@ -5,16 +5,16 @@ import { Search } from 'lucide-react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/shared/ui/input-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select'
 
-import {
-  type DashboardCategoryNameKey,
-  toDashboardCategoryLabelKey,
-} from '../model/dashboard-category-keys'
+export interface TransactionsFilterCategoryOption {
+  value: string
+  label: string
+}
 
 export interface TransactionsFilterBarProps {
   nameQuery: string
   amountQuery: string
   category: string
-  categoryKeys: readonly DashboardCategoryNameKey[]
+  categories: readonly TransactionsFilterCategoryOption[]
   onNameChange: (value: string) => void
   onAmountChange: (value: string) => void
   onCategoryChange: (value: string) => void
@@ -24,7 +24,7 @@ export const TransactionsFilterBar = ({
   nameQuery,
   amountQuery,
   category,
-  categoryKeys,
+  categories,
   onNameChange,
   onAmountChange,
   onCategoryChange,
@@ -96,15 +96,15 @@ export const TransactionsFilterBar = ({
           >
             {t('transactionsPage.categoryAll')}
           </SelectItem>
-          {categoryKeys.map(key => (
+          {categories.map(option => (
             <SelectItem
-              key={key}
-              value={key}
+              key={option.value}
+              value={option.value}
               className={
                 'rounded-xl py-2.5 pr-8 pl-3 font-display text-sm text-brand-purple data-highlighted:bg-dashboard-card data-highlighted:text-brand-purple'
               }
             >
-              {t(toDashboardCategoryLabelKey(key))}
+              {option.label}
             </SelectItem>
           ))}
         </SelectContent>

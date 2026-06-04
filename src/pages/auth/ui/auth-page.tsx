@@ -1,59 +1,24 @@
-import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { getApiErrorMessage, normalizePhone, useLazyCheckUserExistsQuery } from '@/entities/session'
-import { PHONE_PATTERN } from '@/pages/auth/config'
-import {
-  Button,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  GoogleIcon,
-  Input,
-  Progress,
-} from '@/shared/ui'
-
-interface AuthFormValues {
-  phone: string
-}
+import { getApiErrorMessage, useLazyCheckUserExistsQuery } from '@/entities/session'
+import { AuthPhoneForm, type AuthPhoneFormSubmitResult } from '@/features/auth-phone'
+import { Progress } from '@/shared/ui'
 
 export const AuthPage = () => {
   const { t } = useTranslation('onboarding')
   const navigate = useNavigate()
   const [checkUser, { isFetching }] = useLazyCheckUserExistsQuery()
 
-  const form = useForm<AuthFormValues>({
-    defaultValues: { phone: '' },
-    mode: 'onSubmit',
-  })
-
-  const onSubmit = form.handleSubmit(async ({ phone: rawPhone }) => {
-    const phone = normalizePhone(rawPhone)
-
-    if (!PHONE_PATTERN.test(phone)) {
-      form.setError('phone', {
-        type: 'pattern',
-        message: t('auth.errors.invalidPhone'),
-      })
-
-      return
-    }
-
+  const handleValidSubmit = async (phone: string): Promise<AuthPhoneFormSubmitResult | void> => {
     try {
       const { exists } = await checkUser({ phone }).unwrap()
 
       navigate('/auth/pin', { state: { phone, isExistingUser: exists } })
     } catch (error) {
-      form.setError('root', {
-        message: getApiErrorMessage(error, t('auth.errors.requestFailed')),
-      })
+      return { rootError: getApiErrorMessage(error, t('auth.errors.requestFailed')) }
     }
-  })
-
-  const rootError = form.formState.errors.root?.message
+  }
 
   return (
     <div className={'relative flex min-h-svh flex-col bg-white text-brand-purple'}>
@@ -78,54 +43,7 @@ export const AuthPage = () => {
             <p className={'min-h-14 text-center font-display text-xl leading-snug'}>
               {t('auth.description')}
             </p>
-            <Form {...form}>
-              <form
-                noValidate
-                onSubmit={onSubmit}
-                className={'flex w-full flex-col items-center gap-6'}
-              >
-                <FormField
-                  control={form.control}
-                  name={'phone'}
-                  rules={{
-                    required: t('auth.errors.required'),
-                    pattern: {
-                      value: PHONE_PATTERN,
-                      message: t('auth.errors.invalidPhone'),
-                    },
-                  }}
-                  render={({ field }) => (
-                    <FormItem className={'w-full gap-2'}>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          type={'tel'}
-                          autoComplete={'tel'}
-                          inputMode={'numeric'}
-                          placeholder={t('auth.phonePlaceholder')}
-                          className={
-                            'h-22 w-full rounded-control border border-muted-foreground/70 bg-transparent px-6 text-center font-display text-xl font-medium placeholder:text-black/60'
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage className={'text-center'} />
-                    </FormItem>
-                  )}
-                />
-                {rootError ? (
-                  <p className={'text-center text-sm text-destructive'}>{rootError}</p>
-                ) : null}
-                <Button
-                  type={'submit'}
-                  disabled={isFetching}
-                  className={
-                    'h-16 w-72 max-w-full rounded-control bg-brand-purple-bg font-display text-xl font-bold text-white hover:bg-brand-purple-bg/90'
-                  }
-                >
-                  {t('auth.submit')}
-                </Button>
-              </form>
-            </Form>
+            <AuthPhoneForm isSubmitting={isFetching} onValidSubmit={handleValidSubmit} />
           </div>
           <div className={'mt-auto flex flex-col items-center gap-4'}>
             <p className={'text-center font-display text-xl'}>
@@ -137,19 +55,6 @@ export const AuthPage = () => {
                 {t('auth.signUp')}
               </Link>
             </p>
-            <span className={'font-display text-xl text-brand-purple/60'}>{t('auth.or')}</span>
-            <div className={'flex flex-col items-center gap-1'}>
-              <span className={'font-display text-xl'}>{t('auth.continueWith')}</span>
-              <Button
-                type={'button'}
-                variant={'ghost'}
-                size={'icon'}
-                aria-label={t('auth.googleAria')}
-                className={'size-16 rounded-full hover:bg-transparent hover:opacity-80'}
-              >
-                <GoogleIcon className={'size-12'} />
-              </Button>
-            </div>
           </div>
         </div>
       </main>

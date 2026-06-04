@@ -19,14 +19,17 @@ export const TransactionsPage = () => {
   const [amountQuery, setAmountQuery] = useState('')
   const [category, setCategory] = useState('all')
 
+  const categoryOptions = useMemo(
+    () => spendsChartPie.map(row => ({ value: row.categoryId, label: row.name })),
+    []
+  )
+
   const filteredEarnings = useMemo(() => {
     const n = nameQuery.trim().toLowerCase()
     const a = amountQuery.trim().toLowerCase()
 
     return earningsMock.filter(row => {
-      const label = t(`dashboard.merchants.${row.labelKey}`).toLowerCase()
-
-      if (n && !label.includes(n)) {
+      if (n && !row.label.toLowerCase().includes(n)) {
         return false
       }
       if (a && !row.amount.toLowerCase().includes(a)) {
@@ -35,19 +38,17 @@ export const TransactionsPage = () => {
 
       return true
     })
-  }, [amountQuery, nameQuery, t])
+  }, [amountQuery, nameQuery])
 
   const filteredSpends = useMemo(() => {
     const n = nameQuery.trim().toLowerCase()
     const a = amountQuery.trim().toLowerCase()
 
     return spendsMock.filter(row => {
-      if (category !== 'all' && row.categoryKey !== category) {
+      if (category !== 'all' && row.category !== category) {
         return false
       }
-      const label = t(`dashboard.merchants.${row.labelKey}`).toLowerCase()
-
-      if (n && !label.includes(n)) {
+      if (n && !row.label.toLowerCase().includes(n)) {
         return false
       }
       if (a && !row.amount.toLowerCase().includes(a)) {
@@ -56,14 +57,19 @@ export const TransactionsPage = () => {
 
       return true
     })
-  }, [amountQuery, category, nameQuery, t])
+  }, [amountQuery, category, nameQuery])
 
   return (
     <AppLayout
       header={
         <>
           <HomeNavigation />
-          <AccountBalance integerPart={'$1650'} fractionPart={'.40'} />
+          <AccountBalance
+            welcomeText={t('welcome', { name: 'Rodion' })}
+            balanceLabel={t('balanceLabel')}
+            integerPart={'$1650'}
+            fractionPart={'.40'}
+          />
         </>
       }
     >
@@ -79,7 +85,7 @@ export const TransactionsPage = () => {
             nameQuery={nameQuery}
             amountQuery={amountQuery}
             category={category}
-            categoryKeys={spendsChartPie.map(row => row.nameKey)}
+            categories={categoryOptions}
             onNameChange={setNameQuery}
             onAmountChange={setAmountQuery}
             onCategoryChange={setCategory}
@@ -88,6 +94,9 @@ export const TransactionsPage = () => {
             showSectionTitle={false}
             earningsRows={filteredEarnings}
             spendsRows={filteredSpends}
+            earningsTitle={t('dashboard.recentEarnings')}
+            spendsTitle={t('dashboard.recentSpends')}
+            addNewLabel={t('addData.manualForm.addNew')}
           />
           <SpendsChartCard />
         </div>

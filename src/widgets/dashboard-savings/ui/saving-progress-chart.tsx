@@ -8,8 +8,7 @@ import {
   YAxis,
 } from 'recharts'
 
-import type { SavingsSlide } from '@/entities/goal'
-
+import { formatGoalMoney, type SavingsSlide } from '@/entities/goal'
 import { dashboardChartXAxisTick, dashboardChartYAxisTick } from '@/shared/lib/dashboard-chart-axes'
 import { INITIAL_CHART_DIMENSION } from '@/shared/ui/chart-constants'
 
@@ -32,9 +31,10 @@ function getSavingsYAxisConfig(values: number[]): {
 interface SavingProgressChartProps {
   slideId: string
   progressChart: SavingsSlide['progressChart']
+  currency: string
 }
 
-export const SavingProgressChart = ({ slideId, progressChart }: SavingProgressChartProps) => {
+export const SavingProgressChart = ({ slideId, progressChart, currency }: SavingProgressChartProps) => {
   const data = progressChart.map(p => ({
     month: p.month,
     value: p.value,
@@ -90,7 +90,7 @@ export const SavingProgressChart = ({ slideId, progressChart }: SavingProgressCh
                   }}
                 >
                   <p className={'font-display text-xs font-semibold text-brand-purple'}>
-                    {payload[0]?.value}$
+                    {formatGoalMoney(Number(payload[0]?.value ?? 0), currency)}
                   </p>
                 </div>
               ) : null

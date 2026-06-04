@@ -1,5 +1,3 @@
-import { useTranslation } from 'react-i18next'
-
 import { MoreVertical } from 'lucide-react'
 
 import type { SavingsSlide } from '@/entities/goal'
@@ -16,6 +14,7 @@ interface SavingGoalDetailCardProps {
   slide: SavingsSlide
   showConfigureSavingsLink?: boolean
   showEditMenu?: boolean
+  editMenuAria?: string
   onEditGoal?: (goalId: number) => void
 }
 
@@ -23,11 +22,12 @@ export const SavingGoalDetailCard = ({
   slide,
   showConfigureSavingsLink = false,
   showEditMenu = false,
+  editMenuAria = 'Edit saving',
   onEditGoal,
 }: SavingGoalDetailCardProps) => {
-  const { t } = useTranslation('home')
-  const progressPercent = Math.min(100, (slide.total / slide.goal) * 100)
-  const title = slide.title ?? (slide.titleKey ? t(`dashboard.${slide.titleKey}`) : '')
+  const { currency, goal, total, progressChart, replenishments } = slide
+  const progressPercent = Math.min(100, (total / goal) * 100)
+  const title = slide.title ?? ''
 
   return (
     <div
@@ -44,7 +44,7 @@ export const SavingGoalDetailCard = ({
             'absolute top-1/2 -translate-y-1/2 right-0 z-10 size-6 text-brand-purple hover:bg-brand-purple/10'
           }
           onClick={() => onEditGoal(Number(slide.id))}
-          aria-label={t('savingsPage.editGoal.menuAria')}
+          aria-label={editMenuAria}
         >
           <MoreVertical className={'size-5'} />
         </Button>
@@ -54,13 +54,17 @@ export const SavingGoalDetailCard = ({
       >
         <div className={'flex min-h-0 flex-col gap-6 text-left'}>
           <SavingGoalHeader title={title} />
-          <SavingGoalStats goal={slide.goal} total={slide.total} />
-          <SavingReplenishmentsList slideId={slide.id} replenishments={slide.replenishments} />
+          <SavingGoalStats goal={goal} total={total} currency={currency} />
+          <SavingReplenishmentsList
+            slideId={slide.id}
+            replenishments={replenishments}
+            currency={currency}
+          />
         </div>
 
         <div className={'flex h-52 w-full min-w-0 flex-col lg:h-full lg:min-h-0'}>
           <div className={'min-h-0 w-full flex-1'}>
-            <SavingProgressChart slideId={slide.id} progressChart={slide.progressChart} />
+            <SavingProgressChart slideId={slide.id} progressChart={progressChart} currency={currency} />
           </div>
         </div>
       </div>

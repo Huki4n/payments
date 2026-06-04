@@ -1,14 +1,32 @@
 import { eachMonthOfInterval, endOfMonth, format, startOfMonth, startOfYear } from 'date-fns'
 
+import type { GoalCurrency } from '@/shared/config/currencies'
+import type { ExchangeRates } from '@/shared/lib/currency-exchange'
+
+import { convertCurrency } from '@/shared/lib/currency-exchange'
+
 import type { Contribution } from '../model/contributions-types'
 import type { GoalDetails } from '../model/goals-types'
 import type { SavingsSlide } from '../model/savings-slide'
 
-import { formatContributionAmount } from './format-goal-money'
+export interface MapGoalToSavingsSlideOptions {
+  displayCurrency: GoalCurrency
+  rates: ExchangeRates
+}
+
+function convertAmount(
+  amount: number,
+  fromCurrency: string,
+  { displayCurrency, rates }: MapGoalToSavingsSlideOptions
+): number {
+  return convertCurrency(amount, fromCurrency, displayCurrency, rates)
+}
 
 function buildProgressChart(
   contributions: Contribution[],
-  currentAmount: number
+  currentAmount: number,
+  sourceCurrency: string,
+  options: MapGoalToSavingsSlideOptions
 ): SavingsSlide['progressChart'] {
   const sorted = [...contributions].sort(
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -32,7 +50,10 @@ function buildProgressChart(
       const createdAt = new Date(sorted[contributionIndex].createdAt)
 
       if (createdAt <= monthEnd) {
-        cumulative = Math.max(0, cumulative + sorted[contributionIndex].amount)
+        cumulative = Math.max(
+          0,
+          cumulative + convertAmount(sorted[contributionIndex].amount, sourceCurrency, options)
+        )
         contributionIndex += 1
       } else {
         break
@@ -62,20 +83,27 @@ function buildProgressChart(
 
 export function mapGoalToSavingsSlide(
   goal: GoalDetails,
-  contributions: Contribution[]
+  contributions: Contribution[],
+  options: MapGoalToSavingsSlideOptions
 ): SavingsSlide {
-  const currentAmount = goal.progressInfo.currentAmount
+  const sourceCurrency = goal.currency
+  const targetAmount = convertAmount(goal.targetAmount, sourceCurrency, options)
+  const convertedContributions = contributions.map(item =>
+    convertAmount(item.amount, sourceCurrency, options)
+  )
+  const total = convertAmount(goal.progressInfo.currentAmount, sourceCurrency, options)
 
   return {
     id: String(goal.id),
     title: goal.title,
-    goal: goal.targetAmount,
-    total: currentAmount,
-    replenishments: contributions.map(item => ({
+    currency: options.displayCurrency,
+    goal: targetAmount,
+    total,
+    replenishments: contributions.map((item, index) => ({
       date: format(new Date(item.createdAt), 'dd.MM.yyyy'),
-      amount: formatContributionAmount(item.amount, goal.currency),
+      amount: convertedContributions[index],
       isWithdrawal: item.amount < 0,
     })),
-    progressChart: buildProgressChart(contributions, currentAmount),
+    progressChart: buildProgressChart(contributions, total, sourceCurrency, options),
   }
 }

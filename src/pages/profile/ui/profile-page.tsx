@@ -22,7 +22,12 @@ export const ProfilePage = () => {
       header={
         <>
           <HomeNavigation />
-          <AccountBalance />
+          <AccountBalance
+            welcomeText={t('welcome', { name: 'Rodion' })}
+            balanceLabel={t('balanceLabel')}
+            integerPart={'$1650'}
+            fractionPart={'.40'}
+          />
         </>
       }
     >

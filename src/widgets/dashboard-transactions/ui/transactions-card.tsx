@@ -16,6 +16,10 @@ export interface DashboardTransactionsCardProps {
   className?: string
   earningsRows?: readonly EarningMockRow[]
   spendsRows?: readonly SpendMockRow[]
+  sectionTitle?: string
+  earningsTitle?: string
+  spendsTitle?: string
+  addNewLabel?: string
 }
 
 export const DashboardTransactionsCard = ({
@@ -23,8 +27,16 @@ export const DashboardTransactionsCard = ({
   className,
   earningsRows = earningsMock,
   spendsRows = spendsMock,
+  sectionTitle,
+  earningsTitle,
+  spendsTitle,
+  addNewLabel,
 }: DashboardTransactionsCardProps) => {
   const { t } = useTranslation('home')
+  const resolvedSectionTitle = sectionTitle ?? t('dashboard.transactionsTitle')
+  const resolvedEarningsTitle = earningsTitle ?? t('dashboard.recentEarnings')
+  const resolvedSpendsTitle = spendsTitle ?? t('dashboard.recentSpends')
+  const resolvedAddNewLabel = addNewLabel ?? t('addData.manualForm.addNew')
 
   return (
     <section className={cn(className)}>
@@ -34,7 +46,7 @@ export const DashboardTransactionsCard = ({
             'mb-4 text-center font-display text-base font-bold text-brand-purple sm:text-lg md:text-xl'
           }
         >
-          {t('dashboard.transactionsTitle')}
+          {resolvedSectionTitle}
         </h2>
       ) : null}
 
@@ -43,8 +55,16 @@ export const DashboardTransactionsCard = ({
           'grid gap-4 rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:grid-cols-2 sm:gap-5 sm:px-6 sm:py-6 pr-3 sm:pr-4'
         }
       >
-        <RecentEarningsColumn title={t('dashboard.recentEarnings')} rows={earningsRows} />
-        <RecentSpendsColumn title={t('dashboard.recentSpends')} rows={spendsRows} />
+        <RecentEarningsColumn
+          title={resolvedEarningsTitle}
+          rows={earningsRows}
+          addNewLabel={resolvedAddNewLabel}
+        />
+        <RecentSpendsColumn
+          title={resolvedSpendsTitle}
+          rows={spendsRows}
+          addNewLabel={resolvedAddNewLabel}
+        />
       </div>
     </section>
   )

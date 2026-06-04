@@ -1,4 +1,6 @@
 export { getDefaultGoalDeadline, getMinGoalDeadline } from './lib/goal-deadline'
+export { formatContributionAmount, formatGoalMoney } from './lib/format-goal-money'
+export { mapGoalToSavingsSlide } from './lib/map-goal-to-savings-slide'
 
 export type {
   AddContributionRequest,
