@@ -2,12 +2,12 @@ import { ArrowRight } from 'lucide-react'
 
 import { Button } from '@/shared/ui'
 
-export interface DataActionButtonProps {
+export interface TransactionsActionButtonProps {
   label: string
   onClick?: () => void
 }
 
-export const DataActionButton = ({ label, onClick }: DataActionButtonProps) => {
+export const TransactionsActionButton = ({ label, onClick }: TransactionsActionButtonProps) => {
   return (
     <Button
       type={'button'}

@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { X } from 'lucide-react'
+
+import { getApiErrorMessage } from '@/entities/session'
+import { useParseStatementsMutation } from '@/entities/transaction'
 import { toast } from '@/shared/lib/toast'
 import {
   Button,
@@ -13,8 +17,10 @@ import {
 } from '@/shared/ui'
 import { cn } from '@/shared/ui/utils'
 
-import { useSubmitBankStatementsMutation } from '../api/add-data-api'
-import { AddDataCompletePanel, AddDataLoadingOverlay } from './add-data-processing-overlay'
+import {
+  TransactionsCompletePanel,
+  TransactionsLoadingOverlay,
+} from './transactions-processing-overlay'
 
 export interface UploadBankStatementsDialogProps {
   open: boolean
@@ -33,7 +39,14 @@ export const UploadBankStatementsDialog = ({
   const [isDragging, setIsDragging] = useState(false)
   const [showComplete, setShowComplete] = useState(false)
   const dragDepthRef = useRef(0)
-  const [submitUpload, { isLoading, reset }] = useSubmitBankStatementsMutation()
+  const [parseStatements, { isLoading, reset }] = useParseStatementsMutation()
+
+  const resetFormState = useCallback(() => {
+    setEntries([])
+    setIsDragging(false)
+    setShowComplete(false)
+    dragDepthRef.current = 0
+  }, [])
 
   useEffect(() => {
     if (!open) {
@@ -43,21 +56,42 @@ export const UploadBankStatementsDialog = ({
 
   const handleOpenChange = (next: boolean) => {
     if (next) {
-      setEntries([])
-      setIsDragging(false)
-      setShowComplete(false)
-      dragDepthRef.current = 0
+      resetFormState()
     }
+
     onOpenChange(next)
   }
 
-  const addFiles = useCallback((list: FileList | File[]) => {
-    const next = Array.from(list).map(file => ({
-      id: crypto.randomUUID(),
-      file,
-    }))
+  const addFiles = useCallback(
+    (list: FileList | File[]) => {
+      const incoming = Array.from(list)
+      const csvFiles = incoming.filter(
+        file =>
+          file.name.toLowerCase().endsWith('.csv') ||
+          file.type === 'text/csv' ||
+          file.type === 'application/vnd.ms-excel'
+      )
 
-    setEntries(prev => [...prev, ...next])
+      if (csvFiles.length < incoming.length) {
+        toast.error(t('addData.errors.invalidFileType'))
+      }
+
+      if (csvFiles.length === 0) {
+        return
+      }
+
+      const next = csvFiles.map(file => ({
+        id: crypto.randomUUID(),
+        file,
+      }))
+
+      setEntries(prev => [...prev, ...next])
+    },
+    [t]
+  )
+
+  const removeEntry = useCallback((id: string) => {
+    setEntries(prev => prev.filter(entry => entry.id !== id))
   }, [])
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,16 +131,17 @@ export const UploadBankStatementsDialog = ({
   }
 
   const handleSaveProceed = async () => {
+    if (entries.length === 0) {
+      toast.error(t('addData.errors.noFiles'))
+
+      return
+    }
+
     try {
-      await submitUpload({
-        files: entries.map(e => ({
-          name: e.file.name,
-          size: e.file.size,
-        })),
-      }).unwrap()
-      onOpenChange(false)
-    } catch {
-      toast.error(t('addData.errors.submitFailed'))
+      await parseStatements(entries.map(e => e.file)).unwrap()
+      setShowComplete(true)
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, t('addData.errors.submitFailed')))
     }
   }
 
@@ -132,9 +167,15 @@ export const UploadBankStatementsDialog = ({
         </DialogHeader>
 
         {showComplete ? (
-          <AddDataCompletePanel onDone={() => onOpenChange(false)} />
+          <TransactionsCompletePanel
+            onDone={() => onOpenChange(false)}
+            onUploadMore={() => {
+              reset()
+              resetFormState()
+            }}
+          />
         ) : isLoading ? (
-          <AddDataLoadingOverlay variant={'upload'} className={'min-h-96'} />
+          <TransactionsLoadingOverlay variant={'upload'} className={'min-h-96'} />
         ) : (
           <>
             <div
@@ -148,7 +189,7 @@ export const UploadBankStatementsDialog = ({
                   type={'file'}
                   className={'sr-only'}
                   multiple
-                  accept={'.pdf,application/pdf'}
+                  accept={'.csv,text/csv'}
                   onChange={onInputChange}
                 />
                 <div
@@ -202,16 +243,28 @@ export const UploadBankStatementsDialog = ({
                         <li
                           key={id}
                           className={
-                            'flex min-h-20 items-center rounded-2xl bg-card px-5 py-4 shadow-sm md:min-h-24 md:px-8'
+                            'flex min-h-20 items-center gap-3 rounded-2xl bg-card px-5 py-4 shadow-sm md:min-h-24 md:px-6'
                           }
                         >
                           <span
                             className={
-                              'truncate font-display text-base font-normal text-brand-purple md:text-lg'
+                              'min-w-0 flex-1 truncate font-display text-base font-normal text-brand-purple md:text-lg'
                             }
                           >
                             {file.name}
                           </span>
+                          <Button
+                            type={'button'}
+                            variant={'ghost'}
+                            size={'icon-sm'}
+                            className={
+                              'shrink-0 text-brand-purple/70 hover:bg-brand-purple/10 hover:text-brand-purple'
+                            }
+                            aria-label={`${t('addData.uploadForm.removeFile')}: ${file.name}`}
+                            onClick={() => removeEntry(id)}
+                          >
+                            <X className={'size-5'} strokeWidth={1.75} />
+                          </Button>
                         </li>
                       ))
                     )}
@@ -223,6 +276,7 @@ export const UploadBankStatementsDialog = ({
             <div className={'flex shrink-0 justify-center px-4 pb-6 pt-2 sm:px-8 sm:pb-8'}>
               <Button
                 type={'button'}
+                disabled={entries.length === 0}
                 className={
                   'w-full max-w-md rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:text-base md:py-3.5'
                 }

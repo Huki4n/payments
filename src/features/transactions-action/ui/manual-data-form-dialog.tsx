@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
+import { useAppSelector } from '@/app/store'
+import { getApiErrorMessage } from '@/entities/session'
+import { selectDisplayGoalCurrency, selectIsCurrencyConfigured } from '@/entities/settings'
+import { useCreateTransactionsMutation } from '@/entities/transaction'
+import { showCurrencyRequiredToast } from '@/features/require-settings-currency'
 import { toast } from '@/shared/lib/toast'
 import {
   Button,
@@ -13,10 +19,11 @@ import {
   Separator,
 } from '@/shared/ui'
 
-import { useSubmitManualRowsMutation } from '../api/add-data-api'
+import { isManualRowFilled } from '../lib/is-manual-row-filled'
+import { mapManualRowToCreateRequest } from '../lib/map-manual-row-to-create-request'
 import { createEmptyRow, createInitialRows, type ManualRow } from '../model'
-import { AddDataCompletePanel, AddDataLoadingOverlay } from './add-data-processing-overlay'
 import { ManualDataFormRow } from './manual-data-form-row'
+import { TransactionsLoadingOverlay } from './transactions-processing-overlay'
 
 interface ManualDataFormBodyProps {
   onSaveProceed: (rows: ManualRow[]) => void | Promise<void>
@@ -73,7 +80,7 @@ const ManualDataFormBody = ({ onSaveProceed }: ManualDataFormBodyProps) => {
             className={
               'w-full max-w-md rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:rounded-[11px] sm:text-base md:py-3.5'
             }
-            onClick={() => void onSaveProceed(rows)}
+            onClick={() => onSaveProceed(rows)}
           >
             {t('addData.manualForm.saveProceed')}
           </Button>
@@ -90,9 +97,12 @@ export interface ManualDataFormDialogProps {
 
 export const ManualDataFormDialog = ({ open, onOpenChange }: ManualDataFormDialogProps) => {
   const { t } = useTranslation('home')
+  const { t: tSettings } = useTranslation('settings')
+  const navigate = useNavigate()
+  const currency = useAppSelector(selectDisplayGoalCurrency)
+  const isCurrencyConfigured = useAppSelector(selectIsCurrencyConfigured)
   const [formVersion, setFormVersion] = useState(0)
-  const [showComplete, setShowComplete] = useState(false)
-  const [submitManual, { isLoading, reset }] = useSubmitManualRowsMutation()
+  const [createTransactions, { isLoading, reset }] = useCreateTransactionsMutation()
 
   useEffect(() => {
     if (!open) {
@@ -103,17 +113,40 @@ export const ManualDataFormDialog = ({ open, onOpenChange }: ManualDataFormDialo
   const handleOpenChange = (next: boolean) => {
     if (next) {
       setFormVersion(v => v + 1)
-      setShowComplete(false)
     }
     onOpenChange(next)
   }
 
   const handleSaveProceed = async (rows: ManualRow[]) => {
+    if (!isCurrencyConfigured || !currency) {
+      showCurrencyRequiredToast(
+        tSettings('requireCurrency.title'),
+        tSettings('requireCurrency.description'),
+        tSettings('requireCurrency.action'),
+        () => navigate('/settings')
+      )
+
+      return
+    }
+
+    const filledRows = rows.filter(isManualRowFilled)
+
+    if (filledRows.length === 0) {
+      toast.error(t('addData.errors.noRows'))
+
+      return
+    }
+
+    const payloads = rows
+      .map(row => mapManualRowToCreateRequest(row, currency))
+      .filter(body => body !== null)
+
     try {
-      await submitManual({ rows }).unwrap()
-      setShowComplete(true)
-    } catch {
-      toast.error(t('addData.errors.submitFailed'))
+      await createTransactions(payloads).unwrap()
+      toast.success(t('addData.manualForm.saved'))
+      onOpenChange(false)
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, t('addData.errors.submitFailed')))
     }
   }
 
@@ -138,10 +171,8 @@ export const ManualDataFormDialog = ({ open, onOpenChange }: ManualDataFormDialo
           </DialogDescription>
         </DialogHeader>
 
-        {showComplete ? (
-          <AddDataCompletePanel onDone={() => onOpenChange(false)} />
-        ) : isLoading ? (
-          <AddDataLoadingOverlay className={'min-h-96'} />
+        {isLoading ? (
+          <TransactionsLoadingOverlay className={'min-h-96'} />
         ) : (
           <ManualDataFormBody key={formVersion} onSaveProceed={handleSaveProceed} />
         )}

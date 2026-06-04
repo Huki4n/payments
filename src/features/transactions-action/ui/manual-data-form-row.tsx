@@ -1,12 +1,15 @@
 import { useTranslation } from 'react-i18next'
 
+import {
+  getCategoryIdsForAmount,
+  translateTransactionCategory,
+} from '@/shared/config/transaction-categories'
+import { sanitizeAmountInput } from '@/shared/lib/money-format'
 import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui'
 import { cn } from '@/shared/ui/utils'
 
 import type { ManualRow } from '../model'
 
-import { MANUAL_FORM_CATEGORY_KEYS } from '../config/manual-form'
-import { sanitizeAmountInput } from '../lib/sanitize-amount-input'
 import {
   manualFormInputInRowClass,
   manualFormRowFieldClass,
@@ -20,6 +23,7 @@ export interface ManualDataFormRowProps {
 
 export const ManualDataFormRow = ({ row, onChange, className }: ManualDataFormRowProps) => {
   const { t } = useTranslation('home')
+  const categoryKeys = getCategoryIdsForAmount()
 
   return (
     <div className={cn('flex flex-col gap-2.5 sm:gap-3', className)}>
@@ -38,15 +42,15 @@ export const ManualDataFormRow = ({ row, onChange, className }: ManualDataFormRo
           <Select value={row.category} onValueChange={v => onChange({ category: v })}>
             <SelectTrigger
               className={cn(
-                'h-auto min-h-0 w-full max-w-none border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 data-[size=default]:h-auto md:text-base [&_svg]:text-brand-purple'
+                'h-auto min-h-0 w-full max-w-none border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none placeholder:text-muted-foreground focus-visible:ring-0 dark:bg-transparent data-[size=default]:h-auto md:text-base [&_svg]:text-brand-purple'
               )}
             >
               <SelectValue placeholder={t('addData.manualForm.category')} />
             </SelectTrigger>
             <SelectContent>
-              {MANUAL_FORM_CATEGORY_KEYS.map(key => (
+              {categoryKeys.map(key => (
                 <SelectItem key={key} value={key}>
-                  {t(`addData.manualForm.categories.${key}`)}
+                  {translateTransactionCategory(t, key)}
                 </SelectItem>
               ))}
             </SelectContent>

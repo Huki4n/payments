@@ -5,16 +5,16 @@ import { Loader2Icon } from 'lucide-react'
 import { Button } from '@/shared/ui'
 import { cn } from '@/shared/ui/utils'
 
-export interface AddDataLoadingOverlayProps {
+export interface TransactionsLoadingOverlayProps {
   className?: string
   /** Upload flow copy (Figma 127:3); default — manual / generic saving */
   variant?: 'manual' | 'upload'
 }
 
-export const AddDataLoadingOverlay = ({
+export const TransactionsLoadingOverlay = ({
   className,
   variant = 'manual',
-}: AddDataLoadingOverlayProps) => {
+}: TransactionsLoadingOverlayProps) => {
   const { t } = useTranslation('home')
   const titleKey =
     variant === 'upload'
@@ -59,13 +59,17 @@ export const AddDataLoadingOverlay = ({
   )
 }
 
-export interface AddDataCompletePanelProps {
+export interface TransactionsCompletePanelProps {
   className?: string
   onDone: () => void
+  onUploadMore?: () => void
 }
 
-/** Completion state — inset panel (`bg-add-data-panel`, `rounded-4xl`) */
-export const AddDataCompletePanel = ({ className, onDone }: AddDataCompletePanelProps) => {
+export const TransactionsCompletePanel = ({
+  className,
+  onDone,
+  onUploadMore,
+}: TransactionsCompletePanelProps) => {
   const { t } = useTranslation('home')
 
   return (
@@ -89,15 +93,29 @@ export const AddDataCompletePanel = ({ className, onDone }: AddDataCompletePanel
         >
           {t('addData.processing.completeTitle')}
         </p>
-        <Button
-          type={'button'}
-          className={
-            'rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:text-base md:py-3.5'
-          }
-          onClick={onDone}
-        >
-          {t('addData.processing.completeButton')}
-        </Button>
+        <div className={'flex flex-col items-center gap-3 sm:flex-row sm:gap-4'}>
+          {onUploadMore ? (
+            <Button
+              type={'button'}
+              variant={'outline'}
+              className={
+                'rounded-xl border-brand-purple/30 bg-card px-8 py-3 font-display text-sm font-bold text-brand-purple shadow-sm hover:bg-card/90 sm:text-base md:py-3.5'
+              }
+              onClick={onUploadMore}
+            >
+              {t('addData.processing.completeUploadMore')}
+            </Button>
+          ) : null}
+          <Button
+            type={'button'}
+            className={
+              'rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:text-base md:py-3.5'
+            }
+            onClick={onDone}
+          >
+            {t('addData.processing.completeButton')}
+          </Button>
+        </div>
       </div>
     </div>
   )
