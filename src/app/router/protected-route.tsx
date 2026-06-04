@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 
 /** Доступ только с accessToken и завершённым онбордингом. */
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => (
-  <RequireAuth>
-    <RequireOnboarding>{children}</RequireOnboarding>
-  </RequireAuth>
+  <RequireOnboarding>
+    <RequireAuth>{children}</RequireAuth>
+  </RequireOnboarding>
 )

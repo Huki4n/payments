@@ -133,7 +133,7 @@ export const CongratulationsPage = () => {
       <footer className={'flex flex-col items-center px-6 pb-12 sm:pb-14'}>
         <Button
           type={'button'}
-          onClick={() => navigate('/onboarding/welcome')}
+          onClick={() => navigate('/')}
           className={
             'h-14 w-72 max-w-full rounded-[11px] bg-brand-purple-bg font-display text-xl font-bold text-white hover:bg-brand-purple-bg/90 sm:h-16'
           }
