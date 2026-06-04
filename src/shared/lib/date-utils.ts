@@ -113,11 +113,14 @@ export function getLast30DaysRange(): IsoDateRange {
   }
 }
 
-/** Дедлайн цели по умолчанию: через год от сегодня. */
+/** Дедлайн цели по умолчанию: через год от сегодня (29 фев → 28 фев в невисокосном году). */
 export function getDefaultGoalDeadline(): string {
-  const date = new Date()
-
-  date.setFullYear(date.getFullYear() + 1)
+  const now = new Date()
+  const targetYear = now.getFullYear() + 1
+  const month = now.getMonth()
+  const day = now.getDate()
+  const lastDayOfMonth = new Date(targetYear, month + 1, 0).getDate()
+  const date = new Date(targetYear, month, Math.min(day, lastDayOfMonth))
 
   return toIsoDateLocal(date)
 }
