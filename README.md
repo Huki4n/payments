@@ -1,6 +1,6 @@
 # Payments
 
-Веб-приложение для управления личными финансами: транзакции, аналитика, накопления, цели и настройки профиля.
+Веб-приложение для управления личными финансами: транзакции, аналитика, накопления, цели и настройки профиля. Данные загружаются с backend API; суммы в интерфейсе приводятся к валюте, выбранной в настройках.
 
 ## Стек
 
@@ -12,7 +12,7 @@
 | Состояние и API   | Redux Toolkit, RTK Query                                          |
 | Формы             | React Hook Form                                                   |
 | Графики           | Recharts                                                          |
-| i18n              | i18next, react-i18next                                            |
+| i18n              | i18next, react-i18next (ru / en)                                  |
 | Качество кода     | ESLint 10, Prettier, Husky, Commitlint                            |
 | CI                | GitHub Actions                                                    |
 | Пакетный менеджер | Yarn 4 (Berry)                                                    |
@@ -23,11 +23,11 @@
 
 ```
 src/
-├── app/         # Точка входа, роутер, Redux store, layouts
+├── app/         # Точка входа, роутер, Redux store, layouts, провайдеры
 ├── pages/       # Страницы (композиция widgets/features)
 ├── widgets/     # Крупные UI-блоки (дашборды, навигация, графики)
 ├── features/    # Пользовательские сценарии (создание цели, фильтры и т.д.)
-├── entities/    # Бизнес-сущности (goal, session, settings)
+├── entities/    # Бизнес-сущности (goal, transaction, session, …)
 └── shared/      # UI-kit, API, конфиги, утилиты, i18n
 ```
 
@@ -49,34 +49,50 @@ app → pages → widgets → features → entities → shared
 | `lib/`    | Вспомогательные функции               |
 | `config/` | Константы и конфигурация              |
 
-### Слои проекта
+### Entities
 
-**Entities**
+| Слайс              | Назначение                                                                 |
+| ------------------ | -------------------------------------------------------------------------- |
+| `goal`             | Цели накопления, взносы, слайды для карусели savings                       |
+| `transaction`      | Транзакции, выписка, конвертация сумм в валюту отображения                 |
+| `profile`          | Профиль пользователя, синхронизация с настройками                          |
+| `session`          | Авторизация по телефону/PIN, токены, refresh                               |
+| `settings`         | Валюта, язык, тема, имя; персистентность в localStorage                    |
+| `onboarding-status`| Статус прохождения онбординга                                              |
 
-- `goal` — цели накопления
-- `session` — авторизация, токены
-- `settings` — настройки приложения
-- `onboarding-status` — статус прохождения онбординга
+### Features
 
-**Features**
+| Слайс                      | Назначение                                      |
+| -------------------------- | ----------------------------------------------- |
+| `transactions-action`      | Ручной ввод и загрузка CSV-выписок              |
+| `transactions-filter`    | Фильтрация списка транзакций на странице        |
+| `create-goal` / `edit-goal`| Создание и редактирование целей, пополнение     |
+| `auth-phone` / `auth-pin`  | Вход по телефону и PIN                          |
+| `require-settings-currency` | Блокировка UI до выбора валюты в настройках |
 
-- `add-data-action` — загрузка выписок / ручной ввод данных
-- `create-goal` — создание цели
-- `edit-goal` — редактирование и пополнение/снятие с цели
-- `transactions-filter` — фильтрация транзакций
+### Widgets
 
-**Widgets**
+| Слайс                    | Назначение                                                |
+| ------------------------ | --------------------------------------------------------- |
+| `account-balance`        | Приветствие и баланс на главной                           |
+| `finance-chart`          | График доходов/расходов за текущий месяц                  |
+| `spends-chart`           | Круговая диаграмма расходов по категориям                 |
+| `dashboard-transactions` | Список последних операций, плитки итогов за месяц         |
+| `dashboard-savings`      | Карусель целей накопления                                 |
+| `analytics-dashboard`    | Период, графики, сравнение средних, категории расходов    |
+| `home-navigation`        | Навигация по разделам                                     |
 
-- `account-balance`, `finance-chart`, `spends-chart`, `yearly-finance`, `monthly-spends`
-- `dashboard-savings`, `dashboard-transactions`, `analytics-dashboard`
-- `home-navigation`
+### Pages
 
-**Pages**
-
-- `/` — главная
-- `/transactions`, `/analytics`, `/saves`, `/profile`, `/settings`
-- `/auth`, `/auth/pin`, `/auth/pin/confirm`, `/auth/congratulations`
-- `/onboarding/*` — welcome, trading, savings, protection
+| Маршрут                         | Страница              |
+| ------------------------------- | --------------------- |
+| `/`                             | Главная (дашборд)      |
+| `/transactions`                 | Транзакции            |
+| `/analytics`                    | Аналитика             |
+| `/saves`                        | Накопления            |
+| `/profile`, `/settings`         | Профиль и настройки   |
+| `/auth`, `/auth/pin`, …         | Авторизация           |
+| `/onboarding/*`                 | Онбординг             |
 
 ## Ключевые решения
 
@@ -85,23 +101,43 @@ app → pages → widgets → features → entities → shared
 - `ProtectedRoute` — требует авторизацию и завершённый онбординг
 - `RequireAuth` / `RequireOnboarding` — промежуточные guard-компоненты
 - Роутер: `src/app/router/index.tsx`
+- Профиль подгружается при старте (`profile-bootstrap`) и синхронизируется с Redux `settings`
 
 ### Состояние и API
 
-- Единый `baseApi` (RTK Query) с автоматической подстановкой `Authorization` и refresh-токеном
-- Endpoints инжектируются из `entities/*/api` и `features/*/api`
-- Локальное состояние настроек — Redux slice `settings` + listener middleware для персистентности
+- Единый `baseApi` (RTK Query) с `Authorization` и обновлением refresh-токена
+- Endpoints инжектируются из `entities/*/api`
+- Настройки — slice `settings` + listener middleware → `localStorage`
+- Транзакции запрашиваются с аргументом `{ displayCurrency, params? }` и приводятся к валюте отображения на уровне API-слоя
+
+### Конвертация валют
+
+Валюта отображения: **USD**, **EUR**, **RUB** (`shared/config/currencies.ts`). Пользователь выбирает её в настройках; без выбора основные виджеты не запрашивают данные.
+
+| Область              | Где реализовано                                                                 |
+| -------------------- | ------------------------------------------------------------------------------- |
+| Накопления (savings) | `getSavingsSlides` → `mapGoalToSavingsSlide` + курсы Frankfurter               |
+| Транзакции, баланс, графики, аналитика | `getTransactions` → `convertBankStatementToDisplayCurrency` |
+| Курсы                | `shared/lib/currency-exchange` (`fetchExchangeRates`, `convertCurrency`)       |
+
+Курсы кэшируются в памяти; в dev прокси `/exchange-rates` → [Frankfurter API v2](https://frankfurter.dev/) (см. `vite.config.ts`).
+
+### Категории транзакций
+
+- Id категорий и иконки (Lucide): `shared/config/spend-categories.ts`, `income-categories.ts`
+- Подписи: i18n `home.dashboard.categories.*`
+- API может отдавать id (`catSubscriptions`) или русские названия (`Подписки`) — резолв через `resolveSpendCategoryId`
 
 ### UI
 
 - Компоненты shadcn/ui в `src/shared/ui/`
 - Алиас `@/` → `src/`
-- Тема (light/dark) и язык сохраняются в localStorage
+- Тема (light/dark) и язык сохраняются локально
 
 ### i18n
 
 - Языки: `ru` (по умолчанию), `en`
-- Файлы переводов: `src/shared/i18n/locales/`
+- Файлы: `src/shared/i18n/locales/`
 
 ## Быстрый старт
 
@@ -113,7 +149,7 @@ app → pages → widgets → features → entities → shared
 ```bash
 corepack enable
 yarn install
-cp .env.example .env   # при необходимости настроить API
+cp .env.example .env   # при необходимости настроить URL API и курсы
 yarn dev
 ```
 
@@ -121,9 +157,12 @@ yarn dev
 
 ### Переменные окружения
 
-| Переменная          | Описание        | По умолчанию |
-| ------------------- | --------------- | ------------ |
-| `VITE_API_BASE_URL` | Базовый URL API | `/api/v1`    |
+| Переменная                      | Описание                                      | По умолчанию (dev)   |
+| ------------------------------- | --------------------------------------------- | -------------------- |
+| `VITE_API_BASE_URL`             | Базовый URL backend API (без завершающего `/`) | `/api/v1`            |
+| `VITE_EXCHANGE_RATES_BASE_URL`  | Базовый URL сервиса курсов (Frankfurter v2)   | `/exchange-rates`    |
+
+Примеры в `.env.example`.
 
 ## Скрипты
 
@@ -140,20 +179,19 @@ yarn dev
 | `yarn test:run`      | Unit-тесты (CI)               |
 | `yarn test:coverage` | Покрытие тестами              |
 
+### Генератор FSD-слайсов
+
+```bash
+node .cursor/fsd-generator.js features <имя-слайса>
+```
+
 ## Тестирование
 
 - **Vitest** + **Testing Library**
-- Setup и утилиты: `src/shared/test/`
-- Тесты: `__tests__/` рядом с тестируемым модулем
+- Setup: `src/shared/test/`
+- Тесты рядом с модулем: `__tests__/*.test.ts`
 
-Пример:
-
-```
-src/shared/lib/
-├── token-storage.ts
-└── __tests__/
-    └── token-storage.test.ts
-```
+Примеры: `currency-exchange`, `date-utils`, `spend-categories`, виджеты аналитики.
 
 ## Git hooks (Husky)
 
@@ -169,9 +207,9 @@ src/shared/lib/
 <type>: <subject>
 ```
 
-Допустимые типы: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
+Типы: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
 
-Пример: `feat: add savings goal filter`
+Пример: `feat: convert transactions to display currency`
 
 ## CI
 
@@ -184,6 +222,6 @@ GitHub Actions (`.github/workflows/ci.yml`) на push/PR в `main`/`master`:
 
 ## Качество кода
 
-- **ESLint** — flat config (`eslint.config.mjs`), `defineConfig` из ESLint core
-- **Prettier** — `.prettierrc` (single quotes, без semicolons, printWidth 100)
-- Для `src/shared/ui/` отключено правило `react-refresh/only-export-components` (экспорт хуков и variants — норма для UI-kit)
+- **ESLint** — flat config (`eslint.config.mjs`)
+- **Prettier** — single quotes, без semicolons, `printWidth` 100
+- Для `src/shared/ui/` отключено `react-refresh/only-export-components` (variants и хуки в UI-kit)
