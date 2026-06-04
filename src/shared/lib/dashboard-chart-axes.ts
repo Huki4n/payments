@@ -11,7 +11,7 @@ export const dashboardChartXAxisTick = {
 
 export const dashboardChartYAxisTick = {
   fill: 'var(--dashboard-chart-tick-muted)',
-  fontSize: 15,
+  fontSize: 13,
   fontFamily: dashboardChartAxisFontFamily,
   fontWeight: 400,
 } as const

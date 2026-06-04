@@ -1,39 +1,29 @@
-/** Pie segments + category list mock (Figma spends chart reference) */
-export const spendsChartPie = [
-  {
-    nameKey: 'catFoodDeliveries' as const,
-    value: 72.32,
-    color: '#48abe0',
-    icon: 'utensils' as const,
-  },
-  {
-    nameKey: 'catCafesRestaurants' as const,
-    value: 54.1,
-    color: '#08246e',
-    icon: 'coffee' as const,
-  },
-  {
-    nameKey: 'catPharmacies' as const,
-    value: 87.3,
-    color: '#6140c9',
-    icon: 'cross' as const,
-  },
-  {
-    nameKey: 'catShopping' as const,
-    value: 123.45,
-    color: '#0f0533',
-    icon: 'shopping' as const,
-  },
-  {
-    nameKey: 'catOther' as const,
-    value: 3.45,
-    color: '#42d1b5',
-    icon: 'more' as const,
-  },
-  {
-    nameKey: 'catGames' as const,
-    value: 42.79,
-    color: '#b336c1',
-    icon: 'gamepad' as const,
-  },
-] as const
+import { SPEND_CATEGORIES } from '@/shared/config/spend-categories'
+
+import { SPEND_CHART_COLORS } from './spend-chart-colors'
+
+/** Pie segments mock (Figma reference) — для аналитики и сторибуков. */
+const spendsChartMeta: Record<
+  (typeof SPEND_CATEGORIES)[number]['id'],
+  { name: string; value: number }
+> = {
+  catSupermarkets: { name: 'Supermarkets', value: 72.32 },
+  catTransport: { name: 'Transport', value: 41.2 },
+  catTaxi: { name: 'Taxi', value: 18.5 },
+  catRestaurants: { name: 'Restaurants', value: 54.1 },
+  catEntertainment: { name: 'Entertainment', value: 42.79 },
+  catClothing: { name: 'Clothing', value: 88.2 },
+  catPharmacy: { name: 'Pharmacy', value: 87.3 },
+  catSubscriptions: { name: 'Subscriptions', value: 24.99 },
+  catTelecom: { name: 'Telecom', value: 28.5 },
+  catUtilities: { name: 'Utilities', value: 63.15 },
+  catMarketplaces: { name: 'Marketplaces', value: 123.45 },
+  catOther: { name: 'Other', value: 3.45 },
+}
+
+export const spendsChartPie = SPEND_CATEGORIES.map(category => ({
+  categoryId: category.id,
+  icon: category.icon,
+  color: SPEND_CHART_COLORS[category.id],
+  ...spendsChartMeta[category.id],
+}))

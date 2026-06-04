@@ -17,6 +17,7 @@ interface SavingsSwiperProps {
   isLoading?: boolean
   loadingMessage?: string
   emptyMessage?: string
+  editMenuAria?: string
 }
 
 export const SavingsSwiper = ({
@@ -27,12 +28,17 @@ export const SavingsSwiper = ({
   isLoading = false,
   loadingMessage = 'Loading…',
   emptyMessage = 'No savings goals yet',
+  editMenuAria,
 }: SavingsSwiperProps) => {
   const items = slides ?? savingsSlidesMock
 
   if (isLoading) {
     return (
-      <section className={'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'}>
+      <section
+        className={
+          'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'
+        }
+      >
         <p className={'font-display text-lg text-brand-purple/70'}>{loadingMessage}</p>
       </section>
     )
@@ -40,7 +46,11 @@ export const SavingsSwiper = ({
 
   if (items.length === 0) {
     return (
-      <section className={'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'}>
+      <section
+        className={
+          'flex min-h-64 items-center justify-center rounded-4xl bg-dashboard-card px-6 py-10'
+        }
+      >
         <p className={'text-center font-display text-lg text-brand-purple/70'}>{emptyMessage}</p>
       </section>
     )
@@ -79,13 +89,12 @@ export const SavingsSwiper = ({
           centeredSlides
           loop={items.length > 1}
           loopAdditionalSlides={0}
-          spaceBetween={16}
-          slidesPerView={1.09}
+          slidesPerView={1}
           pagination={{ clickable: true }}
           className={'pb-8! w-full min-w-0'}
+          spaceBetween={16}
           breakpoints={{
-            480: { slidesPerView: 1.09, spaceBetween: 16 },
-            768: { slidesPerView: 1.09, spaceBetween: 20 },
+            640: { spaceBetween: 20 },
           }}
         >
           {items.map(slide => (
@@ -95,6 +104,7 @@ export const SavingsSwiper = ({
                 showConfigureSavingsLink={showConfigureSavingsLink}
                 showEditMenu={showEditMenu}
                 onEditGoal={onEditGoal}
+                editMenuAria={editMenuAria}
               />
             </SwiperSlide>
           ))}

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useDeleteGoalMutation, useGetGoalByIdQuery } from '@/entities/goal'
 import { getApiErrorMessage } from '@/entities/session'
+import { toast } from '@/shared/lib/toast'
 import {
   Button,
   Dialog,
@@ -15,7 +16,6 @@ import {
 
 import { EditGoalDepositForm } from './edit-goal-deposit-form'
 import { EditGoalDetailsForm } from './edit-goal-details-form'
-import { EditGoalWithdrawForm } from './edit-goal-withdraw-form'
 
 export interface EditGoalDialogProps {
   goalId: number | null
@@ -50,15 +50,21 @@ export const EditGoalDialog = ({ goalId, open, onOpenChange }: EditGoalDialogPro
 
     try {
       await deleteGoal(goalId).unwrap()
+      toast.success(t('savingsPage.editGoal.success.deleted'))
       handleOpenChange(false)
     } catch (error) {
-      setRootError(getApiErrorMessage(error, t('savingsPage.editGoal.errors.delete')))
+      const message = getApiErrorMessage(error, t('savingsPage.editGoal.errors.delete'))
+
+      toast.error(message)
+      setRootError(message)
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className={'flex max-h-[min(90vh,640px)] max-w-lg flex-col gap-0 p-0 sm:max-w-xl'}>
+      <DialogContent
+        className={'flex max-h-[min(90vh,640px)] max-w-lg flex-col gap-0 p-0 sm:max-w-xl'}
+      >
         <DialogHeader className={'shrink-0 px-6 pt-6 pb-4 sm:px-8'}>
           <DialogTitle className={'font-display text-2xl font-bold text-brand-purple'}>
             {t('savingsPage.editGoal.title')}
@@ -80,7 +86,6 @@ export const EditGoalDialog = ({ goalId, open, onOpenChange }: EditGoalDialogPro
 
             <div className={'flex flex-col gap-5'}>
               <EditGoalDepositForm goalId={goalId} disabled={isBusy} resetKey={formResetKey} />
-              <EditGoalWithdrawForm goalId={goalId} disabled={isBusy} resetKey={formResetKey} />
             </div>
           </div>
         </div>

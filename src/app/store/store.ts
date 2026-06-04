@@ -4,8 +4,9 @@ import { settingsReducer } from '@/entities/settings'
 import { baseApi } from '@/shared/api'
 
 import '@/entities/goal/api/goals-api'
+import '@/entities/profile/api/profile-api'
 import '@/entities/session/api/session-api'
-import '@/features/add-data-action/api/add-data-api'
+import '@/entities/transaction/api/transactions-api'
 
 import { settingsListenerMiddleware } from './middlewares/settings-listener'
 

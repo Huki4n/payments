@@ -25,7 +25,9 @@ export const SavingsPage = () => {
           aria-hidden
           width={286}
           height={326}
-          className={'absolute left-1/2 top-1/2 aspect-[286/326] h-full w-auto -translate-x-1/2 -translate-y-1/2 select-none'}
+          className={
+            'absolute left-1/2 top-1/2 aspect-[286/326] h-full w-auto -translate-x-1/2 -translate-y-1/2 select-none'
+          }
         />
       }
     />

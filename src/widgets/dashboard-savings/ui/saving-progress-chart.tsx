@@ -8,9 +8,9 @@ import {
   YAxis,
 } from 'recharts'
 
-import type { SavingsSlide } from '@/entities/goal'
-
+import { formatGoalMoney, type SavingsSlide } from '@/entities/goal'
 import { dashboardChartXAxisTick, dashboardChartYAxisTick } from '@/shared/lib/dashboard-chart-axes'
+import { formatCompactAmount } from '@/shared/lib/money-format'
 import { INITIAL_CHART_DIMENSION } from '@/shared/ui/chart-constants'
 
 const TICK_COUNT = 5
@@ -32,9 +32,10 @@ function getSavingsYAxisConfig(values: number[]): {
 interface SavingProgressChartProps {
   slideId: string
   progressChart: SavingsSlide['progressChart']
+  currency: string
 }
 
-export const SavingProgressChart = ({ slideId, progressChart }: SavingProgressChartProps) => {
+export const SavingProgressChart = ({ slideId, progressChart, currency }: SavingProgressChartProps) => {
   const data = progressChart.map(p => ({
     month: p.month,
     value: p.value,
@@ -42,8 +43,16 @@ export const SavingProgressChart = ({ slideId, progressChart }: SavingProgressCh
   const yAxis = getSavingsYAxisConfig(data.map(d => d.value))
 
   return (
-    <div className={'pt-3 h-full min-h-0 w-full min-w-0 overflow-hidden rounded-[19px] bg-(--dashboard-savings-chart-surface) shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--brand-purple)_6%,transparent)] dark:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--foreground)_10%,transparent)]'}>
-      <ResponsiveContainer width={'100%'} height={'100%'} initialDimension={INITIAL_CHART_DIMENSION}>
+    <div
+      className={
+        'pt-3 h-full min-h-0 w-full min-w-0 overflow-hidden rounded-[19px] bg-(--dashboard-savings-chart-surface) shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--brand-purple)_6%,transparent)] dark:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--foreground)_10%,transparent)]'
+      }
+    >
+      <ResponsiveContainer
+        width={'100%'}
+        height={'100%'}
+        initialDimension={INITIAL_CHART_DIMENSION}
+      >
         <AreaChart data={data} margin={{ top: 4, right: 0, left: 8, bottom: 8 }}>
           <defs>
             <linearGradient id={`savingFill-${slideId}`} x1={'0'} y1={'0'} x2={'0'} y2={'1'}>
@@ -69,8 +78,8 @@ export const SavingProgressChart = ({ slideId, progressChart }: SavingProgressCh
             tick={dashboardChartYAxisTick}
             tickLine={false}
             axisLine={false}
-            width={48}
-            tickFormatter={v => String(Math.round(v))}
+            width={40}
+            tickFormatter={formatCompactAmount}
           />
           <Tooltip
             content={({ active, payload }) =>
@@ -82,7 +91,7 @@ export const SavingProgressChart = ({ slideId, progressChart }: SavingProgressCh
                   }}
                 >
                   <p className={'font-display text-xs font-semibold text-brand-purple'}>
-                    {payload[0]?.value}$
+                    {formatGoalMoney(Number(payload[0]?.value ?? 0), currency)}
                   </p>
                 </div>
               ) : null

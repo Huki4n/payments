@@ -12,10 +12,10 @@ import {
 import { cn } from '@/shared/ui/utils'
 
 const fieldShellClass =
-  'flex min-h-14 items-center justify-between gap-3 rounded-xl bg-white px-4 py-3 shadow-sm sm:rounded-2xl sm:px-5'
+  'flex min-h-14 items-center justify-between gap-3 rounded-xl bg-data-action-bg px-4 py-3 shadow-sm sm:rounded-2xl sm:px-5'
 
 const inputInFieldClass =
-  'h-auto min-h-0 border-0 bg-transparent px-0 py-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 md:text-base'
+  'h-auto min-h-0 rounded-none border-0 bg-transparent px-0 py-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-transparent dark:disabled:bg-transparent md:text-base'
 
 interface SettingsTextFieldProps {
   label: string
@@ -80,6 +80,8 @@ interface SettingsSelectFieldProps {
   value: string
   onValueChange: (value: string) => void
   options: SelectOption[]
+  placeholder?: string
+  emptyValue?: string
 }
 
 export const SettingsSelectField = ({
@@ -87,25 +89,42 @@ export const SettingsSelectField = ({
   value,
   onValueChange,
   options,
+  placeholder,
+  emptyValue,
 }: SettingsSelectFieldProps) => {
+  const selectValue = emptyValue !== undefined && value === emptyValue ? undefined : value
+
   return (
     <div className={'flex flex-col gap-2'}>
       <span className={'font-display text-sm font-medium text-brand-purple sm:text-base'}>
         {label}
       </span>
       <div className={cn(fieldShellClass, 'py-2 sm:py-2.5')}>
-        <Select value={value} onValueChange={onValueChange}>
+        <Select value={selectValue} onValueChange={onValueChange}>
           <SelectTrigger
             size={'default'}
             className={cn(
-              'h-auto min-h-0 w-full max-w-none flex-1 border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 data-[size=default]:h-auto sm:text-base [&_svg]:text-brand-purple'
+              'h-auto min-h-0 w-full max-w-none flex-1 rounded-none border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent data-[size=default]:h-auto sm:text-base [&_svg]:text-brand-purple',
+              selectValue === undefined && 'text-brand-purple/50'
             )}
           >
-            <SelectValue />
+            <SelectValue placeholder={placeholder} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent
+            position={'popper'}
+            sideOffset={6}
+            className={
+              'min-w-(--radix-select-trigger-width) rounded-2xl border border-border/80 bg-card font-display text-brand-purple shadow-lg'
+            }
+          >
             {options.map(opt => (
-              <SelectItem key={opt.value} value={opt.value}>
+              <SelectItem
+                key={opt.value}
+                value={opt.value}
+                className={
+                  'rounded-xl py-2.5 pr-8 pl-3 font-display text-sm text-brand-purple focus:bg-accent focus:text-accent-foreground'
+                }
+              >
                 {opt.label}
               </SelectItem>
             ))}

@@ -1,45 +1,44 @@
-export const earningsMock = [
-  { id: '1', amount: '+1890,23 $', labelKey: 'alphaBankRecruiting' as const },
-  { id: '2', amount: '+140,13 $', labelKey: 'alphaBankRecruiting' as const },
-] as const
+import type { EarningMockRow, SpendMockRow } from './types'
 
-export const spendsMock = [
+export const earningsMock: EarningMockRow[] = [
+  { id: '1', amount: '+1890,23 $', label: 'Alpha bank recruiting' },
+  { id: '2', amount: '+140,13 $', label: 'Alpha bank recruiting' },
+]
+
+export const spendsMock: SpendMockRow[] = [
   {
     id: '1',
     amount: '-18,32 $',
-    labelKey: 'yandexFood' as const,
-    icon: 'utensils' as const,
-    categoryKey: 'catFoodDeliveries' as const,
+    label: 'Yandex Food Delivery',
+    icon: 'shopping',
+    category: 'catSupermarkets',
   },
   {
     id: '2',
     amount: '-87,30$',
-    labelKey: 'vitaPharmacy' as const,
-    icon: 'cross' as const,
-    categoryKey: 'catPharmacies' as const,
+    label: 'Vita Pharmacy',
+    icon: 'cross',
+    category: 'catPharmacy',
   },
   {
     id: '3',
     amount: '-42,79$',
-    labelKey: 'steamGaming' as const,
-    icon: 'gamepad' as const,
-    categoryKey: 'catGames' as const,
+    label: 'Steam Gaming',
+    icon: 'gamepad',
+    category: 'catEntertainment',
   },
   {
     id: '4',
     amount: '-03,45$',
-    labelKey: 'magnetSupermarket' as const,
-    icon: 'shopping' as const,
-    categoryKey: 'catShopping' as const,
+    label: 'Magnet Supermarket',
+    icon: 'shopping',
+    category: 'catSupermarkets',
   },
   {
     id: '5',
     amount: '-63,21$',
-    labelKey: 'shawarmaLeonstreet' as const,
-    icon: 'utensils' as const,
-    categoryKey: 'catCafesRestaurants' as const,
+    label: 'Shawarma Leonstreet',
+    icon: 'coffee',
+    category: 'catRestaurants',
   },
-] as const
-
-export type EarningMockRow = (typeof earningsMock)[number]
-export type SpendMockRow = (typeof spendsMock)[number]
+]

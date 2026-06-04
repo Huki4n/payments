@@ -65,26 +65,48 @@
           "mismatch": "PIN не совпадает"
         }
       }
+    },
+    "congratulations": {
+      "title": "Поздравляем! Вы теперь участник!",
+      "proceed": "Продолжить"
     }
   },
   "settings": {
     "fields": {
       "name": "Имя",
       "surname": "Фамилия",
-      "country": "Страна",
       "phoneNumber": "Номер телефона",
-      "email": "E-Mail",
       "currency": "Валюта",
       "darkTheme": "Тема",
       "themeLight": "Светлая",
       "themeDark": "Тёмная",
-      "pinCode": "PIN-код",
       "language": "Язык"
+    },
+    "options": {
+      "currency": {
+        "none": "—",
+        "usd": "USD $",
+        "eur": "EUR €",
+        "rub": "RUB ₽"
+      },
+      "language": {
+        "en": "ENG",
+        "ru": "RUS"
+      }
     },
     "actions": {
       "edit": "Редактировать профиль",
-      "save": "Сохранить",
-      "resetPin": "Сбросить PIN"
+      "save": "Сохранить"
+    },
+    "toast": {
+      "saved": "Настройки сохранены",
+      "saveFailed": "Не удалось сохранить профиль на сервере"
+    },
+    "requireCurrency": {
+      "title": "Выберите валюту",
+      "description": "Чтобы загрузить данные, укажите валюту в настройках и сохраните изменения.",
+      "action": "Перейти в настройки",
+      "toast": "Сначала выберите валюту в настройках"
     }
   },
   "home": {
@@ -96,15 +118,20 @@
     },
     "settingsAria": "Настройки",
     "profileAria": "Профиль",
+    "menuAria": "Меню навигации",
     "welcome": "Добро пожаловать, {{name}}",
     "balanceLabel": "Текущий баланс счёта",
+    "profile": {
+      "fallbackName": "гость"
+    },
     "transactionsPage": {
       "searchByName": "Поиск по названию",
       "searchByAmount": "Поиск по сумме",
       "category": "Категория",
       "categoryAll": "Все категории",
       "totalMonthEarnings": "Итого доходов за месяц",
-      "totalMonthSpends": "Итого расходов за месяц"
+      "totalMonthSpends": "Итого расходов за месяц",
+      "loadError": "Не удалось загрузить транзакции"
     },
     "savingsPage": {
       "addNewSaving": "Новое накопление",
@@ -121,6 +148,7 @@
         "deadlineLabel": "Срок",
         "submit": "Создать",
         "cancel": "Отмена",
+        "success": "Цель создана",
         "errors": {
           "required": "Заполните поле",
           "invalidAmount": "Сумма должна быть больше 0",
@@ -146,6 +174,12 @@
         "delete": "Удалить цель",
         "close": "Закрыть",
         "deleteConfirm": "Удалить это накопление?",
+        "success": {
+          "saved": "Цель сохранена",
+          "deposit": "Средства пополнены",
+          "withdraw": "Средства сняты",
+          "deleted": "Цель удалена"
+        },
         "historyLoading": "Загрузка истории…",
         "historyEmpty": "Операций пока нет",
         "errors": {
@@ -185,24 +219,43 @@
       "mostSpentCategory": "Больше всего",
       "leastSpentCategory": "Меньше всего",
       "avgCompareTitle": "Средний дневной расход ниже среднего дневного дохода! Отлично!",
+      "avgCompareTitleNegative": "Средний дневной расход выше среднего дневного дохода",
       "avgCompareStatsLead": "Средняя сумма расходов:",
       "avgCompareStatsMiddle": "в день за этот период, средний доход:",
       "keepGoing": "Так держать!",
-      "netProfit": "Ваша чистая прибыль — {{percent}}%",
+      "avgCompareKeepGoingNegative": "Стоит пересмотреть траты за период",
+      "netProfit": "Ваша чистая прибыль — {{amount}}",
       "periodSavedTitle": "За выбранный период вы отложили:",
-      "totalSavedChartTitle": "Всего накоплено"
+      "totalSavedChartTitle": "Всего накоплено",
+      "loadError": "Не удалось загрузить транзакции"
     },
     "dashboard": {
-      "yearlyFinance": "Ваша годовая финансовая динамика",
-      "yearlyRange": "01.01.2025 — сейчас",
-      "exploreYearly": "Подробнее о годовой статистике",
+      "monthFinance": "Ваша месячная финансовая динамика",
+      "monthRange": "{{from}} — сейчас",
+      "months": {
+        "jan": "Янв",
+        "feb": "Фев",
+        "mar": "Мар",
+        "apr": "Апр",
+        "may": "Май",
+        "jun": "Июн",
+        "jul": "Июл",
+        "aug": "Авг",
+        "sep": "Сен",
+        "oct": "Окт",
+        "nov": "Ноя",
+        "dec": "Дек"
+      },
+      "exploreMonth": "Подробнее о месячной статистике",
       "transactionsTitle": "Транзакции",
       "recentEarnings": "Недавние поступления",
       "recentSpends": "Недавние расходы",
       "monthlySpendsWheel": "Колесо месячных расходов",
+      "spendsChartEmpty": "Нет пополнений за этот месяц",
       "spendAmount": "Сумма",
       "savingGoal": "Цель накопления:",
       "savingTotal": "Накоплено:",
+      "savingDeadline": "Срок:",
       "savingsReplenishments": "Пополнения сбережений",
       "savingProgress": "Прогресс накопления:",
       "configureSavings": "Настроить накопления",
@@ -220,12 +273,25 @@
         "shawarmaLeonstreet": "Shawarma Leonstreet"
       },
       "categories": {
-        "catFoodDeliveries": "Доставка еды",
-        "catCafesRestaurants": "Кафе и рестораны",
-        "catPharmacies": "Аптеки и клиники",
-        "catShopping": "Покупки",
-        "catOther": "Другое",
-        "catGames": "Игры"
+        "catSalary": "Зарплата",
+        "catTransfer": "Перевод",
+        "catFreelance": "Фриланс",
+        "catCashback": "Кэшбэк",
+        "catInterest": "Проценты",
+        "catRefund": "Возврат средств",
+        "catGift": "Подарок",
+        "catSupermarkets": "Супермаркеты",
+        "catTransport": "Транспорт",
+        "catTaxi": "Такси",
+        "catRestaurants": "Кафе и рестораны",
+        "catEntertainment": "Развлечения",
+        "catClothing": "Одежда",
+        "catPharmacy": "Аптека",
+        "catSubscriptions": "Подписки",
+        "catTelecom": "Связь",
+        "catUtilities": "Коммунальные услуги",
+        "catMarketplaces": "Маркетплейсы",
+        "catOther": "Другое"
       }
     },
     "addData": {
@@ -233,22 +299,31 @@
       "manual": "Заполнить вручную",
       "upload": "Загрузить банковские выписки",
       "or": "или",
+      "errors": {
+        "submitFailed": "Не удалось отправить данные. Попробуйте снова.",
+        "noFiles": "Добавьте хотя бы один CSV-файл выписки.",
+        "invalidFileType": "Поддерживается только CSV (разделитель «;»).",
+        "noRows": "Заполните хотя бы одну строку с категорией и суммой.",
+        "invalidRows": "Проверьте строки: нужны категория и сумма от 0,01."
+      },
       "processing": {
         "loadingTitle": "Сохраняем и анализируем ваши данные…",
         "loadingSubtitle": "Это займёт всего несколько секунд.",
         "uploadLoadingTitle": "Данные успешно сохранены!",
         "uploadLoadingSubtitle": "Мы уже анализируем их — это может занять несколько минут.",
         "completeTitle": "Ваша аналитика готова!",
+        "completeUploadMore": "Загрузить ещё",
         "completeButton": "Обновить главную"
       },
       "uploadForm": {
         "title": "Загрузите банковские выписки",
-        "description": "Выберите файлы или перетащите их в область загрузки, проверьте список и нажмите «Сохранить и продолжить».",
+        "description": "Загрузите CSV-выписку (разделитель «;»): выберите файлы или перетащите их в область загрузки, затем нажмите «Сохранить и продолжить».",
         "chooseFile": "Выберите файл",
         "dragHere": "Перетащите сюда",
         "yourUploads": "Ваши файлы",
         "empty": "Пока нет файлов — выберите или перетащите их слева.",
-        "dropzoneAria": "Область загрузки: выберите файл или перетащите файлы сюда"
+        "dropzoneAria": "Область загрузки: выберите файл или перетащите файлы сюда",
+        "removeFile": "Удалить файл из списка"
       },
       "manualForm": {
         "title": "Заполните данные",
@@ -257,15 +332,10 @@
         "category": "Категория",
         "amount": "Сумма",
         "addNew": "Добавить строку",
-        "saveProceed": "Сохранить и продолжить",
-        "categories": {
-          "groceries": "Продукты",
-          "transport": "Транспорт",
-          "bills": "Счета",
-          "entertainment": "Развлечения",
-          "health": "Здоровье",
-          "other": "Другое"
-        }
+        "save": "Сохранить",
+        "cancel": "Отмена",
+        "saved": "Запись сохранена",
+        "saveProceed": "Сохранить и продолжить"
       }
     }
   }

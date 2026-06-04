@@ -3,13 +3,15 @@ import type { SavingsSlide } from '@/entities/goal'
 export const savingsSlidesMock: SavingsSlide[] = [
   {
     id: 'world-trip',
-    titleKey: 'savingsWorldTrip' as const,
+    title: 'World trip',
+    deadline: '2027-06-15',
+    currency: 'USD',
     goal: 15000,
     total: 14100,
     replenishments: [
-      { date: '03.04.2026', amount: '+140,13 $' },
-      { date: '03.04.2026', amount: '+500,00 $' },
-      { date: '15.03.2026', amount: '+200,00 $' },
+      { date: '03.04.2026', amount: 140.13 },
+      { date: '03.04.2026', amount: 500 },
+      { date: '15.03.2026', amount: 200 },
     ],
     progressChart: [
       { month: 'Jan', value: 3200 },
@@ -22,12 +24,14 @@ export const savingsSlidesMock: SavingsSlide[] = [
   },
   {
     id: 'emergency',
-    titleKey: 'savingsEmergency' as const,
+    title: 'Emergency fund',
+    deadline: '2026-12-31',
+    currency: 'USD',
     goal: 8000,
     total: 6200,
     replenishments: [
-      { date: '01.05.2026', amount: '+300,00 $' },
-      { date: '12.04.2026', amount: '+150,00 $' },
+      { date: '01.05.2026', amount: 300 },
+      { date: '12.04.2026', amount: 150 },
     ],
     progressChart: [
       { month: 'Jan', value: 1200 },
@@ -40,13 +44,15 @@ export const savingsSlidesMock: SavingsSlide[] = [
   },
   {
     id: 'car-purchase',
-    titleKey: 'savingsCarPurchase' as const,
+    title: 'New car',
+    deadline: '2028-03-01',
+    currency: 'USD',
     goal: 15000,
     total: 14100,
     replenishments: [
-      { date: '03.04.2026', amount: '+140,13 $' },
-      { date: '03.04.2026', amount: '+500,00 $' },
-      { date: '15.03.2026', amount: '+200,00 $' },
+      { date: '03.04.2026', amount: 140.13 },
+      { date: '03.04.2026', amount: 500 },
+      { date: '15.03.2026', amount: 200 },
     ],
     progressChart: [
       { month: 'Jan', value: 3200 },
@@ -59,12 +65,14 @@ export const savingsSlidesMock: SavingsSlide[] = [
   },
   {
     id: 'home-fund',
-    titleKey: 'savingsHomeFund' as const,
+    title: 'Home fund',
+    deadline: '2030-01-01',
+    currency: 'USD',
     goal: 25000,
     total: 8750,
     replenishments: [
-      { date: '20.04.2026', amount: '+250,00 $' },
-      { date: '10.04.2026', amount: '+500,00 $' },
+      { date: '20.04.2026', amount: 250 },
+      { date: '10.04.2026', amount: 500 },
     ],
     progressChart: [
       { month: 'Jan', value: 1500 },
@@ -77,12 +85,14 @@ export const savingsSlidesMock: SavingsSlide[] = [
   },
   {
     id: 'gadget-fund',
-    titleKey: 'savingsGadgetFund' as const,
+    title: 'Gadget savings',
+    deadline: '2026-09-30',
+    currency: 'USD',
     goal: 3000,
     total: 2100,
     replenishments: [
-      { date: '02.05.2026', amount: '+100,00 $' },
-      { date: '18.04.2026', amount: '+200,00 $' },
+      { date: '02.05.2026', amount: 100 },
+      { date: '18.04.2026', amount: 200 },
     ],
     progressChart: [
       { month: 'Jan', value: 400 },

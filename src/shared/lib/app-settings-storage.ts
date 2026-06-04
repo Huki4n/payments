@@ -1,8 +1,19 @@
+import { detectAppLanguage } from './detect-app-language'
+
 const APP_SETTINGS_KEY = 'app_settings'
 const LEGACY_LANGUAGE_KEY = 'language'
 
+export const APP_SETTINGS_CURRENCY_UNSET = 'none' as const
 export const APP_SETTINGS_CURRENCIES = ['usd', 'eur', 'rub'] as const
-export type AppSettingsCurrency = (typeof APP_SETTINGS_CURRENCIES)[number]
+export type AppSettingsCurrency =
+  | typeof APP_SETTINGS_CURRENCY_UNSET
+  | (typeof APP_SETTINGS_CURRENCIES)[number]
+
+export function isAppSettingsCurrencyConfigured(
+  currency: AppSettingsCurrency
+): currency is (typeof APP_SETTINGS_CURRENCIES)[number] {
+  return currency !== APP_SETTINGS_CURRENCY_UNSET
+}
 
 export const APP_SETTINGS_LANGUAGES = ['en', 'ru'] as const
 export type AppSettingsLanguage = (typeof APP_SETTINGS_LANGUAGES)[number]
@@ -11,11 +22,9 @@ export const APP_SETTINGS_COLOR_SCHEMES = ['light', 'dark'] as const
 export type AppSettingsColorScheme = (typeof APP_SETTINGS_COLOR_SCHEMES)[number]
 
 const profileDefaults = {
-  name: 'Rodion',
-  surname: 'Rodion',
-  country: 'Russian Federation',
-  phone: '+7 245 856 245 525',
-  email: 'Rodionsemail@gmail.com',
+  name: '',
+  surname: '',
+  phone: '',
 } as const
 
 export interface AppSettingsPersisted {
@@ -24,16 +33,16 @@ export interface AppSettingsPersisted {
   colorScheme: AppSettingsColorScheme
   name: string
   surname: string
-  country: string
   phone: string
-  email: string
 }
 
-const defaults: AppSettingsPersisted = {
-  ...profileDefaults,
-  currency: 'usd',
-  language: 'ru',
-  colorScheme: 'light',
+function createDefaultAppSettings(): AppSettingsPersisted {
+  return {
+    ...profileDefaults,
+    currency: APP_SETTINGS_CURRENCY_UNSET,
+    language: detectAppLanguage(),
+    colorScheme: 'light',
+  }
 }
 
 function parseString(value: unknown, fallback: string): string {
@@ -41,11 +50,15 @@ function parseString(value: unknown, fallback: string): string {
 }
 
 function parseCurrency(value: unknown): AppSettingsCurrency {
+  if (value === APP_SETTINGS_CURRENCY_UNSET) {
+    return APP_SETTINGS_CURRENCY_UNSET
+  }
+
   if (typeof value === 'string' && (APP_SETTINGS_CURRENCIES as readonly string[]).includes(value)) {
     return value as AppSettingsCurrency
   }
 
-  return defaults.currency
+  return APP_SETTINGS_CURRENCY_UNSET
 }
 
 function parseLanguage(value: unknown): AppSettingsLanguage {
@@ -53,7 +66,7 @@ function parseLanguage(value: unknown): AppSettingsLanguage {
     return value as AppSettingsLanguage
   }
 
-  return defaults.language
+  return detectAppLanguage()
 }
 
 function parseColorScheme(value: unknown): AppSettingsColorScheme {
@@ -64,7 +77,15 @@ function parseColorScheme(value: unknown): AppSettingsColorScheme {
     return value as AppSettingsColorScheme
   }
 
-  return defaults.colorScheme
+  return createDefaultAppSettings().colorScheme
+}
+
+export function hasPersistedAppSettings(): boolean {
+  try {
+    return localStorage.getItem(APP_SETTINGS_KEY) !== null
+  } catch {
+    return false
+  }
 }
 
 export function readAppSettings(): AppSettingsPersisted {
@@ -80,9 +101,7 @@ export function readAppSettings(): AppSettingsPersisted {
         colorScheme: parseColorScheme(parsed.colorScheme),
         name: parseString(parsed.name, profileDefaults.name),
         surname: parseString(parsed.surname, profileDefaults.surname),
-        country: parseString(parsed.country, profileDefaults.country),
         phone: parseString(parsed.phone, profileDefaults.phone),
-        email: parseString(parsed.email, profileDefaults.email),
       }
     }
   } catch {
@@ -93,13 +112,13 @@ export function readAppSettings(): AppSettingsPersisted {
     const legacy = localStorage.getItem(LEGACY_LANGUAGE_KEY)
 
     if (legacy === 'en' || legacy === 'ru') {
-      return { ...defaults, language: legacy }
+      return { ...createDefaultAppSettings(), language: legacy }
     }
   } catch {
     /* ignore */
   }
 
-  return { ...defaults }
+  return createDefaultAppSettings()
 }
 
 export function writeAppSettings(settings: AppSettingsPersisted): void {

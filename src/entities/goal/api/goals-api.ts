@@ -1,10 +1,14 @@
 import { baseApi } from '@/shared/api'
+import { GOAL_CURRENCIES, type GoalCurrency } from '@/shared/config/currencies'
+import { fetchExchangeRates } from '@/shared/lib/currency-exchange'
 
 import type {
   AddContributionRequest,
   Contribution,
   ContributionsPage,
   CreateGoalRequest,
+  GetGoalContributionsPeriodParams,
+  GoalContributionsPeriodResponse,
   GoalDetails,
   GoalListItem,
   SavingsSlide,
@@ -36,6 +40,16 @@ export const goalsApi = baseApi.injectEndpoints({
     getGoalById: build.query<GoalDetails, number>({
       query: goalId => `/goals/${goalId}`,
       providesTags: (_result, _error, goalId) => [{ type: 'Goal', id: goalId }],
+    }),
+    getGoalContributionsForPeriod: build.query<
+      GoalContributionsPeriodResponse,
+      GetGoalContributionsPeriodParams | void
+    >({
+      query: params => ({
+        url: '/goals/contributions',
+        params: params ?? undefined,
+      }),
+      providesTags: [{ type: 'Goal', id: 'CONTRIBUTIONS_PERIOD' }],
     }),
     getGoalContributions: build.query<
       ContributionsPage,
@@ -80,16 +94,22 @@ export const goalsApi = baseApi.injectEndpoints({
           { type: 'Goal', id: goalId },
           { type: 'Goal', id: 'LIST' },
           { type: 'Goal', id: `${goalId}-contributions` },
+          { type: 'Goal', id: 'CONTRIBUTIONS_PERIOD' },
         ],
       }
     ),
-    getSavingsSlides: build.query<SavingsSlide[], void>({
-      async queryFn(_arg, _api, _extraOptions, baseQuery) {
+    getSavingsSlides: build.query<SavingsSlide[], GoalCurrency>({
+      async queryFn(displayCurrency, _api, _extraOptions, baseQuery) {
         const listResult = await baseQuery('/goals')
 
         if (listResult.error) {
           return { error: listResult.error }
         }
+
+        const rates = await fetchExchangeRates({
+          base: 'USD',
+          targets: GOAL_CURRENCIES.filter(code => code !== 'USD'),
+        })
 
         const goals = listResult.data as GoalListItem[]
         const slides: SavingsSlide[] = []
@@ -113,7 +133,8 @@ export const goalsApi = baseApi.injectEndpoints({
           slides.push(
             mapGoalToSavingsSlide(
               detailResult.data as GoalDetails,
-              (contributionsResult.data as ContributionsPage).content
+              (contributionsResult.data as ContributionsPage).content,
+              { displayCurrency, rates }
             )
           )
         }
@@ -133,5 +154,6 @@ export const {
   useGetGoalsQuery,
   useGetGoalByIdQuery,
   useGetGoalContributionsQuery,
+  useGetGoalContributionsForPeriodQuery,
   useGetSavingsSlidesQuery,
 } = goalsApi

@@ -7,7 +7,8 @@ export type SavingsTitleKey =
 
 export type SavingsReplenishment = {
   date: string
-  amount: string
+  /** Сумма в валюте slide.currency */
+  amount: number
   isWithdrawal?: boolean
 }
 
@@ -20,8 +21,12 @@ export type SavingsSlide = {
   id: string
   /** Заголовок с API */
   title?: string
+  /** Дедлайн цели (`yyyy-MM-dd`) */
+  deadline?: string
   /** Ключ i18n для моков на главной */
   titleKey?: SavingsTitleKey
+  /** Валюта отображения (после конвертации из валюты цели) */
+  currency: string
   goal: number
   total: number
   replenishments: SavingsReplenishment[]

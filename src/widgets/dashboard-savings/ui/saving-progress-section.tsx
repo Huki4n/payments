@@ -31,7 +31,9 @@ export const SavingProgressSection = ({
         <div className={'flex justify-end pt-1'}>
           <Link
             to={'/saves'}
-            className={'inline-flex min-h-10 items-center justify-center rounded-xl bg-brand-purple-bg px-5 font-display text-xs font-bold text-white transition-colors hover:bg-brand-purple-bg/90 sm:text-sm'}
+            className={
+              'inline-flex min-h-10 items-center justify-center rounded-xl bg-brand-purple-bg px-5 font-display text-xs font-bold text-white transition-colors hover:bg-brand-purple-bg/90 sm:text-sm'
+            }
           >
             {t('dashboard.configureSavings')}
           </Link>

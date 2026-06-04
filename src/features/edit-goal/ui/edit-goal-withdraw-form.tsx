@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 import { useAddContributionMutation } from '@/entities/goal'
 import { getApiErrorMessage } from '@/entities/session'
+import { toast } from '@/shared/lib/toast'
 import { Button, Input, Label } from '@/shared/ui'
 
 import { EDIT_GOAL_ACTION_BTN_CLASS } from '../config/form-ui'
@@ -21,6 +23,7 @@ export const EditGoalWithdrawForm = ({
 }: EditGoalWithdrawFormProps) => {
   const { t } = useTranslation('home')
   const [addContribution, { isLoading }] = useAddContributionMutation()
+  const [amountInputKey, setAmountInputKey] = useState(0)
 
   const form = useForm<{ amount: string }>({
     defaultValues: { amount: '' },
@@ -47,11 +50,15 @@ export const EditGoalWithdrawForm = ({
         goalId,
         body: { amount: -amount, type: 'MANUAL' },
       }).unwrap()
+      toast.success(t('savingsPage.editGoal.success.withdraw'))
       form.reset({ amount: '' })
+      form.clearErrors()
+      setAmountInputKey(key => key + 1)
     } catch (error) {
-      form.setError('root', {
-        message: getApiErrorMessage(error, t('savingsPage.editGoal.errors.withdrawal')),
-      })
+      const message = getApiErrorMessage(error, t('savingsPage.editGoal.errors.withdrawal'))
+
+      toast.error(message)
+      form.setError('root', { message })
     }
   })
 
@@ -69,6 +76,7 @@ export const EditGoalWithdrawForm = ({
         <div className={'flex min-w-0 flex-col gap-2'}>
           <Label htmlFor={'edit-goal-withdraw'}>{t('savingsPage.editGoal.amountLabel')}</Label>
           <Input
+            key={amountInputKey}
             id={'edit-goal-withdraw'}
             type={'number'}
             min={0.01}
