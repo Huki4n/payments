@@ -22,11 +22,9 @@ export const APP_SETTINGS_COLOR_SCHEMES = ['light', 'dark'] as const
 export type AppSettingsColorScheme = (typeof APP_SETTINGS_COLOR_SCHEMES)[number]
 
 const profileDefaults = {
-  name: 'Rodion',
-  surname: 'Panaitov',
-  country: 'Russian Federation',
-  phone: '+7 245 856 245 525',
-  email: 'Rodionsemail@gmail.com',
+  name: '',
+  surname: '',
+  phone: '',
 } as const
 
 export interface AppSettingsPersisted {
@@ -35,9 +33,7 @@ export interface AppSettingsPersisted {
   colorScheme: AppSettingsColorScheme
   name: string
   surname: string
-  country: string
   phone: string
-  email: string
 }
 
 function createDefaultAppSettings(): AppSettingsPersisted {
@@ -105,9 +101,7 @@ export function readAppSettings(): AppSettingsPersisted {
         colorScheme: parseColorScheme(parsed.colorScheme),
         name: parseString(parsed.name, profileDefaults.name),
         surname: parseString(parsed.surname, profileDefaults.surname),
-        country: parseString(parsed.country, profileDefaults.country),
         phone: parseString(parsed.phone, profileDefaults.phone),
-        email: parseString(parsed.email, profileDefaults.email),
       }
     }
   } catch {

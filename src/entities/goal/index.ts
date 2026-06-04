@@ -1,5 +1,5 @@
 export { getDefaultGoalDeadline, getMinGoalDeadline } from './lib/goal-deadline'
-export { formatContributionAmount, formatGoalMoney } from './lib/format-goal-money'
+export { formatContributionAmount, formatGoalMoney } from '@/shared/lib/money-format'
 export { mapGoalToSavingsSlide } from './lib/map-goal-to-savings-slide'
 
 export type {
@@ -8,6 +8,9 @@ export type {
   ContributionsPage,
   ContributionType,
   CreateGoalRequest,
+  GetGoalContributionsPeriodParams,
+  GoalContributionItemResponse,
+  GoalContributionsPeriodResponse,
   GoalDetails,
   GoalListItem,
   GoalProgressInfo,
@@ -27,5 +30,6 @@ export {
   useGetGoalsQuery,
   useGetGoalByIdQuery,
   useGetGoalContributionsQuery,
+  useGetGoalContributionsForPeriodQuery,
   useGetSavingsSlidesQuery,
 } from './api/goals-api'
