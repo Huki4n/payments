@@ -15,6 +15,7 @@ import {
 import { useAppSelector } from '@/app/store'
 import { selectDisplayGoalCurrency } from '@/entities/settings'
 import { useGetTransactionsQuery } from '@/entities/transaction'
+import { buildIncomeSpendDaySeries } from '@/shared/lib/build-income-spend-month-series'
 import { dashboardChartXAxisTick, dashboardChartYAxisTick } from '@/shared/lib/dashboard-chart-axes'
 import { formatCompactAmount } from '@/shared/lib/money-format'
 import { INITIAL_CHART_DIMENSION } from '@/shared/ui/chart-constants'
@@ -28,10 +29,18 @@ import { IncomeSpendScaleTooltipContent } from '../lib/income-spend-scale-chart-
 import {
   chartRangeSpansMultipleYears,
   resolveAnalyticsChartRange,
+  shouldUseIncomeSpendDayScale,
 } from '../lib/resolve-analytics-chart-range'
 import { useAnalyticsPeriod } from '../model/analytics-period-context'
 
 const SPEND_STROKE = 'oklch(0.58 0.22 25)'
+
+type IncomeSpendScaleChartRow = {
+  month: string
+  income: number
+  spend: number
+  periodDate: string
+}
 
 export const AnalyticsIncomeSpendScaleChart = () => {
   const { t } = useTranslation('home')
@@ -44,7 +53,7 @@ export const AnalyticsIncomeSpendScaleChart = () => {
     { skip: !displayCurrency }
   )
 
-  const chartData = useMemo(() => {
+  const chartData = useMemo((): IncomeSpendScaleChartRow[] => {
     const isoDates = (data?.transactions ?? []).map(tx => tx.operationDate)
     const { chartFrom: effectiveFrom, chartTo: effectiveTo } = resolveAnalyticsChartRange(
       preset,
@@ -52,6 +61,17 @@ export const AnalyticsIncomeSpendScaleChart = () => {
       chartFrom,
       chartTo
     )
+    const useDayScale = shouldUseIncomeSpendDayScale(effectiveFrom, effectiveTo)
+
+    if (useDayScale) {
+      return buildIncomeSpendDaySeries(data?.transactions, effectiveFrom, effectiveTo).map(row => ({
+        month: row.dayLabel,
+        income: row.income,
+        spend: row.spend,
+        periodDate: row.periodDate,
+      }))
+    }
+
     const spansMultipleYears = chartRangeSpansMultipleYears(effectiveFrom, effectiveTo)
     const series: IncomeSpendScalePoint[] = buildIncomeSpendScaleSeries(
       data?.transactions,
@@ -60,12 +80,14 @@ export const AnalyticsIncomeSpendScaleChart = () => {
     )
 
     return series.map(row => ({
-      ...row,
       month: formatAnalyticsChartMonthLabel(
         row.monthId,
         t(`dashboard.months.${row.monthKey}`),
         spansMultipleYears
       ),
+      income: row.income,
+      spend: row.spend,
+      periodDate: row.periodDate,
     }))
   }, [chartFrom, chartTo, data?.transactions, preset, t])
 

@@ -24,12 +24,14 @@ type AverageComparisonIllustrationProps = {
 }
 
 const AverageComparisonIllustration = ({ trend }: AverageComparisonIllustrationProps) => (
-  <div
-    className={
-      'relative mx-auto w-full max-w-60 shrink-0 overflow-hidden rounded-2xl bg-card md:mx-0 md:max-w-100'
-    }
-  >
-    <img src={TREND_CHART_IMAGE[trend]} alt={''} className={'h-auto w-full object-contain'} />
+  <div className={'w-full shrink-0 lg:w-fit lg:max-w-80 xl:max-w-96 2xl:max-w-100'}>
+    <img
+      src={TREND_CHART_IMAGE[trend]}
+      alt={''}
+      className={'block h-auto w-full rounded-2xl'}
+      loading={'lazy'}
+      decoding={'async'}
+    />
   </div>
 )
 
@@ -93,10 +95,14 @@ export const AnalyticsAverageComparisonCard = () => {
           <Loader2Icon className={'size-10 animate-spin text-brand-blue sm:size-12'} aria-hidden />
         </div>
       ) : (
-        <div className={'flex flex-col items-stretch gap-8 lg:flex-row'}>
+        <div
+          className={
+            'flex flex-col items-stretch gap-6 sm:gap-8 lg:flex-row lg:items-center lg:gap-10 xl:gap-12'
+          }
+        >
           <AverageComparisonIllustration trend={trend} />
 
-          <div className={'flex min-w-0 flex-1 flex-col gap-6 text-left'}>
+          <div className={'flex min-w-0 w-full flex-1 flex-col gap-4 text-left sm:gap-6'}>
             <h2
               className={
                 'font-display-alternates text-xl font-bold leading-tight text-foreground sm:text-2xl md:text-3xl'

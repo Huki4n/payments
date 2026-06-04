@@ -154,7 +154,7 @@ export const AnalyticsPeriodSavingsCard = () => {
                     'mt-2 flex flex-1 items-center justify-center rounded-[10px] bg-card px-3 py-4 text-center font-display-alternates text-sm text-brand-purple/70'
                   }
                 >
-                  {t('dashboard.spendsChartEmpty')}
+                  {t('dashboard.replenishmentsChartEmpty')}
                 </p>
               ) : (
                 <ScrollArea

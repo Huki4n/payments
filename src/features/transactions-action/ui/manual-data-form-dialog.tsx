@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -46,45 +46,43 @@ const ManualDataFormBody = ({ onSaveProceed }: ManualDataFormBodyProps) => {
       <ScrollArea
         overflowFade
         overflowFadeFrom={'from-popover'}
-        className={'h-[min(45vh,350px)] max-w-240 w-full min-h-0 mx-4 sm:mx-8 px-2'}
+        className={
+          'h-[min(40dvh,280px)] w-full min-h-0 px-3 sm:h-[min(45vh,350px)] sm:px-6 md:px-8'
+        }
       >
-        <div className={'flex flex-col gap-5 pr-2'}>
+        <div className={'flex flex-col gap-4 pr-1 sm:gap-5 sm:pr-2'}>
           {rows.map((row, index) => (
-            <>
-              {index > 0 && <Separator className={'bg-brand-purple/80'} />}
-              <ManualDataFormRow
-                key={row.id}
-                row={row}
-                onChange={patch => updateRow(row.id, patch)}
-              />
-            </>
+            <Fragment key={row.id}>
+              {index > 0 ? <Separator className={'bg-brand-purple/80'} /> : null}
+              <ManualDataFormRow row={row} onChange={patch => updateRow(row.id, patch)} />
+            </Fragment>
           ))}
         </div>
       </ScrollArea>
 
-      <div className={'flex shrink-0 flex-col gap-4 px-4 pb-6 pt-4 sm:px-8 sm:pb-8'}>
-        <div className={'flex justify-end'}>
-          <Button
-            type={'button'}
-            className={
-              'rounded-xl bg-brand-blue px-6 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-blue/90 hover:shadow-md sm:rounded-[11px] sm:px-8 sm:text-base'
-            }
-            onClick={addRow}
-          >
-            {t('addData.manualForm.addNew')}
-          </Button>
-        </div>
-        <div className={'flex justify-center'}>
-          <Button
-            type={'button'}
-            className={
-              'w-full max-w-md rounded-xl bg-brand-purple-bg px-8 py-3 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:rounded-[11px] sm:text-base md:py-3.5'
-            }
-            onClick={() => onSaveProceed(rows)}
-          >
-            {t('addData.manualForm.saveProceed')}
-          </Button>
-        </div>
+      <div
+        className={
+          'flex shrink-0 flex-col gap-3 border-t border-brand-purple/10 px-3 pb-5 pt-4 sm:gap-4 sm:px-6 sm:pb-6 md:px-8 md:pb-8'
+        }
+      >
+        <Button
+          type={'button'}
+          className={
+            'h-11 w-full rounded-xl bg-brand-blue px-6 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-blue/90 hover:shadow-md sm:ml-auto sm:h-auto sm:w-auto sm:rounded-[11px] sm:px-8 sm:py-3 sm:text-base'
+          }
+          onClick={addRow}
+        >
+          {t('addData.manualForm.addNew')}
+        </Button>
+        <Button
+          type={'button'}
+          className={
+            'h-11 w-full rounded-xl bg-brand-purple-bg px-6 font-display text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-purple-bg/90 hover:shadow-md sm:rounded-[11px] sm:px-8 sm:py-3 sm:text-base md:py-3.5'
+          }
+          onClick={() => onSaveProceed(rows)}
+        >
+          {t('addData.manualForm.saveProceed')}
+        </Button>
       </div>
     </>
   )
@@ -155,13 +153,15 @@ export const ManualDataFormDialog = ({ open, onOpenChange }: ManualDataFormDialo
       <DialogContent
         showCloseButton
         className={
-          'flex max-h-[90dvh] w-full max-w-4xl flex-col gap-0 overflow-hidden rounded-3xl border-0 bg-add-data-panel p-0 shadow-xl sm:max-w-5xl'
+          'flex max-h-[min(92dvh,900px)] w-[calc(100%-1rem)] max-w-[calc(100%-1rem)] flex-col gap-0 overflow-hidden rounded-2xl border-0 bg-add-data-panel p-0 shadow-xl sm:max-w-2xl md:max-w-4xl lg:max-w-5xl sm:rounded-3xl'
         }
       >
-        <DialogHeader className={'shrink-0 px-4 py-6 sm:px-8 sm:py-8'}>
+        <DialogHeader
+          className={'shrink-0 space-y-0 px-3 pb-3 pt-5 pr-11 sm:px-6 sm:py-6 sm:pr-12 md:px-8 md:py-8'}
+        >
           <DialogTitle
             className={
-              'text-center font-display text-2xl font-bold text-brand-purple sm:text-3xl md:text-4xl'
+              'text-center font-display text-xl font-bold leading-snug text-brand-purple sm:text-2xl md:text-3xl lg:text-4xl'
             }
           >
             {t('addData.manualForm.title')}
@@ -172,7 +172,7 @@ export const ManualDataFormDialog = ({ open, onOpenChange }: ManualDataFormDialo
         </DialogHeader>
 
         {isLoading ? (
-          <TransactionsLoadingOverlay className={'min-h-96'} />
+          <TransactionsLoadingOverlay className={'min-h-64 sm:min-h-96'} />
         ) : (
           <ManualDataFormBody key={formVersion} onSaveProceed={handleSaveProceed} />
         )}

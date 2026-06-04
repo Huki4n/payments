@@ -18,6 +18,50 @@ export function todayIsoDateLocal(): string {
   return toIsoDateLocal(new Date())
 }
 
+/** Начало календарного дня в локальной таймзоне. */
+export function startOfDayLocal(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
+
+export function isSameCalendarDay(a: Date, b: Date): boolean {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  )
+}
+
+export function addCalendarDays(date: Date, days: number): Date {
+  const next = new Date(date)
+
+  next.setDate(next.getDate() + days)
+
+  return next
+}
+
+/** Дедлайн (`yyyy-MM-dd`) раньше сегодняшнего календарного дня. */
+export function isDeadlinePassed(deadlineIso: string, now: Date = new Date()): boolean {
+  const day = deadlineIso.slice(0, 10)
+
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {
+    return false
+  }
+
+  const deadline = startOfDayLocal(parseIsoDateLocal(day))
+  const today = startOfDayLocal(now)
+
+  return deadline.getTime() < today.getTime()
+}
+
+/** Число календарных дней между датами (включительно). */
+export function calendarDaysInclusive(from: Date, to: Date): number {
+  const start = startOfDayLocal(from).getTime()
+  const end = startOfDayLocal(to).getTime()
+  const dayMs = 24 * 60 * 60 * 1000
+
+  return Math.floor((end - start) / dayMs) + 1
+}
+
 /** `yyyy-MM-dd` → локальная дата без сдвига UTC. */
 export function parseIsoDateLocal(iso: string): Date {
   const [year, month, day] = iso.split('-').map(Number)

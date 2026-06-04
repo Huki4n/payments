@@ -124,38 +124,36 @@ export const SpendsChartCard = () => {
             className={'h-72 min-h-0 w-full flex-1 md:h-80 pr-2'}
           >
             <ul className={'flex flex-col gap-2 pr-2'}>
-              {chartRows.map(row => {
-                return (
-                  <li
-                    key={row.categoryId}
-                    className={'flex items-center gap-3 rounded-2xl bg-card/95 shadow-sm pr-3.5'}
+              {chartRows.map(row => (
+                <li
+                  key={row.categoryId}
+                  className={'flex items-center gap-3 rounded-2xl bg-card/95 shadow-sm pr-3.5'}
+                >
+                  <span
+                    className={'flex size-14 shrink-0 items-center justify-center rounded-xl'}
+                    style={{ backgroundColor: row.color }}
                   >
-                    <span
-                      className={'flex size-14 shrink-0 items-center justify-center rounded-xl'}
-                      style={{ backgroundColor: row.color }}
-                    >
-                      <DashboardSpendCategoryIcon
-                        name={row.icon}
-                        className={'size-7 text-dashboard-on-chart-swatch'}
-                      />
-                    </span>
-                    <span
-                      className={cn(
-                        'flex-1 text-left font-display text-xs text-brand-purple sm:text-sm'
-                      )}
-                    >
-                      {row.name}
-                    </span>
-                    <span
-                      className={
-                        'min-w-26 shrink-0 rounded-lg bg-dashboard-expense-pill px-2.5 py-1.5 text-center font-display text-xs font-bold text-brand-purple sm:text-sm'
-                      }
-                    >
-                      {row.formattedAmount}
-                    </span>
-                  </li>
-                )
-              })}
+                    <DashboardSpendCategoryIcon
+                      name={row.icon}
+                      className={'size-7 text-dashboard-on-chart-swatch'}
+                    />
+                  </span>
+                  <span
+                    className={cn(
+                      'flex-1 text-left font-display text-xs text-brand-purple sm:text-sm'
+                    )}
+                  >
+                    {row.name}
+                  </span>
+                  <span
+                    className={
+                      'min-w-26 shrink-0 rounded-lg bg-dashboard-expense-pill px-2.5 py-1.5 text-center font-display text-xs font-bold text-brand-purple sm:text-sm'
+                    }
+                  >
+                    {row.formattedAmount}
+                  </span>
+                </li>
+              ))}
             </ul>
           </ScrollArea>
         </div>

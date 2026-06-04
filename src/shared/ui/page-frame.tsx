@@ -46,7 +46,7 @@ export const PageFrame = ({
           alt={''}
           aria-hidden
           className={
-            'pointer-events-none fixed left-1/2 top-0 h-screen w-auto max-w-none -translate-x-1/2'
+            'pointer-events-none fixed left-1/2 top-0 h-[105svh] w-auto max-w-none -translate-x-1/2'
           }
         />
       )}

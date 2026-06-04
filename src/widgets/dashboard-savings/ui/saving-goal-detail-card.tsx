@@ -2,7 +2,9 @@ import { MoreVertical } from 'lucide-react'
 
 import type { SavingsSlide } from '@/entities/goal'
 
+import { isDeadlinePassed } from '@/shared/lib/date-utils'
 import { Button } from '@/shared/ui'
+import { cn } from '@/shared/ui/utils'
 
 import { SavingGoalHeader } from './saving-goal-header'
 import { SavingGoalStats } from './saving-goal-stats'
@@ -28,12 +30,14 @@ export const SavingGoalDetailCard = ({
   const { currency, goal, total, progressChart, replenishments } = slide
   const progressPercent = Math.min(100, (total / goal) * 100)
   const title = slide.title ?? ''
+  const isPeriodExpired = slide.deadline ? isDeadlinePassed(slide.deadline) : false
 
   return (
     <div
-      className={
-        'savings-slide-card relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:px-6 sm:py-6'
-      }
+      className={cn(
+        'savings-slide-card relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-4xl bg-dashboard-card px-4 py-5 shadow-sm sm:px-6 sm:py-6',
+        isPeriodExpired && 'ring-2 ring-destructive/35'
+      )}
     >
       {showEditMenu && onEditGoal ? (
         <Button
@@ -64,7 +68,11 @@ export const SavingGoalDetailCard = ({
 
         <div className={'flex h-52 w-full min-w-0 flex-col lg:h-full lg:min-h-0'}>
           <div className={'min-h-0 w-full flex-1'}>
-            <SavingProgressChart slideId={slide.id} progressChart={progressChart} currency={currency} />
+            <SavingProgressChart
+              slideId={slide.id}
+              progressChart={progressChart}
+              currency={currency}
+            />
           </div>
         </div>
       </div>

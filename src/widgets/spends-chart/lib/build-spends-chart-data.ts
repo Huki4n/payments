@@ -5,7 +5,11 @@ import type { GoalCurrency } from '@/shared/config/currencies'
 import type { DashboardSpendCategoryIcon } from '@/shared/ui/icons/category-icons'
 
 import { formatGoalMoney } from '@/entities/goal'
-import { SPEND_CATEGORIES, resolveSpendCategoryId, type SpendCategoryId } from '@/shared/config/spend-categories'
+import {
+  SPEND_CATEGORIES,
+  resolveSpendCategoryId,
+  type SpendCategoryId,
+} from '@/shared/config/spend-categories'
 import { translateTransactionCategory } from '@/shared/config/transaction-categories'
 
 import { SPEND_CHART_COLORS } from '../model/spend-chart-colors'

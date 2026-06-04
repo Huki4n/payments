@@ -26,7 +26,7 @@ export const ManualDataFormRow = ({ row, onChange, className }: ManualDataFormRo
   const categoryKeys = getCategoryIdsForAmount()
 
   return (
-    <div className={cn('flex flex-col gap-2.5 sm:gap-3', className)}>
+    <div className={cn('flex flex-col gap-2 sm:gap-3', className)}>
       <div className={cn(manualFormRowFieldClass, 'flex items-center')}>
         <Input
           value={row.name}
@@ -36,13 +36,15 @@ export const ManualDataFormRow = ({ row, onChange, className }: ManualDataFormRo
         />
       </div>
       <div
-        className={'grid grid-cols-1 gap-2.5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:gap-3'}
+        className={
+          'grid grid-cols-1 gap-2 min-[420px]:grid-cols-2 min-[420px]:gap-2.5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:gap-3'
+        }
       >
-        <div className={cn(manualFormRowFieldClass, 'py-2')}>
+        <div className={cn(manualFormRowFieldClass, 'py-1.5 sm:py-2')}>
           <Select value={row.category} onValueChange={v => onChange({ category: v })}>
             <SelectTrigger
               className={cn(
-                'h-auto min-h-0 w-full max-w-none border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none placeholder:text-muted-foreground focus-visible:ring-0 dark:bg-transparent data-[size=default]:h-auto md:text-base [&_svg]:text-brand-purple'
+                'h-auto min-h-0 w-full max-w-none border-0 bg-transparent py-1 pr-1 pl-0 font-display text-sm text-brand-purple shadow-none placeholder:text-muted-foreground focus-visible:ring-0 dark:bg-transparent data-[size=default]:h-auto sm:text-base [&_svg]:text-brand-purple'
               )}
             >
               <SelectValue placeholder={t('addData.manualForm.category')} />
