@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/shared/ui/button'
 import { ScrollArea } from '@/shared/ui/scroll-area'
 
-import type { SpendMockRow } from '../model/transactions-mock'
+import type { SpendMockRow } from '../model/types'
 
 import { RecentSpendRow } from './recent-spend-row'
 

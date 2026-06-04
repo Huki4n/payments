@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/shared/ui/button'
 import { ScrollArea } from '@/shared/ui/scroll-area'
 
-import type { EarningMockRow } from '../model/transactions-mock'
+import type { EarningMockRow } from '../model/types'
 
 import { RecentEarningRow } from './recent-earning-row'
 

@@ -1,9 +1,13 @@
 export {
   earningsMock,
   spendsMock,
-  type EarningMockRow,
-  type SpendMockRow,
 } from './model/transactions-mock'
+export type {
+  EarningMockRow,
+  SpendMockRow,
+  TransactionsCardFilter,
+} from './model/types'
+export { mapTransactionsToRows } from './lib/map-transactions-to-rows'
 export { MonthSummaryTiles } from './ui/month-summary-tiles'
 export { RecentEarningRow } from './ui/recent-earning-row'
 export { RecentEarningsColumn } from './ui/recent-earnings-column'
