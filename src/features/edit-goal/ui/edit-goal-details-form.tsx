@@ -1,12 +1,21 @@
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 import { getMinGoalDeadline, useUpdateGoalMutation, type GoalDetails } from '@/entities/goal'
 import { getApiErrorMessage } from '@/entities/session'
 import { GOAL_CURRENCIES, type GoalCurrency } from '@/shared/config/currencies'
 import { toast } from '@/shared/lib/toast'
-import { Button, Input, Label, NativeSelect } from '@/shared/ui'
+import {
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui'
 
 import type { EditGoalFormValues } from '../model/edit-goal-form-values'
 
@@ -150,19 +159,45 @@ export const EditGoalDetailsForm = ({
 
         <div className={'flex flex-col gap-2'}>
           <Label htmlFor={'edit-goal-currency'}>{t('savingsPage.editGoal.currencyLabel')}</Label>
-          <NativeSelect
-            id={'edit-goal-currency'}
-            disabled={isBusy}
-            {...form.register('currency')}
-            className={'w-full'}
-            selectClassName={'font-display w-full'}
-          >
-            {GOAL_CURRENCIES.map(code => (
-              <option key={code} value={code}>
-                {code}
-              </option>
-            ))}
-          </NativeSelect>
+          <Controller
+            control={form.control}
+            name={'currency'}
+            render={({ field }) => (
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                disabled={isBusy}
+              >
+                <SelectTrigger
+                  id={'edit-goal-currency'}
+                  className={
+                    'h-10 w-full font-display text-brand-purple dark:bg-input/30 dark:hover:bg-input/50'
+                  }
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent
+                  position={'popper'}
+                  sideOffset={6}
+                  className={
+                    'min-w-(--radix-select-trigger-width) rounded-2xl border border-border/80 bg-card font-display text-brand-purple shadow-lg'
+                  }
+                >
+                  {GOAL_CURRENCIES.map(code => (
+                    <SelectItem
+                      key={code}
+                      value={code}
+                      className={
+                        'rounded-xl py-2.5 pr-8 pl-3 font-display text-sm text-brand-purple focus:bg-accent focus:text-accent-foreground'
+                      }
+                    >
+                      {code}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
         </div>
       </div>
 

@@ -110,9 +110,21 @@ export const SettingsSelectField = ({
           >
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent
+            position={'popper'}
+            sideOffset={6}
+            className={
+              'min-w-(--radix-select-trigger-width) rounded-2xl border border-border/80 bg-card font-display text-brand-purple shadow-lg'
+            }
+          >
             {options.map(opt => (
-              <SelectItem key={opt.value} value={opt.value}>
+              <SelectItem
+                key={opt.value}
+                value={opt.value}
+                className={
+                  'rounded-xl py-2.5 pr-8 pl-3 font-display text-sm text-brand-purple focus:bg-accent focus:text-accent-foreground'
+                }
+              >
                 {opt.label}
               </SelectItem>
             ))}
