@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Loader2Icon } from 'lucide-react'
@@ -21,7 +21,26 @@ import {
 
 import { getCategorySpendingExtremes } from '../lib/get-category-spending-extremes'
 import { renderSpendsPieLabel } from '../lib/render-spends-pie-label'
-import { useAnalyticsPeriod } from '../model/analytics-period-context'
+import { useAnalyticsPeriod } from '../model/use-analytics-period'
+
+const CATEGORY_SWATCH_CLASS =
+  'flex h-13 w-14 shrink-0 items-center justify-center rounded-xl sm:h-14 sm:w-14'
+
+function renderCategorySwatches(rows: ReturnType<typeof buildSpendsChartData>): ReactNode {
+  return rows.map(row => (
+    <span
+      key={row.categoryId}
+      className={CATEGORY_SWATCH_CLASS}
+      style={{ backgroundColor: row.color }}
+      title={row.name}
+    >
+      <DashboardSpendCategoryIcon
+        name={row.icon}
+        className={'size-7 text-dashboard-on-chart-swatch'}
+      />
+    </span>
+  ))
+}
 
 export const AnalyticsIncomeExpenseChart = () => {
   const { t } = useTranslation('home')
@@ -144,30 +163,25 @@ export const AnalyticsIncomeExpenseChart = () => {
             </ResponsiveContainer>
           </div>
 
+          <div
+            className={cn(
+              'w-full min-w-0 shrink-0 overflow-x-auto overscroll-x-contain touch-pan-x lg:hidden',
+              '[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'
+            )}
+          >
+            <div className={'flex w-max flex-row gap-2.5'}>
+              {renderCategorySwatches(chartRows)}
+            </div>
+          </div>
+
           <ScrollArea
             hideScrollbar
             className={cn(
-              'min-h-0 w-14 shrink-0 overflow-hidden',
-              'max-h-[calc(6*3.5rem+5*0.625rem)]'
+              'hidden min-h-0 shrink-0 lg:block lg:w-14',
+              'lg:max-h-[calc(6*3.5rem+5*0.625rem)]'
             )}
           >
-            <div className={'flex flex-col gap-2.5'}>
-              {chartRows.map(row => (
-                <span
-                  key={row.categoryId}
-                  className={
-                    'flex h-13 w-14 shrink-0 items-center justify-center rounded-xl sm:h-14 sm:w-14'
-                  }
-                  style={{ backgroundColor: row.color }}
-                  title={row.name}
-                >
-                  <DashboardSpendCategoryIcon
-                    name={row.icon}
-                    className={'size-7 text-dashboard-on-chart-swatch'}
-                  />
-                </span>
-              ))}
-            </div>
+            <div className={'flex flex-col gap-2.5'}>{renderCategorySwatches(chartRows)}</div>
           </ScrollArea>
 
           <div
