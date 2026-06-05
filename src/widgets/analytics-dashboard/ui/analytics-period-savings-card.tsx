@@ -3,29 +3,14 @@ import { useTranslation } from 'react-i18next'
 
 import { format } from 'date-fns'
 import { Loader2Icon } from 'lucide-react'
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
 
 import { useAppSelector } from '@/app/store'
 import { formatContributionAmount, useGetGoalContributionsForPeriodQuery } from '@/entities/goal'
 import { selectDisplayGoalCurrency } from '@/entities/settings'
-import { formatCompactAmount, formatGoalMoney } from '@/shared/lib/money-format'
+import { formatCompactContributionAmount } from '@/shared/lib/money-format'
 import { ScrollArea } from '@/shared/ui/scroll-area'
 
-import {
-  CHART_INITIAL_DIMENSION,
-  EMPTY_CONTRIBUTIONS,
-  EMPTY_LABEL,
-  TOTAL_SAVED_X_TICK,
-  TOTAL_SAVED_Y_TICK,
-} from '../config/analytics-period-savings-chart'
+import { EMPTY_CONTRIBUTIONS, EMPTY_LABEL } from '../config/analytics-period-savings-chart'
 import { buildPeriodSavingsChart } from '../lib/build-period-savings-chart'
 import { formatAnalyticsChartMonthLabel } from '../lib/format-analytics-chart-month-label'
 import { getPeriodSavingsYAxisConfig } from '../lib/get-period-savings-y-axis-config'
@@ -33,7 +18,8 @@ import {
   chartRangeSpansMultipleYears,
   resolveAnalyticsChartRange,
 } from '../lib/resolve-analytics-chart-range'
-import { useAnalyticsPeriod } from '../model/analytics-period-context'
+import { useAnalyticsPeriod } from '../model/use-analytics-period'
+import { AnalyticsPeriodSavingsAreaChart } from './analytics-period-savings-area-chart'
 
 export const AnalyticsPeriodSavingsCard = () => {
   const { t } = useTranslation('home')
@@ -41,9 +27,10 @@ export const AnalyticsPeriodSavingsCard = () => {
   const displayCurrency = useAppSelector(selectDisplayGoalCurrency)
   const { apiRange, chartFrom, chartTo, preset } = useAnalyticsPeriod()
 
-  const { data, isLoading, isError } = useGetGoalContributionsForPeriodQuery(apiRange, {
-    skip: !displayCurrency,
-  })
+  const { data, isLoading, isError } = useGetGoalContributionsForPeriodQuery(
+    { displayCurrency: displayCurrency!, params: apiRange },
+    { skip: !displayCurrency }
+  )
 
   const currency = displayCurrency ?? 'USD'
   const contributions = useMemo(
@@ -54,7 +41,7 @@ export const AnalyticsPeriodSavingsCard = () => {
   const periodTotal =
     data?.totalAmount == null || !Number.isFinite(data.totalAmount)
       ? EMPTY_LABEL
-      : formatContributionAmount(data.totalAmount, currency)
+      : formatCompactContributionAmount(data.totalAmount, currency)
 
   const replenishmentRows = [...contributions]
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
@@ -106,7 +93,9 @@ export const AnalyticsPeriodSavingsCard = () => {
             'flex min-h-0 flex-1 flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-6 xl:gap-8'
           }
         >
-          <div className={'flex min-h-0 w-full min-w-0 flex-1 flex-col lg:max-w-md xl:max-w-lg'}>
+          <div
+            className={'flex w-full min-w-0 flex-col lg:min-h-0 lg:max-w-md lg:flex-1 xl:max-w-lg'}
+          >
             <h2
               className={
                 'font-display-alternates text-xl font-bold leading-[1.05] text-brand-purple sm:text-2xl md:text-3xl'
@@ -192,7 +181,9 @@ export const AnalyticsPeriodSavingsCard = () => {
           </div>
 
           <div
-            className={'flex min-h-0 min-w-0 flex-1 flex-col rounded-[10px] bg-card py-2.5 sm:py-3'}
+            className={
+              'flex w-full min-w-0 shrink-0 flex-col rounded-[10px] bg-card py-2.5 sm:py-3 lg:min-h-0 lg:min-w-0 lg:flex-1'
+            }
           >
             <h3
               className={
@@ -202,91 +193,13 @@ export const AnalyticsPeriodSavingsCard = () => {
               {t('analyticsPage.totalSavedChartTitle')}
             </h3>
 
-            <div className={'relative min-h-0 w-full min-w-0 flex-1'}>
-              {isLoading ? (
-                <div className={'flex h-full items-center justify-center'}>
-                  <Loader2Icon className={'size-8 animate-spin text-brand-blue'} aria-hidden />
-                </div>
-              ) : (
-                <ResponsiveContainer
-                  width={'100%'}
-                  height={'100%'}
-                  initialDimension={CHART_INITIAL_DIMENSION}
-                >
-                  <AreaChart data={chartSeries} margin={{ top: 4, right: 6, left: 2, bottom: 6 }}>
-                    <defs>
-                      <linearGradient
-                        id={`analytics-saved-${gid}`}
-                        x1={'0'}
-                        y1={'0'}
-                        x2={'0'}
-                        y2={'1'}
-                      >
-                        <stop
-                          offset={'0%'}
-                          stopColor={'var(--dashboard-chart-violet)'}
-                          stopOpacity={0.55}
-                        />
-                        <stop
-                          offset={'100%'}
-                          stopColor={'var(--dashboard-chart-violet)'}
-                          stopOpacity={0}
-                        />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid
-                      strokeDasharray={'3 6'}
-                      stroke={'var(--dashboard-chart-grid-soft)'}
-                      vertical={false}
-                    />
-                    <XAxis
-                      dataKey={'month'}
-                      tick={TOTAL_SAVED_X_TICK}
-                      tickLine={false}
-                      axisLine={false}
-                      padding={{ right: 3, left: 3 }}
-                    />
-                    <YAxis
-                      domain={yAxis.domain}
-                      ticks={yAxis.ticks}
-                      tick={TOTAL_SAVED_Y_TICK}
-                      tickFormatter={formatCompactAmount}
-                      tickLine={false}
-                      axisLine={false}
-                      width={40}
-                    />
-                    <Tooltip
-                      content={({ active, payload }) =>
-                        active && payload?.length ? (
-                          <div
-                            className={'rounded-lg border bg-card px-2 py-1.5 shadow-md'}
-                            style={{
-                              borderColor: 'var(--dashboard-tooltip-border)',
-                            }}
-                          >
-                            <p
-                              className={
-                                'font-display-alternates text-xs font-semibold text-brand-purple sm:text-sm'
-                              }
-                            >
-                              {formatGoalMoney(Number(payload[0]?.value ?? 0), currency)}
-                            </p>
-                          </div>
-                        ) : null
-                      }
-                    />
-                    <Area
-                      type={'monotone'}
-                      dataKey={'value'}
-                      stroke={'var(--dashboard-chart-violet)'}
-                      strokeWidth={1.15}
-                      fill={`url(#analytics-saved-${gid})`}
-                      isAnimationActive={false}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              )}
-            </div>
+            <AnalyticsPeriodSavingsAreaChart
+              gid={gid}
+              isLoading={isLoading}
+              chartSeries={chartSeries}
+              yAxis={yAxis}
+              currency={currency}
+            />
           </div>
         </div>
       )}

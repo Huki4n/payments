@@ -31,7 +31,7 @@ import {
   resolveAnalyticsChartRange,
   shouldUseIncomeSpendDayScale,
 } from '../lib/resolve-analytics-chart-range'
-import { useAnalyticsPeriod } from '../model/analytics-period-context'
+import { useAnalyticsPeriod } from '../model/use-analytics-period'
 
 const SPEND_STROKE = 'oklch(0.58 0.22 25)'
 

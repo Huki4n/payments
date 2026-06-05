@@ -9,6 +9,7 @@ export type {
   ContributionType,
   CreateGoalRequest,
   GetGoalContributionsPeriodParams,
+  GetGoalContributionsPeriodQueryArg,
   GoalContributionItemResponse,
   GoalContributionsPeriodResponse,
   GoalDetails,

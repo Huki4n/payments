@@ -112,3 +112,10 @@ export function formatCompactGoalMoney(amount: number, currency: string): string
 
   return `${formatCompactAmount(amount)} ${symbol}`
 }
+
+/** Короткая сумма взноса со знаком «+» или «−» (например `+49.1k ₽`). */
+export function formatCompactContributionAmount(amount: number, currency: string): string {
+  const sign = amount < 0 ? '−' : '+'
+
+  return `${sign}${formatCompactGoalMoney(Math.abs(amount), currency)}`
+}

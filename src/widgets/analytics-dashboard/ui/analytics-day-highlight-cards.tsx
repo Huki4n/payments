@@ -9,7 +9,7 @@ import { useGetTransactionsQuery } from '@/entities/transaction'
 import { formatIsoDateDayMonthLabel, getMonthKeyFromIso } from '@/shared/lib/date-utils'
 import { formatGoalMoney } from '@/shared/lib/money-format'
 
-import { useAnalyticsPeriod } from '../model/analytics-period-context'
+import { useAnalyticsPeriod } from '../model/use-analytics-period'
 
 const EMPTY_LABEL = '—'
 

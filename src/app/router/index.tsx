@@ -16,7 +16,6 @@ import { SettingsPage } from '@/pages/settings/ui/settings-page'
 import { TransactionsPage } from '@/pages/transactions/ui/transactions-page'
 
 import { ProtectedRoute } from './protected-route'
-import { RequireAuth } from './require-auth'
 
 export const router = createBrowserRouter([
   {
@@ -82,9 +81,9 @@ export const router = createBrowserRouter([
   {
     path: '*',
     element: (
-      <RequireAuth>
+      <ProtectedRoute>
         <Navigate to={'/'} replace />
-      </RequireAuth>
+      </ProtectedRoute>
     ),
   },
 ])

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useMemo, useState, type ReactNode } from 'react'
 import type { DateRange } from 'react-day-picker'
 
 import {
@@ -19,7 +19,7 @@ type AnalyticsPeriodContextValue = {
   chartTo: Date
 }
 
-const AnalyticsPeriodContext = createContext<AnalyticsPeriodContextValue | null>(null)
+export const AnalyticsPeriodContext = createContext<AnalyticsPeriodContextValue | null>(null)
 
 export function AnalyticsPeriodProvider({ children }: { children: ReactNode }) {
   const [preset, setPreset] = useState<AnalyticsPeriodPreset>('all')
@@ -50,14 +50,4 @@ export function AnalyticsPeriodProvider({ children }: { children: ReactNode }) {
   )
 
   return <AnalyticsPeriodContext.Provider value={value}>{children}</AnalyticsPeriodContext.Provider>
-}
-
-export function useAnalyticsPeriod() {
-  const context = useContext(AnalyticsPeriodContext)
-
-  if (!context) {
-    throw new Error('useAnalyticsPeriod must be used within AnalyticsPeriodProvider')
-  }
-
-  return context
 }

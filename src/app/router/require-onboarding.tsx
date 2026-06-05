@@ -1,15 +1,20 @@
 import type { ReactElement } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 
-import { getOnboardingCompleted } from '@/entities/onboarding-status'
+import { hasOnboardingCompleted } from '@/entities/onboarding-status'
 
 interface RequireOnboardingProps {
   children: ReactElement
 }
 
+const ONBOARDING_ENTRY_PATH = '/onboarding/welcome'
+
+/** Доступ к приложению только после `onboarding-completed` в localStorage. */
 export const RequireOnboarding = ({ children }: RequireOnboardingProps) => {
-  if (!getOnboardingCompleted()) {
-    return <Navigate to={'/onboarding/welcome'} replace />
+  const location = useLocation()
+
+  if (!hasOnboardingCompleted()) {
+    return <Navigate to={ONBOARDING_ENTRY_PATH} replace state={{ from: location }} />
   }
 
   return children

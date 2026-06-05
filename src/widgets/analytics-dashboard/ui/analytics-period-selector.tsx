@@ -14,7 +14,7 @@ import { cn } from '@/shared/ui/utils'
 import type { AnalyticsPeriodPreset } from '../lib/get-analytics-period-range'
 
 import { resolveAnalyticsChartRange } from '../lib/resolve-analytics-chart-range'
-import { useAnalyticsPeriod } from '../model/analytics-period-context'
+import { useAnalyticsPeriod } from '../model/use-analytics-period'
 
 type PresetId = Exclude<AnalyticsPeriodPreset, 'custom'>
 
@@ -82,7 +82,7 @@ export const AnalyticsPeriodSelector = () => {
         {t('analyticsPage.selectPeriod')}
       </h2>
 
-      <div className={'flex min-w-0 flex-1 flex-col gap-3 sm:gap-4 lg:gap-5'}>
+      <div className={'flex min-w-0 flex-1 flex-col gap-3 lg:flex-row sm:gap-4 lg:gap-5'}>
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -115,7 +115,7 @@ export const AnalyticsPeriodSelector = () => {
 
         <div
           className={
-            'grid grid-cols-2 gap-1.5 min-[400px]:grid-cols-3 sm:gap-2 lg:flex lg:flex-wrap lg:justify-end'
+            'grid grid-cols-2 gap-1.5 min-[400px]:grid-cols-3 sm:gap-2 lg:flex lg:flex-wrap lg:justify-start'
           }
         >
           {PRESETS.map(id => (

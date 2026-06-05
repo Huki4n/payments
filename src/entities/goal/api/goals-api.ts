@@ -7,7 +7,7 @@ import type {
   Contribution,
   ContributionsPage,
   CreateGoalRequest,
-  GetGoalContributionsPeriodParams,
+  GetGoalContributionsPeriodQueryArg,
   GoalContributionsPeriodResponse,
   GoalDetails,
   GoalListItem,
@@ -15,6 +15,7 @@ import type {
   UpdateGoalRequest,
 } from '../model'
 
+import { convertGoalContributionsPeriodToDisplayCurrency } from '../lib/convert-goal-contributions-period'
 import { mapGoalToSavingsSlide } from '../lib/map-goal-to-savings-slide'
 
 export const goalsApi = baseApi.injectEndpoints({
@@ -43,12 +44,42 @@ export const goalsApi = baseApi.injectEndpoints({
     }),
     getGoalContributionsForPeriod: build.query<
       GoalContributionsPeriodResponse,
-      GetGoalContributionsPeriodParams | void
+      GetGoalContributionsPeriodQueryArg
     >({
-      query: params => ({
-        url: '/goals/contributions',
-        params: params ?? undefined,
-      }),
+      async queryFn({ displayCurrency, params }, _api, _extraOptions, baseQuery) {
+        const [contributionsResult, goalsResult] = await Promise.all([
+          baseQuery({
+            url: '/goals/contributions',
+            params: params ?? undefined,
+          }),
+          baseQuery('/goals'),
+        ])
+
+        if (contributionsResult.error) {
+          return { error: contributionsResult.error }
+        }
+
+        if (goalsResult.error) {
+          return { error: goalsResult.error }
+        }
+
+        const rates = await fetchExchangeRates({
+          base: 'USD',
+          targets: GOAL_CURRENCIES.filter(code => code !== 'USD'),
+        })
+
+        const goals = goalsResult.data as GoalListItem[]
+        const goalCurrencyById = new Map(goals.map(goal => [goal.id, goal.currency]))
+
+        return {
+          data: convertGoalContributionsPeriodToDisplayCurrency(
+            contributionsResult.data as GoalContributionsPeriodResponse,
+            goalCurrencyById,
+            displayCurrency,
+            rates
+          ),
+        }
+      },
       providesTags: [{ type: 'Goal', id: 'CONTRIBUTIONS_PERIOD' }],
     }),
     getGoalContributions: build.query<

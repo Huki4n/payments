@@ -1,3 +1,5 @@
+import type { GoalCurrency } from '@/shared/config/currencies'
+
 export type ContributionType = 'MANUAL' | 'AUTO'
 
 export type Contribution = {
@@ -44,4 +46,9 @@ export type GoalContributionsPeriodResponse = {
 export type GetGoalContributionsPeriodParams = {
   fromDate?: string
   toDate?: string
+}
+
+export type GetGoalContributionsPeriodQueryArg = {
+  displayCurrency: GoalCurrency
+  params?: GetGoalContributionsPeriodParams
 }

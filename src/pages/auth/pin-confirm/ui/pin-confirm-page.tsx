@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
-import { markOnboardingCompleted } from '@/entities/onboarding-status'
 import {
   getApiErrorMessage,
   pinToPassword,
@@ -61,7 +60,6 @@ export const PinConfirmPage = () => {
         repeatPassword: password,
       }).unwrap()
 
-      markOnboardingCompleted()
       navigate('/auth/congratulations')
     } catch (error) {
       return { rootError: getApiErrorMessage(error, t('auth.errors.requestFailed')) }

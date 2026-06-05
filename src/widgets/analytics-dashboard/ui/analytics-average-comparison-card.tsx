@@ -10,7 +10,7 @@ import { formatCompactGoalMoney, formatGoalMoney } from '@/shared/lib/money-form
 import chartGreen from '../assets/chart_green.png'
 import chartRed from '../assets/chart_red.png'
 import { getAverageComparisonTrend } from '../lib/get-average-comparison-trend'
-import { useAnalyticsPeriod } from '../model/analytics-period-context'
+import { useAnalyticsPeriod } from '../model/use-analytics-period'
 
 const TREND_CHART_IMAGE = {
   positive: chartGreen,

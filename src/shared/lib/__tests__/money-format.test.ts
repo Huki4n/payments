@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   formatCompactAmount,
+  formatCompactContributionAmount,
   formatCompactGoalMoney,
   formatContributionAmount,
   formatGoalMoney,
@@ -49,6 +50,13 @@ describe('formatCompactGoalMoney', () => {
   it('combines compact amount with currency symbol', () => {
     expect(formatCompactGoalMoney(49_099.75, 'RUB')).toBe('49.1k ₽')
     expect(formatCompactGoalMoney(500, 'USD')).toBe('500 $')
+  })
+})
+
+describe('formatCompactContributionAmount', () => {
+  it('prefixes compact amount with sign', () => {
+    expect(formatCompactContributionAmount(49_099.75, 'RUB')).toBe('+49.1k ₽')
+    expect(formatCompactContributionAmount(500, 'USD')).toBe('+500 $')
   })
 })
 
