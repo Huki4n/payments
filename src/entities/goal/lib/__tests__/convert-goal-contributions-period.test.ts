@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
+import type { ExchangeRates } from '@/shared/lib/currency-exchange'
+
 import type { GoalContributionsPeriodResponse } from '../../model/contributions-types'
 
 import { convertGoalContributionsPeriodToDisplayCurrency } from '../convert-goal-contributions-period'
 
-const rates = {
-  base: 'USD' as const,
+const rates: ExchangeRates = {
+  base: 'USD',
+  date: '2026-01-01',
   rates: { EUR: 0.5, RUB: 100 },
 }
 
